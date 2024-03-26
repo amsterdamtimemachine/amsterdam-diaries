@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-app",
+  "name": "Amsterdam Diaries",
   "private": true,
   "type": "module",
   "scripts": {
@@ -22,7 +22,7 @@
     "@pinia/nuxt": "^0.5.1",
     "nuxt": "^3.11.1",
     "pinia": "^2.1.7",
-    "res": "^0.4.0"
+    "ress": "^5.0.2"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
