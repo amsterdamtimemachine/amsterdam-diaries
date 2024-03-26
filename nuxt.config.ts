@@ -12,7 +12,4 @@ export default defineNuxtConfig({
   //   download: false,
   //   useStylesheet: true,
   // },
-  typescript: {
-    shim: true,
-  },
 });
