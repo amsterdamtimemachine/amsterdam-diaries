@@ -9,4 +9,7 @@ export default defineNuxtConfig({
       'Familjen Grotesk': true,
     },
   },
+  imports: {
+    dirs: ['helpers/**'],
+  },
 });

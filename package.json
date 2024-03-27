@@ -22,11 +22,13 @@
     "@pinia/nuxt": "^0.5.1",
     "nuxt": "^3.11.1",
     "pinia": "^2.1.7",
-    "ress": "^5.0.2"
+    "ress": "^5.0.2",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@nuxtjs/google-fonts": "^3.2.0",
+    "@types/xml2js": "^0.4.14",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
     "@typescript-eslint/parser": "^7.4.0",
     "eslint": "^8.57.0",
