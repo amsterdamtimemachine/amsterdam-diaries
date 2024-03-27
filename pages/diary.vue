@@ -1,7 +1,6 @@
 <template>
   <div class="diary">
     <section class="pages">
-      <!-- TODO: Move page containers to DiaryPage component. This is placeholder content -->
       <DiaryPage :page-number="3" />
       <DiaryPage :page-number="4" />
       <DiaryPage :page-number="5" />
