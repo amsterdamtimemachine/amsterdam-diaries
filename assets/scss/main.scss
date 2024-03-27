@@ -14,4 +14,11 @@
   --pink: #DB50FE;
   --red: #FE6850;
   --yellow: #FEC350;
+
+  --content-width: 94.5rem;
+  --page-padding: 3rem;
+}
+
+body {
+  background-color: var(--white-paper);
 }
