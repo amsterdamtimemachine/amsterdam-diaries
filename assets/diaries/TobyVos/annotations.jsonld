@@ -1,0 +1,119 @@
+[
+    {
+        "@context": "http://www.w3.org/ns/anno.jsonld",
+        "id": "#1",
+        "type": "Annotation",
+        "body": [
+            {
+                "type": "TextualBody",
+                "value": "date",
+                "purpose": "classifying"
+            },
+            {
+                "type": "TextualBody",
+                "value": "1944-06",
+                "purpose": "identifying"
+            }
+        ],
+        "target": {
+            "type": "SpecificResource",
+            "source": "tr_1_tl_5",
+            "selector": [
+                {
+                    "type": "TextQuoteSelector",
+                    "exact": "juni 1944"
+                },
+                {
+                    "type": "TextPositionSelector",
+                    "start": 0,
+                    "end": 9
+                }
+            ]
+        }
+    },
+    {
+        "@context": "http://www.w3.org/ns/anno.jsonld",
+        "id": "#2",
+        "type": "Annotation",
+        "body": [
+            {
+                "type": "TextualBody",
+                "value": "place",
+                "purpose": "classifying"
+            },
+            {
+                "type": "SpecificResource",
+                "source": "https://www.adamlink.nl/geo/street/rozenstraat/3901",
+                "purpose": "identifying"
+            }
+        ],
+        "target": {
+            "type": "SpecificResource",
+            "source": "tr_1_tl_6",
+            "selector": [
+                {
+                    "type": "TextQuoteSelector",
+                    "exact": "Rozenstraat"
+                },
+                {
+                    "type": "TextPositionSelector",
+                    "start": 0,
+                    "end": 11
+                }
+            ]
+        }
+    },
+    {
+        "@context": "http://www.w3.org/ns/anno.jsonld",
+        "id": "#3",
+        "type": "Annotation",
+        "body": [
+            {
+                "type": "TextualBody",
+                "value": "place",
+                "purpose": "classifying"
+            },
+            {
+                "type": "SpecificResource",
+                "source": "http://www.wikidata.org/entity/Q9920",
+                "purpose": "identifying"
+            }
+        ],
+        "target": {
+            "type": "SpecificResource",
+            "source": "tr_1_tl_10",
+            "selector": [
+                {
+                    "type": "TextQuoteSelector",
+                    "exact": "Haarlemse"
+                },
+                {
+                    "type": "TextPositionSelector",
+                    "start": 54,
+                    "end": 63
+                }
+            ]
+        }
+    },
+    {
+        "@context": "http://www.w3.org/ns/anno.jsonld",
+        "id": "#visual1",
+        "type": "Annotation",
+        "body": [
+            {
+                "type": "TextualBody",
+                "purpose": "classifying",
+                "value": "tekening"
+            }
+        ],
+        "target": {
+            "selector": [
+                {
+                    "type": "FragmentSelector",
+                    "conformsTo": "http://www.w3.org/TR/media-frags/",
+                    "value": "xywh=pixel:749,12,729,618"
+                }
+            ]
+        }
+    }
+]

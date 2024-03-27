@@ -113,6 +113,12 @@
   <div class="bg-gradient" />
 </template>
 
+<script setup lang="ts">
+onMounted(async () => {
+  console.warn(await $fetch('/api/diaries/5'));
+});
+</script>
+
 <style lang="scss" scoped>
 .diary {
   padding-top: 4.25rem;
