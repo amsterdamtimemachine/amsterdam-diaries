@@ -17,8 +17,7 @@ header {
   justify-content: space-between;
   align-items: center;
   position: sticky;
-  top: 0;
-  padding: 3.125rem;
+  top: 3rem;
 }
 h2 {
   font-family: 'Familjen Grotesk', sans-serif;
