@@ -1,9 +1,7 @@
 <template>
   <div class="container">
     <div class="page">
-      <div class="scroll-indicator">
-        <div class="progress" />
-      </div>
+      <ReadIndicator />
       <ReadTimeIndicator
         class="read-indicator"
         :input="rawText" />
@@ -33,7 +31,7 @@ const body = computed<string>(() => {
     // Loop over the ids and fetch the lines
     // TODO: Lines should provide some context for rendering, like new lines
     paragraphIds.forEach((id: number) => {
-      const lines = diary.value.lines
+      const lines = (diary.value?.lines || [])
         .filter((line: Line) => line.paragraphIdx === id)
         .sort((lineA: Line, lineb: Line) => lineA.lineIdx - lineb.lineIdx)
         .map((line: Line) => line.text)
@@ -64,24 +62,6 @@ onMounted(async () => {
 
 .read-indicator {
   grid-column: 2;
-}
-
-.scroll-indicator {
-  grid-column: 2;
-  width: 100%;
-  height: 0.5rem;
-  background-color: #e6ded4; // TODO: move to main.scss
-  border-radius: 1rem;
-  display: flex;
-  align-items: center;
-  padding: 4px;
-
-  .progress {
-    height: 2px;
-    width: 20%;
-    background-color: var(--black);
-    border-radius: 4px;
-  }
 }
 
 .page {
