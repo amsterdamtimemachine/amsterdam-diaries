@@ -24,7 +24,7 @@ onMounted(() => {
   grid-column: 2;
   width: 100%;
   height: 0.75rem;
-  background-color: #e6ded4; // TODO: move to main.scss
+  background-color: var(--bone-gray);
   border-radius: 1rem;
   display: flex;
   align-items: center;

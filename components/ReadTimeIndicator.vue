@@ -28,7 +28,7 @@ const duration = computed(() => {
 
 <style lang="scss" scoped>
 span {
-  color: #95929b; // TODO: Move to main.scss
+  color: var(--lavender-gray);
   font-family: 'Hanken Grotesk';
   font-size: 1rem;
   font-style: normal;
