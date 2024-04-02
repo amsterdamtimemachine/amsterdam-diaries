@@ -5,9 +5,9 @@
       <span class="profile-name">Els Polak</span>
     </div>
     <div class="right">
-      <img
+      <NuxtImg
         class="profile-image"
-        src="@/assets/photos/els-polak.png"
+        src="photos/els-polak.png"
         alt="Els Polak" />
     </div>
   </div>

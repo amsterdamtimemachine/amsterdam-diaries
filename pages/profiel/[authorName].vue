@@ -14,14 +14,14 @@
         </p>
       </div>
       <div class="right">
-        <img
+        <NuxtImg
           class="image"
-          src="@/assets/photos/els-polak.png"
+          src="photos/els-polak.png"
           alt="Els Polak" />
-        <img
+        <NuxtImg
           class="image"
-          src="@/assets/photos/els-polak-building.png"
-          alt="Building" />
+          src="photos/els-polak-building.png"
+          alt="Els Polak" />
       </div>
     </div>
     <Map

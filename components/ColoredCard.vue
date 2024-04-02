@@ -1,8 +1,8 @@
 <template>
   <div class="card">
-    <img
+    <NuxtImg
       class="image"
-      src="@/assets/photos/els-polak.png"
+      src="photos/els-polak.png"
       alt="Els Polak" />
     <div
       class="content"

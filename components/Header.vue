@@ -4,9 +4,11 @@
     <slot />
     <!-- TODO: Add actual menu for for the button -->
     <button class="menu">
-      <img
-        src="~/assets/icons/menu.svg"
-        alt="menu" />
+      <BaseIcon
+        width="2.25rem"
+        height="1.5rem"
+        color="var(--white)"
+        icon="mdi:menu" />
     </button>
   </header>
 </template>
@@ -37,6 +39,12 @@ header {
   border-radius: 50%;
   background: var(--purple);
   transition: all 0.12s ease;
+
+  .menu-icon {
+    width: 1.125rem;
+    height: 0.75rem;
+    color: white;
+  }
 
   &:hover {
     // Temporary hover state color, since it is not defined in the design
