@@ -10,14 +10,23 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * Metadata
+ */
+definePageMeta({
+  layout: 'gradient',
+});
+
+/**
+ * State & Props
+ */
 const pageNumbers = ref<number[]>([3, 4, 5]);
 </script>
 
 <style lang="scss" scoped>
 .pages {
+  @include flex-column;
   padding-top: 4.25rem;
-  display: flex;
-  flex-direction: column;
   gap: 3.75rem;
 }
 </style>

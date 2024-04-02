@@ -12,4 +12,13 @@ export default defineNuxtConfig({
   imports: {
     dirs: ['helpers/**'],
   },
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@import "@/assets/scss/mixins.scss";',
+        },
+      },
+    },
+  },
 });
