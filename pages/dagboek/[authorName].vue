@@ -1,7 +1,10 @@
 <template>
+  <DiaryBackgroundPhotos container-id="diary-pages" />
   <!-- TODO: Add props to open specific profile -->
   <DiaryProfile />
-  <section class="pages">
+  <section
+    id="diary-pages"
+    class="pages">
     <DiaryPage
       v-for="pageNumber in pageNumbers"
       :key="pageNumber"

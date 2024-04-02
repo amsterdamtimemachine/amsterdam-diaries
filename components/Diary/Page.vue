@@ -73,6 +73,7 @@ onMounted(async () => {
   grid-column: 2;
   gap: 0.5rem;
   max-width: 46rem;
+  z-index: 2;
 
   img {
     border-radius: 0.75rem;
