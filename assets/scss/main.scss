@@ -18,10 +18,101 @@
   --bone-gray: #e6ded4;
   --lavender-gray: #95929b;
 
+  --image-caption: #8F806D;
+
   --content-width: 94.5rem;
   --page-padding: 3rem;
 }
 
+// TODO: Discuss if this should be mixins.
 body {
   background-color: var(--white-paper);
+  color: var(--black);
+  font-family: "Hanken Grotesk";
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 200%;
+}
+
+h1 {
+  color: var(--black);
+  font-family: "Hanken Grotesk";
+  font-size: 2.75rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+}
+
+h2 {
+  font-family: "Hanken Grotesk";
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+  color: var(--black);
+}
+
+// Note: Links gebruiken body-large
+.body-large {
+  font-family: "Hanken Grotesk";
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 180%;
+}
+
+// Note: Use for card's text too
+.annotation,
+.card-text {
+  font-family: "Hanken Grotesk";
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 200%;
+}
+
+// Note: Per type different color
+.annotation-link {
+  @extend .annotation;
+  text-decoration-line: underline;
+
+  &.green {
+    color: var(--green);
+  }
+
+  &.purple {
+    color: var(--purple);
+  }
+
+  &.blue {
+    color: var(--blue);
+  }
+
+  &.red {
+    color: var(--red);
+  }
+}
+
+// TODO: Move to the button component?
+.button-text {
+  color: var(--black);
+  font-family: "Hanken Grotesk";
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+}
+
+/**
+ * Generic Layout styles
+ */
+.content-wrapper {
+  @include flex-column;
+  align-items: center;
+}
+
+.content-container {
+  width: calc(100% - 2 * var(--page-padding));
+  max-width: var(--content-width);
 }

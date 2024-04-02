@@ -65,18 +65,14 @@ onMounted(async () => {
 }
 
 .page {
-  font-family: 'Hanken Grotesk';
-  font-size: 1.125rem;
-  font-weight: 500;
-  line-height: 200%;
+  @include flex-column;
   padding: 3.75rem;
   background-color: var(--white-paper);
   border-radius: 0.5rem;
   box-shadow: 0 1.875rem 2.5rem 0 rgba(0, 0, 0, 0.12);
   grid-column: 2;
-  display: flex;
-  flex-direction: column;
   gap: 0.5rem;
+  max-width: 46rem;
 
   img {
     border-radius: 0.75rem;

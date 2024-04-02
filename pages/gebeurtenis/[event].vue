@@ -1,0 +1,1 @@
+<template>Gebeurtenissen - Detail</template>

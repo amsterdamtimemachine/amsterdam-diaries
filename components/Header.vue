@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h2>Amsterdam Time Machine</h2>
+    <span class="brand-title">Amsterdam Time Machine</span>
     <slot />
     <!-- TODO: Add actual menu for for the button -->
     <button class="menu">
@@ -19,8 +19,8 @@ header {
   position: sticky;
   top: 3rem;
 }
-h2 {
-  font-family: 'Familjen Grotesk', sans-serif;
+.brand-title {
+  font-family: 'Familjen Grotesk';
   font-size: 1.75rem;
   font-style: normal;
   font-weight: 700;
