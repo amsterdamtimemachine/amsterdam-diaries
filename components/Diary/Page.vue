@@ -69,7 +69,7 @@ onMounted(async () => {
   padding: 3.75rem;
   background-color: var(--white-paper);
   border-radius: 0.5rem;
-  box-shadow: 0 1.875rem 2.5rem 0 rgba(0, 0, 0, 0.12);
+  box-shadow: var(--card-shadow);
   grid-column: 2;
   gap: 0.5rem;
   max-width: 46rem;
@@ -77,7 +77,7 @@ onMounted(async () => {
 
   img {
     border-radius: 0.75rem;
-    box-shadow: 0 1.875rem 2.5rem 0 rgba(0, 0, 0, 0.12);
+    box-shadow: var(--card-shadow);
     width: 100%;
     max-height: 26.25rem;
   }

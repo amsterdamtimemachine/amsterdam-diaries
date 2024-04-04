@@ -6,7 +6,6 @@
     <button class="menu">
       <BaseIcon
         width="2.25rem"
-        height="1.5rem"
         color="var(--white)"
         icon="mdi:menu" />
     </button>
@@ -20,6 +19,7 @@ header {
   align-items: center;
   position: sticky;
   top: 3rem;
+  z-index: 2;
 }
 .brand-title {
   font-family: 'Familjen Grotesk';
@@ -38,7 +38,7 @@ header {
   height: 3rem;
   border-radius: 50%;
   background: var(--purple);
-  transition: all 0.12s ease;
+  transition: var(--smooth-transition);
 
   .menu-icon {
     width: 1.125rem;

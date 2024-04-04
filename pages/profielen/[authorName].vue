@@ -39,7 +39,14 @@
         </p>
       </div>
       <div class="right">
-        <ColoredCard variant="light-yellow" />
+        <ColoredCard
+          class="related content-width"
+          description="Ik ben in Amsterdam. Eerst heb ik examen gedaan, ben geslaagd en zit nu eindelijk, waar ik zolang heb willen zitten. Achter in de Tuin van Fem[?] en Frits in een atelier...."
+          image="els-polak.png"
+          imageAlt="Els Polak"
+          link="/dagboeken/els-polak"
+          linkText="Lees het dagboek van Els"
+          variant="light-yellow" />
       </div>
     </div>
   </div>

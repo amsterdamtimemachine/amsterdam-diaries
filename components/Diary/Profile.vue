@@ -46,7 +46,7 @@
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: 1.25rem;
-    box-shadow: 0 1.875rem 2.5rem 0 rgba(0, 0, 0, 0.12);
+    box-shadow: var(--card-shadow);
     grid-column: 3;
   }
 }
