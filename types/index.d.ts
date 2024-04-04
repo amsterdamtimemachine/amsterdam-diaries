@@ -33,4 +33,9 @@ declare global {
     image: Image;
     lines: Line[];
   };
+
+  type Tag = {
+    title: string;
+    link: string;
+  };
 }

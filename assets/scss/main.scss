@@ -1,7 +1,8 @@
 :root {
   --black: #1E1A24;
-  --white-paper: #F8F3EC;
-  --white: #F1ECE6;
+  --white-paper: #F1ECE6;
+  --white: #F8F3EC;
+  --white-basic: #FFFFFF;
   --light-green: #C1E4DC;
   --light-blue: #C7DCFE;
   --light-purple: #DAD4FE;
@@ -24,6 +25,9 @@
 
   --content-width: 94.5rem;
   --page-padding: 3rem;
+
+  --card-shadow: 0 1.875rem 2.5rem 0 rgba(0, 0, 0, 0.12);
+  --smooth-transition: all 0.12s ease;
 }
 
 // TODO: Discuss if this should be mixins.

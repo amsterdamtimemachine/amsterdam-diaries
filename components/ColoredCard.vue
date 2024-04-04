@@ -1,51 +1,56 @@
 <template>
   <div class="card">
-    <NuxtImg
-      class="image"
-      src="photos/els-polak.png"
-      alt="Els Polak" />
-    <div
-      class="content"
-      :style="`background-color: var(--${variant})`">
-      <div class="card-text">
-        Ik ben in Amsterdam. Eerst heb ik examen gedaan, ben geslaagd en zit nu eindelijk, waar ik zolang heb willen
-        zitten. Achter in de Tuin van Fem[?] en Frits in een atelier....
+    <div class="top">
+      <NuxtImg
+        class="image"
+        :src="`photos/${image}`"
+        :alt="imageAlt" />
+      <div
+        class="content"
+        :style="`background-color: var(--${variant})`">
+        <div class="card-text">
+          {{ description }}
+        </div>
       </div>
     </div>
     <NuxtLink
-      to="/dagboek/TobyVos"
+      :to="link"
       class="link">
-      <span>Lees het dagboek van Els</span>
-      <BaseIcon icon="mdi:arrow-right" />
+      <span>{{ linkText }}</span>
+      <BaseIcon
+        class="arrow-icon"
+        icon="mdi:arrow-right" />
     </NuxtLink>
   </div>
 </template>
 
 <script setup lang="ts">
 defineProps<{
+  description: string;
+  image: string;
+  imageAlt: string;
+  link: string;
+  linkText: string;
   variant: 'light-green' | 'light-blue' | 'light-purple' | 'light-pink' | 'light-red' | 'light-yellow';
 }>();
 </script>
 
 <style lang="scss" scopes>
 .card {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  grid-template-rows: 11rem 4rem;
-  grid-template-areas:
-    'image content'
-    'link link';
-  box-shadow: 0 1.875rem 2.5rem 0 rgba(0, 0, 0, 0.12);
-  overflow: hidden;
+  @include flex-column;
+  box-shadow: var(--card-shadow);
+
+  .top {
+    display: flex;
+    flex: 1;
+  }
 
   .image {
-    grid-area: image;
-    width: 100%;
+    width: 8.5rem;
     object-fit: cover;
   }
 
   .content {
-    grid-area: content;
     padding: 2rem;
     display: flex;
     align-items: center;
@@ -57,14 +62,18 @@ defineProps<{
   }
 
   .link {
-    grid-area: link;
-    background-color: var(--white, #ffffff);
+    background-color: var(--white-basic);
     color: var(--black);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1rem;
     padding: 1rem 2rem;
     text-decoration: none;
+
+    .arrow-icon {
+      flex: none;
+    }
   }
 }
 </style>

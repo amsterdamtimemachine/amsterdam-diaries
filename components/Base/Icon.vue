@@ -12,8 +12,8 @@ defineOptions({
 const attrs = useAttrs();
 
 const iconBindings = computed(() => {
-  const height = attrs.height || '1rem';
-  const width = attrs.width || '1rem';
+  const height = attrs.height || '1.5rem';
+  const width = attrs.width || '1.5rem';
 
   return {
     ...attrs,

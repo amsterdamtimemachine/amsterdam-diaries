@@ -1,8 +1,9 @@
 <template>
   <div class="home">
     <h1>Homepage</h1>
-    <NuxtLink to="/dagboek/TobyVos">Dagboek Toby Vos</NuxtLink>
-    <NuxtLink to="/profiel/Els">Profiel Els Polak</NuxtLink>
+    <NuxtLink to="/dagboeken/TobyVos">Dagboek Toby Vos</NuxtLink>
+    <NuxtLink to="/profielen/Els">Profiel Els Polak</NuxtLink>
+    <NuxtLink to="/themas/cultuur-en-dagelijks-leven">Cultuur en Dagelijks Leven</NuxtLink>
   </div>
 </template>
 
