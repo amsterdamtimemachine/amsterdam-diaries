@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <CardLink
+    <LinkArrow
       :link="link"
       :linkText="linkText" />
   </div>
@@ -54,6 +54,11 @@ defineProps<{
       border-left: var(--spacing-1) solid var(--black);
       padding-left: var(--spacing-4);
     }
+  }
+
+  .link {
+    background-color: var(--white-basic);
+    padding: var(--spacing-6);
   }
 }
 </style>

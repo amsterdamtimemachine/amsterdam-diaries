@@ -9,7 +9,7 @@
         class="content-text"
         v-html="content" />
     </div>
-    <CardLink
+    <LinkArrow
       :link="link"
       :linkText="linkText" />
   </div>
@@ -57,6 +57,11 @@ defineProps<{
         color: var(--purple);
       }
     }
+  }
+
+  .link {
+    background-color: var(--white-basic);
+    padding: var(--spacing-6);
   }
 }
 </style>

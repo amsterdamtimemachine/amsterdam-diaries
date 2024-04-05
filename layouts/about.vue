@@ -1,10 +1,10 @@
 <template>
   <div class="content-wrapper">
     <NuxtImg
-      class="background-image"
+      class="background-image content-wrapper content-container"
       src="about-atm.png"
       alt="About ATM" />
-    <div class="gradient-wrapper">
+    <div class="gradient-wrapper content-wrapper">
       <div class="content-wrapper content-container">
         <Header />
         <slot />
@@ -15,18 +15,12 @@
 
 <style lang="scss" scoped>
 .background-image {
-  @include flex-column;
-  align-items: center;
-  width: calc(100% - 2 * var(--page-padding));
-  max-width: var(--content-width);
   position: fixed;
-  top: 10rem;
+  top: calc(var(--page-margin) * 2);
   z-index: 1;
 }
 
 .gradient-wrapper {
-  @include flex-column;
-  align-items: center;
   position: absolute;
   top: 0;
   left: 0;
@@ -39,6 +33,6 @@
       rgba(255, 240, 211, 1) 50%,
       rgba(255, 240, 211, 0.25) 100%
     ),
-    linear-gradient(to bottom, rgba(193, 228, 220, 0.1) 30%, rgba(193, 228, 220, 1) 80%);
+    linear-gradient(to bottom, rgba(193, 228, 220, 0.1) 30%, rgba(193, 228, 220, 1) 75%);
 }
 </style>

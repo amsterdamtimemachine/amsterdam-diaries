@@ -22,9 +22,7 @@ defineProps<{
   justify-content: space-between;
   align-items: center;
   gap: var(--spacing-4);
-  background-color: var(--white-basic);
   color: var(--black);
-  padding: var(--spacing-6);
   text-decoration: none;
 
   .arrow-icon {

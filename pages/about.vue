@@ -7,7 +7,7 @@
       v-html="paragraph" />
   </BasePage>
   <div class="cards">
-    <ColoredCard
+    <CardColored
       v-for="(card, idx) in cards"
       :key="idx"
       :description="card.description"
@@ -17,14 +17,10 @@
       :linkText="card.linkText"
       :variant="card.variant" />
   </div>
-  <NuxtLink
-    to="/"
-    class="link body-large">
-    <span>Bekijk de gebeurtenissen in de stad</span>
-    <BaseIcon
-      class="arrow-icon"
-      icon="mdi:arrow-right" />
-  </NuxtLink>
+  <LinkArrow
+    class="link"
+    link="/"
+    link-text="Bekijk de gebeurtenissen in de stad" />
   <Map
     class="map"
     marker-variant="light-pink"
@@ -150,57 +146,47 @@ const cards = computed(() => {
 
 <style lang="scss" scoped>
 .about {
-  margin-top: 10rem;
+  margin-top: calc(var(--page-margin) * 2);
 }
 
 .cards {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  margin-top: -2rem;
+  margin-top: calc(-1 * var(--size-8));
   z-index: 3;
-  margin-bottom: 10rem;
-  gap: 6rem;
+  margin-bottom: var(--size-12);
+  gap: var(--size-11);
 
   .card {
     max-width: 28.6875rem;
     max-height: 15rem;
 
     &:nth-child(4n + 1) {
-      margin-top: 0rem;
-      margin-left: 7rem;
+      margin-top: 0;
+      margin-left: var(--size-12);
     }
     &:nth-child(4n + 2) {
-      margin-top: 8rem;
-      margin-left: 5rem;
+      margin-top: var(--size-12);
+      margin-left: var(--size-11);
     }
     &:nth-child(4n + 3) {
-      margin-top: -5rem;
-      margin-left: 1rem;
+      margin-top: calc(-1 * var(--size-11));
+      margin-left: var(--size-4);
     }
     &:nth-child(4n + 4) {
-      margin-top: 5rem;
-      margin-left: 5rem;
+      margin-top: var(--size-11);
+      margin-left: var(--size-11);
     }
   }
 }
 
 .map {
-  margin-bottom: 5rem;
+  margin-bottom: var(--size-11);
 }
 
 .link {
   align-self: flex-start;
-  color: var(--black);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
   padding-bottom: 1rem;
-  text-decoration: none;
-
-  .arrow-icon {
-    flex: none;
-  }
 }
 </style>
