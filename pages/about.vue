@@ -122,6 +122,7 @@ const cards = computed<ColoredCard[]>(() => {
 .cards {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   width: 100%;
   margin-top: calc(-1 * var(--size-8));
   z-index: 3;
@@ -138,7 +139,7 @@ const cards = computed<ColoredCard[]>(() => {
     }
     &:nth-child(4n + 2) {
       margin-top: var(--size-12);
-      margin-left: var(--size-11);
+      margin-right: var(--size-11);
     }
     &:nth-child(4n + 3) {
       margin-top: calc(-1 * var(--size-11));
@@ -146,7 +147,7 @@ const cards = computed<ColoredCard[]>(() => {
     }
     &:nth-child(4n + 4) {
       margin-top: var(--size-11);
-      margin-left: var(--size-11);
+      margin-right: var(--size-13);
     }
   }
 }
