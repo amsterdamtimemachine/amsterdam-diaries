@@ -1,6 +1,6 @@
 <template>
   <BasePage class="about">
-    <h1>{{ pageTitle }}</h1>
+    <h1 class="font-h1">{{ pageTitle }}</h1>
     <p
       v-for="(paragraph, idx) in paragraphs"
       :key="idx"
@@ -36,7 +36,7 @@ definePageMeta({
 });
 
 const colors: CardColor[] = ['light-red', 'light-pink', 'light-yellow', 'light-green', 'light-purple', 'light-blue'];
-const data: any[] = [
+const data: { description: string; linkText: string }[] = [
   {
     description:
       'Centraal in alle verhalen staat de impact van de Tweede Wereldoorlog en de Duitse bezetting op het dagelijks leven in Nederland.',
@@ -96,10 +96,12 @@ const paragraphs = ref<string[]>([
 /**
  * Computed Properties
  */
-const cards = computed(() => {
+const cards = computed<ColoredCard[]>(() => {
   return data.map((card, index) => {
-    card.variant = colors[index % 6];
-    return card;
+    return {
+      ...card,
+      variant: colors[index % 6],
+    } as ColoredCard;
   });
 });
 </script>
@@ -107,6 +109,14 @@ const cards = computed(() => {
 <style lang="scss" scoped>
 .about {
   margin-top: calc(var(--page-margin) * 2);
+
+  h1 {
+    margin-bottom: var(--size-10);
+  }
+
+  p {
+    margin-bottom: var(--size-8);
+  }
 }
 
 .cards {
