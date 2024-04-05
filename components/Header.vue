@@ -19,7 +19,7 @@ header {
   align-items: center;
   position: sticky;
   top: calc(var(--spacing-7) * 2);
-  z-index: 2;
+  z-index: 10;
   width: 100%;
 }
 .title {
