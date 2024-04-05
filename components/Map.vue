@@ -61,7 +61,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 #map {
   width: 100%;
-  height: 39.5rem;
+  height: var(--map-height);
 }
 
 :deep(.yellow-marker) {

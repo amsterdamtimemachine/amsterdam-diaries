@@ -126,7 +126,7 @@ const setPhotoPositions = (totalHeight: number, maxPhotosPerSide: number, addToL
 <style lang="scss" scoped>
 .background-photos {
   position: absolute;
-  padding-top: 8rem;
+  margin-block: calc(var(--page-margin) + var(--spacing-11));
 
   .side {
     position: relative;

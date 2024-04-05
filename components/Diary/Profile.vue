@@ -2,7 +2,7 @@
   <!-- TODO: Hardcoded for now. Replace with store data later -->
   <div class="profile content-container">
     <div class="left">
-      <span class="profile-name">Els Polak</span>
+      <span class="font-h2">Els Polak</span>
     </div>
     <div class="right">
       <NuxtImg
@@ -16,7 +16,7 @@
 <style lang="scss" scoped>
 .profile {
   position: fixed;
-  top: 10.25rem;
+  top: calc(var(--page-margin) * 2);
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
   grid-template-areas: 'left . right';
@@ -24,28 +24,18 @@
 
 .left {
   grid-area: left;
-
-  // TODO: Discuss if this should be in main.scss
-  .profile-name {
-    font-family: 'Familjen Grotesk';
-    font-size: 2rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 100%;
-    color: var(--black);
-  }
 }
 
 .right {
   grid-area: right;
-  padding-left: 4rem;
-  padding-bottom: 4rem;
+  padding-left: var(--spacing-12);
+  padding-bottom: var(--spacing-12);
 
   .profile-image {
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-    border-radius: 1.25rem;
+    border-radius: var(--border-radius-5);
     box-shadow: var(--card-shadow);
     grid-column: 3;
   }

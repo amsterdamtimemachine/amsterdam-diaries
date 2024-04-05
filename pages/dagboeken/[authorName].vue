@@ -29,7 +29,7 @@ const pageNumbers = ref<number[]>([3, 4, 5]);
 <style lang="scss" scoped>
 .pages {
   @include flex-column;
-  padding-top: 4.25rem;
-  gap: 3.75rem;
+  margin-block: var(--page-margin);
+  gap: var(--spacing-12);
 }
 </style>

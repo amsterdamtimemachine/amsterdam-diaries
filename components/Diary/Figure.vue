@@ -35,17 +35,13 @@ figure {
   }
   figcaption {
     display: flex;
-    gap: 1rem;
-    font-family: 'Hanken Grotesk';
-    font-size: 1.125rem;
-    font-weight: 500;
-    line-height: 200%;
+    gap: var(--spacing-4);
     color: var(--gray);
-    margin-top: 1rem;
-    margin-left: 0.25rem;
+    margin-top: var(--spacing-4);
+    margin-left: var(--spacing-1);
 
     .vertical-line {
-      width: 0.125rem;
+      width: calc(var(--spacing-1) * 2);
       background: var(--brown);
     }
   }

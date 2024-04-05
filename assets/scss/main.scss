@@ -1,4 +1,5 @@
 :root {
+  // Colors
   --black: #1E1A24;
   --white-paper: #F1ECE6;
   --white: #F8F3EC;
@@ -17,70 +18,122 @@
   --yellow: #FEC350;
   --gray: #8F806D;
   --brown: #C2AF98;
-
   --bone-gray: #e6ded4;
   --lavender-gray: #95929b;
-
   --image-caption: #8F806D;
 
-  --content-width: 94.5rem;
-  --page-padding: 3rem;
+  // Sizes / Dimensions
+  --size-1: 0.25rem;
+  --size-2: 0.5rem;
+  --size-3: 0.75rem;
+  --size-4: 1rem;
+  --size-5: 1.25rem;
+  --size-6: 1.5rem;
+  --size-7: 1.75rem;
+  --size-8: 2rem;
+  --size-9: 2.25rem;
+  --size-10: 3rem;
+  --size-11: 4rem;
+  --size-12: 8rem;
+  --size-13: 16rem;
 
+  --diary-card-width: 21.25rem;
+  --content-width: 94.5rem;
+  --content-sub-width: 43.5rem;
+  --map-height: 39.5rem;
+
+  // Spacing
+  --spacing-1: 0.0625rem;
+  --spacing-2: 0.25rem;
+  --spacing-3: 0.5rem;
+  --spacing-4: 0.75rem;
+  --spacing-5: 1rem;
+  --spacing-6: 1.25rem;
+  --spacing-7: 1.5rem;
+  --spacing-8: 1.75rem;
+  --spacing-9: 2rem;
+  --spacing-10: 2.25rem;
+  --spacing-11: 2.5rem;
+  --spacing-12: 3.5rem;
+
+  // Page related
+  --page-margin: 5rem;
+  // Used for diary page + about text panel
+  --inner-page-padding: 3.75rem;
+  --inner-page-max-width: 46rem;
+
+  // Radius
+  --border-radius-1: 0.25rem;
+  --border-radius-2: 0.5rem;
+  --border-radius-3: 0.75rem;
+  --border-radius-4: 1rem;
+  --border-radius-5: 1.25rem;
+  --border-radius-6: 3rem;
+  --border-radius-7: 50%;
+
+  // Shadows and transitions
   --card-shadow: 0 1.875rem 2.5rem 0 rgba(0, 0, 0, 0.12);
   --smooth-transition: all 0.12s ease;
 }
 
-// TODO: Discuss if this should be mixins.
 body {
-  background-color: var(--white-paper);
-  color: var(--black);
   font-family: "Hanken Grotesk";
   font-size: 1.125rem;
-  font-style: normal;
   font-weight: 500;
   line-height: 200%;
+  background-color: var(--white-paper);
+  color: var(--black);
 }
 
-h1 {
-  color: var(--black);
+.font-h1 {
   font-family: "Hanken Grotesk";
   font-size: 2.75rem;
-  font-style: normal;
   font-weight: 400;
   line-height: 100%;
 }
 
-h2 {
+.font-h2 {
   font-family: "Hanken Grotesk";
   font-size: 2rem;
-  font-style: normal;
   font-weight: 600;
   line-height: 100%;
-  color: var(--black);
 }
 
-// Note: Links gebruiken body-large
-.body-large {
-  font-family: "Hanken Grotesk";
-  font-size: 1.25rem;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 180%;
-}
-
-// Note: Use for card's text too
-.annotation,
-.card-text {
+.font-body-m {
   font-family: "Hanken Grotesk";
   font-size: 1rem;
-  font-style: normal;
   font-weight: 500;
   line-height: 200%;
 }
 
+// Note: Links use font-body-l as well
+.font-body-l {
+  font-family: "Hanken Grotesk";
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 180%;
+}
+
+// Used for brand logo title
+.font-brand {
+  font-family: 'Familjen Grotesk';
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 90%;
+  color: var(--purple);
+}
+
+// TODO: Move to the button component?
+.font-btn-text {
+  font-family: "Hanken Grotesk";
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 100%;
+}
+
 // Note: Per type different color
 .annotation-link {
-  @extend .annotation;
+  @extend .font-body-m;
   text-decoration-line: underline;
 
   &.green {
@@ -100,16 +153,6 @@ h2 {
   }
 }
 
-// TODO: Move to the button component?
-.button-text {
-  color: var(--black);
-  font-family: "Hanken Grotesk";
-  font-size: 1.125rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 100%;
-}
-
 /**
  * Generic Layout styles
  */
@@ -119,6 +162,11 @@ h2 {
 }
 
 .content-container {
-  width: calc(100% - 2 * var(--page-padding));
+  width: calc(100% - 2 * var(--spacing-7));
   max-width: var(--content-width);
+}
+
+.content-sub-container {
+  max-width: var(--content-sub-width);
+  width: 100%;
 }

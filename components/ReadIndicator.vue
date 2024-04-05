@@ -23,17 +23,17 @@ onMounted(() => {
 .scroll-indicator {
   grid-column: 2;
   width: 100%;
-  height: 0.75rem;
+  height: var(--size-3);
   background-color: var(--bone-gray);
-  border-radius: 1rem;
+  border-radius: var(--border-radius-4);
   display: flex;
   align-items: center;
-  padding: 0.25rem;
+  padding: var(--spacing-1);
 
   .progress {
-    height: 0.25rem;
+    height: var(--size-1);
     background-color: var(--black);
-    border-radius: 0.25rem;
+    border-radius: var(--border-radius-1);
   }
 }
 </style>

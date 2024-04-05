@@ -66,20 +66,19 @@ onMounted(async () => {
 
 .page {
   @include flex-column;
-  padding: 3.75rem;
+  padding: var(--inner-page-padding);
   background-color: var(--white-paper);
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius-2);
   box-shadow: var(--card-shadow);
   grid-column: 2;
-  gap: 0.5rem;
-  max-width: 46rem;
+  gap: var(--spacing-2);
+  max-width: var(--inner-page-max-width);
   z-index: 2;
 
   img {
-    border-radius: 0.75rem;
+    border-radius: var(--border-radius-3);
     box-shadow: var(--card-shadow);
     width: 100%;
-    max-height: 26.25rem;
   }
 }
 </style>

@@ -3,8 +3,8 @@
     <div class="two-column">
       <div class="left">
         <div class="intro">
-          <h1 class="title">{{ title }}</h1>
-          <span class="body-large">{{ description }}</span>
+          <h1 class="title font-h1">{{ title }}</h1>
+          <span class="font-body-l">{{ description }}</span>
         </div>
         <p
           class="paragraph"
@@ -39,8 +39,8 @@
         </p>
       </div>
       <div class="right">
-        <ColoredCard
-          class="related content-width"
+        <CardColored
+          class="related"
           description="Ik ben in Amsterdam. Eerst heb ik examen gedaan, ben geslaagd en zit nu eindelijk, waar ik zolang heb willen zitten. Achter in de Tuin van Fem[?] en Frits in een atelier...."
           image="els-polak.png"
           imageAlt="Els Polak"
@@ -132,29 +132,27 @@ const paragraphs2 = ref<string[]>([
 <style lang="scss" scoped>
 .profile {
   @include flex-column;
-  margin-top: 5rem;
-  gap: 4rem;
-  padding-bottom: 5rem;
+  gap: var(--spacing-12);
+  margin-block: var(--page-margin);
 }
 
 .two-column {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-areas: 'left right';
-  gap: 2rem;
+  gap: var(--spacing-8);
 }
 
 .left {
   @include flex-column;
   grid-area: left;
-  gap: 2rem;
-  margin-left: 3rem;
+  gap: var(--spacing-8);
+  margin-left: var(--spacing-11);
 
   .intro {
     @include flex-column;
-    gap: 2rem;
-    margin-top: 8rem;
-    margin-bottom: 8rem;
+    gap: var(--spacing-8);
+    margin-block: calc(var(--spacing-9) * 4);
   }
 }
 

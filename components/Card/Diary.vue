@@ -1,6 +1,6 @@
 <template>
   <div class="diary-card">
-    <div class="header card-text">
+    <div class="header font-body-m">
       <div>{{ headerTitle }}</div>
       <div>{{ headerSubtitle }}</div>
     </div>
@@ -9,12 +9,9 @@
         class="content-text"
         v-html="content" />
     </div>
-    <NuxtLink
-      :to="link"
-      class="link">
-      <span>{{ linkText }}</span>
-      <BaseIcon icon="mdi:arrow-right" />
-    </NuxtLink>
+    <CardLink
+      :link="link"
+      :linkText="linkText" />
   </div>
 </template>
 
@@ -31,46 +28,35 @@ defineProps<{
 <style lang="scss" scoped>
 .diary-card {
   @include flex-column;
-  width: 21.125rem;
+  width: var(--diary-card-width);
   background: var(--white);
   box-shadow: var(--card-shadow);
 
   .header {
     display: flex;
     justify-content: space-between;
-    padding: 1.25rem 1.25rem 1.25rem 1.625rem;
+    padding: var(--spacing-6);
     color: var(--lavender-gray);
   }
 
   .content {
-    height: 15.125rem;
+    height: var(--size-13);
     overflow: hidden;
-    margin: 0 1.0625rem 2.375rem 2.375rem;
+    margin: var(--spacing-10);
+    margin-top: 0;
 
     .content-text {
       display: -webkit-box;
       -webkit-line-clamp: 7;
       -webkit-box-orient: vertical;
       position: relative;
-      padding-left: 1.75rem;
-      border-left: 1px solid var(--black);
-      margin-top: -0.25rem;
+      padding-left: var(--spacing-8);
+      border-left: var(--spacing-1) solid var(--black);
 
       :deep(.highlight) {
         color: var(--purple);
       }
     }
-  }
-
-  .link {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    background: var(--white-basic);
-    color: var(--black);
-    padding: 1.25rem 1rem 1.25rem 1.625rem;
-    text-decoration: none;
-    align-items: center;
   }
 }
 </style>
