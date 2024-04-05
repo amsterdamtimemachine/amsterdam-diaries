@@ -1,6 +1,8 @@
 export {};
 
 declare global {
+  type CardColor = 'light-green' | 'light-blue' | 'light-purple' | 'light-pink' | 'light-red' | 'light-yellow';
+
   type Annotation = {
     id?: string;
     type?: string;
@@ -37,5 +39,14 @@ declare global {
   type Tag = {
     title: string;
     link: string;
+  };
+
+  type ColoredCard = {
+    description: string;
+    image: string;
+    imageAlt: string;
+    link: string;
+    linkText: string;
+    variant: CardColor;
   };
 }

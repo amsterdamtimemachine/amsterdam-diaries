@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <CardLink
+    <LinkArrow
       :link="link"
       :linkText="linkText" />
   </div>
@@ -26,7 +26,7 @@ defineProps<{
   imageAlt: string;
   link: string;
   linkText: string;
-  variant: 'light-green' | 'light-blue' | 'light-purple' | 'light-pink' | 'light-red' | 'light-yellow';
+  variant: CardColor;
 }>();
 </script>
 
@@ -54,6 +54,11 @@ defineProps<{
       border-left: var(--spacing-1) solid var(--black);
       padding-left: var(--spacing-4);
     }
+  }
+
+  .link {
+    background-color: var(--white-basic);
+    padding: var(--spacing-6);
   }
 }
 </style>

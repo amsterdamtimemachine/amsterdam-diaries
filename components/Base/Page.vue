@@ -1,0 +1,24 @@
+<template>
+  <div class="page">
+    <slot />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.page {
+  @include flex-column;
+  padding: var(--inner-page-padding);
+  background-color: var(--white-paper);
+  border-radius: var(--border-radius-2);
+  box-shadow: var(--card-shadow);
+  gap: var(--spacing-2);
+  max-width: var(--inner-page-max-width);
+  z-index: 2;
+
+  img {
+    border-radius: var(--border-radius-3);
+    box-shadow: var(--card-shadow);
+    width: 100%;
+  }
+}
+</style>

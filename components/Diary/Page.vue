@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="page">
+    <BasePage>
       <ReadIndicator />
       <ReadTimeIndicator
         class="read-indicator"
@@ -8,7 +8,7 @@
       <div
         class="content"
         v-html="body" />
-    </div>
+    </BasePage>
   </div>
 </template>
 
@@ -57,28 +57,12 @@ onMounted(async () => {
 .container {
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
+  grid-template-areas: '. content .';
   width: 100%;
 }
 
-.read-indicator {
-  grid-column: 2;
-}
-
+.read-indicator,
 .page {
-  @include flex-column;
-  padding: var(--inner-page-padding);
-  background-color: var(--white-paper);
-  border-radius: var(--border-radius-2);
-  box-shadow: var(--card-shadow);
-  grid-column: 2;
-  gap: var(--spacing-2);
-  max-width: var(--inner-page-max-width);
-  z-index: 2;
-
-  img {
-    border-radius: var(--border-radius-3);
-    box-shadow: var(--card-shadow);
-    width: 100%;
-  }
+  grid-area: content;
 }
 </style>
