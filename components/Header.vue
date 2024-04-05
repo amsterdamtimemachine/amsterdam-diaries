@@ -20,6 +20,7 @@ header {
   position: sticky;
   top: calc(var(--spacing-7) * 2);
   z-index: 2;
+  width: 100%;
 }
 .title {
   width: var(--size-13);

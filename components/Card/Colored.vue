@@ -26,7 +26,7 @@ defineProps<{
   imageAlt: string;
   link: string;
   linkText: string;
-  variant: 'light-green' | 'light-blue' | 'light-purple' | 'light-pink' | 'light-red' | 'light-yellow';
+  variant: CardColor;
 }>();
 </script>
 
