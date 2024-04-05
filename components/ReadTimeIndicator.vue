@@ -1,5 +1,9 @@
 <template>
-  <span v-if="duration">Leestijd: {{ duration }}</span>
+  <span
+    class="font-body-m"
+    v-if="duration"
+    >Leestijd: {{ duration }}</span
+  >
 </template>
 
 <script setup lang="ts">
@@ -29,10 +33,5 @@ const duration = computed(() => {
 <style lang="scss" scoped>
 span {
   color: var(--lavender-gray);
-  font-family: 'Hanken Grotesk';
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 200%;
 }
 </style>

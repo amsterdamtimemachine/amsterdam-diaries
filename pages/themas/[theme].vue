@@ -1,11 +1,11 @@
 <template>
   <div class="theme content-container">
-    <div class="intro content-width">
-      <h1 class="title">{{ title }}</h1>
-      <span class="body-large">{{ description }}</span>
+    <div class="intro content-sub-container">
+      <h1 class="title font-h1">{{ title }}</h1>
+      <div class="font-body-l">{{ description }}</div>
     </div>
     <div class="diaries">
-      <DiaryCard
+      <CardDiary
         v-for="card in diaryCards"
         :key="card.headerTitle"
         :headerTitle="card.headerTitle"
@@ -15,8 +15,8 @@
         :linkText="card.linkText" />
     </div>
     <div class="related">
-      <ColoredCard
-        class="content-width"
+      <CardColored
+        class="content-sub-container"
         description="De interacties met familie, vrienden en buren spelen een belangrijke rol in alle verhalen."
         image="collectie-1.jpg"
         imageAlt="Interacties familie"
@@ -25,7 +25,7 @@
         variant="light-purple" />
     </div>
     <Tags
-      class="content-width"
+      class="content-sub-container"
       title="Anderen bekeken ook:"
       :tags="tags" />
   </div>
@@ -88,37 +88,29 @@ const tags = ref<Tag[]>([
 </script>
 
 <style lang="scss" scoped>
-.content-width {
-  max-width: 43.5rem;
-  width: 100%;
-}
-
 .theme {
   @include flex-column;
   align-items: center;
-  margin-top: 8.25rem;
-  padding-bottom: 5rem;
+  gap: calc(var(--spacing-8) * 3);
+  margin-block: calc(var(--page-margin) + var(--spacing-11)) var(--page-margin);
 
   .intro {
     @include flex-column;
-    gap: 2rem;
+    gap: var(--spacing-8);
   }
 
   .diaries {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 1.25rem;
-    margin-top: 5rem;
-    margin-bottom: 7.5rem;
+    gap: var(--spacing-5);
   }
 
   .related {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 1.25rem;
-    margin-bottom: 5.5rem;
+    gap: var(--spacing-5);
   }
 }
 </style>

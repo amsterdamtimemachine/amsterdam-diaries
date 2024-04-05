@@ -1,17 +1,13 @@
 <template>
   <div class="tags">
-    <div class="body-large">
+    <div class="font-body-l">
       {{ title }}
     </div>
-    <ul class="body-large">
+    <ul>
       <li
         v-for="tag in tags"
         :key="tag.title">
-        <NuxtLink
-          class="link"
-          :to="tag.link">
-          {{ tag.title }}
-        </NuxtLink>
+        <Tag :tag="tag" />
       </li>
     </ul>
   </div>
@@ -27,39 +23,13 @@ defineProps<{
 <style lang="scss" scoped>
 .tags {
   @include flex-column;
-  gap: 1rem;
+  gap: var(--spacing-5);
 
   ul {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem 0.75rem;
-
-    li {
-      display: flex;
-      align-items: center;
-      height: 2.25rem;
-      padding: 0 1rem;
-      border-radius: 3.125rem;
-      border: 1px solid var(--black);
-      background: var(--white);
-      text-decoration: none;
-
-      transition: var(--smooth-transition);
-      &:hover {
-        background: var(--black);
-        .link {
-          color: var(--white);
-        }
-      }
-      &:active {
-        background: var(--gray);
-      }
-
-      .link {
-        text-decoration: none;
-        color: var(--black);
-      }
-    }
+    gap: var(--spacing-5) var(--spacing-4);
+    list-style-type: none;
   }
 }
 </style>

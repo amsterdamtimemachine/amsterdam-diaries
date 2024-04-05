@@ -1,6 +1,6 @@
 <template>
   <header>
-    <span class="brand-title">Amsterdam Time Machine</span>
+    <span class="font-brand title">Amsterdam Time Machine</span>
     <slot />
     <!-- TODO: Add actual menu for for the button -->
     <button class="menu">
@@ -18,36 +18,23 @@ header {
   justify-content: space-between;
   align-items: center;
   position: sticky;
-  top: 3rem;
+  top: calc(var(--spacing-7) * 2);
   z-index: 2;
 }
-.brand-title {
-  font-family: 'Familjen Grotesk';
-  font-size: 1.75rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 90%;
-  color: var(--purple);
-  width: 13.5rem;
+.title {
+  width: var(--size-13);
 }
 .menu {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
+  width: var(--size-10);
+  height: var(--size-10);
+  border-radius: var(--border-radius-7);
   background: var(--purple);
   transition: var(--smooth-transition);
 
-  .menu-icon {
-    width: 1.125rem;
-    height: 0.75rem;
-    color: white;
-  }
-
   &:hover {
-    // Temporary hover state color, since it is not defined in the design
     background: var(--pink);
   }
 }

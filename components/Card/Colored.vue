@@ -8,19 +8,14 @@
       <div
         class="content"
         :style="`background-color: var(--${variant})`">
-        <div class="card-text">
+        <div class="card-text font-body-m">
           {{ description }}
         </div>
       </div>
     </div>
-    <NuxtLink
-      :to="link"
-      class="link">
-      <span>{{ linkText }}</span>
-      <BaseIcon
-        class="arrow-icon"
-        icon="mdi:arrow-right" />
-    </NuxtLink>
+    <CardLink
+      :link="link"
+      :linkText="linkText" />
   </div>
 </template>
 
@@ -51,28 +46,13 @@ defineProps<{
   }
 
   .content {
-    padding: 2rem;
+    padding: var(--spacing-8);
     display: flex;
     align-items: center;
 
     .card-text {
-      border-left: 1px solid var(--black);
-      padding-left: 1rem;
-    }
-  }
-
-  .link {
-    background-color: var(--white-basic);
-    color: var(--black);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 2rem;
-    text-decoration: none;
-
-    .arrow-icon {
-      flex: none;
+      border-left: var(--spacing-1) solid var(--black);
+      padding-left: var(--spacing-4);
     }
   }
 }
