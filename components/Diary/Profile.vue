@@ -28,8 +28,8 @@
 
 .right {
   grid-area: right;
-  padding-left: var(--spacing-12);
-  padding-bottom: var(--spacing-12);
+  padding-left: var(--spacing-14);
+  padding-bottom: var(--spacing-14);
 
   .profile-image {
     width: 100%;

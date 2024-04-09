@@ -30,6 +30,6 @@ const pageNumbers = ref<number[]>([3, 4, 5]);
 .pages {
   @include flex-column;
   margin-block: var(--page-margin);
-  gap: var(--spacing-12);
+  gap: var(--spacing-14);
 }
 </style>
