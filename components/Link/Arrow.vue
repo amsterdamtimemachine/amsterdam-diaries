@@ -25,9 +25,14 @@ defineProps<{
   gap: var(--spacing-4);
   color: var(--black);
   text-decoration: none;
+  transition: var(--transition-1);
 
   .arrow-icon {
     flex: none;
+  }
+
+  &:hover {
+    box-shadow: inset 0 calc(var(--spacing-1) * -1) var(--black);
   }
 }
 </style>

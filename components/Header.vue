@@ -1,16 +1,29 @@
 <template>
   <header>
     <span class="font-brand title">Amsterdam Time Machine</span>
-    <slot />
-    <!-- TODO: Add actual menu for for the button -->
-    <button class="menu">
-      <BaseIcon
-        width="2.25rem"
-        color="var(--white)"
-        icon="mdi:menu" />
-    </button>
+    <div class="menu-section">
+      <Transition name="fade">
+        <nav v-if="showMenu">
+          <NuxtLink to="/"> Home </NuxtLink>
+          <NuxtLink to="/etalages"> Dagboekschrijvers </NuxtLink>
+          <NuxtLink to="/about"> Over ATM </NuxtLink>
+        </nav>
+      </Transition>
+      <button
+        :class="{ menu: true, active: showMenu }"
+        @click="showMenu = !showMenu">
+        <BaseIcon
+          width="var(--size-9)"
+          color="var(--white)"
+          :icon="showMenu ? 'mdi:times' : 'mdi:menu'" />
+      </button>
+    </div>
   </header>
 </template>
+
+<script setup lang="ts">
+const showMenu = ref<boolean>(false);
+</script>
 
 <style lang="scss" scoped>
 header {
@@ -22,9 +35,35 @@ header {
   z-index: 10;
   width: 100%;
 }
+
 .title {
   width: calc(var(--size-11) * 3);
 }
+
+.menu-section {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacing-13) + 1rem);
+
+  nav {
+    display: flex;
+    gap: var(--spacing-9);
+
+    a {
+      text-decoration: none;
+      color: var(--black);
+      padding: var(--spacing-2);
+      border-bottom: var(--spacing-1) solid var(--black);
+      transition: var(--transition-1);
+
+      &:hover {
+        color: var(--purple);
+        border-color: var(--purple);
+      }
+    }
+  }
+}
+
 .menu {
   display: flex;
   justify-content: center;
@@ -35,8 +74,15 @@ header {
   background: var(--purple);
   transition: var(--transition-1);
 
-  &:hover {
+  &:hover,
+  &.active {
     background: var(--pink);
   }
+}
+
+// Transitions
+.fade-enter-active,
+.fade-leave-active {
+  transition: var(--transition-1);
 }
 </style>
