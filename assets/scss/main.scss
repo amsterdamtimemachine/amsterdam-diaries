@@ -175,3 +175,16 @@ body {
   max-width: var(--content-sub-width);
   width: 100%;
 }
+
+/**
+ * Transition styles
+ */
+.fade-enter-active,
+.fade-leave-active {
+  transition: var(--transition-2);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}

@@ -13,9 +13,11 @@
         </div>
       </div>
     </div>
-    <LinkArrow
-      :link="link"
-      :linkText="linkText" />
+    <div class="link-arrow">
+      <LinkArrow
+        :link="link"
+        :linkText="linkText" />
+    </div>
   </div>
 </template>
 
@@ -56,7 +58,7 @@ defineProps<{
     }
   }
 
-  .link {
+  .link-arrow {
     background-color: var(--white-basic);
     padding: var(--spacing-6);
   }

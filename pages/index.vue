@@ -121,16 +121,6 @@ const authors = [
 }
 
 // Transitions
-.fade-enter-active,
-.fade-leave-active {
-  transition: var(--transition-2);
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
 .slide-enter-active,
 .slide-leave-active {
   transition: var(--transition-2);
