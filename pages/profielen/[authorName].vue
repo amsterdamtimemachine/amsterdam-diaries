@@ -92,7 +92,7 @@ const paragraphs2 = ref<string[]>([
 <style lang="scss" scoped>
 .profile {
   @include flex-column;
-  gap: var(--spacing-12);
+  gap: var(--spacing-14);
   margin-block: var(--page-margin);
 }
 

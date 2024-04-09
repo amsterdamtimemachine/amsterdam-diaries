@@ -11,13 +11,14 @@
 
 <script setup lang="ts">
 defineProps<{
-  link: string;
+  link?: string;
   linkText: string;
 }>();
 </script>
 
 <style lang="scss" scoped>
 .link {
+  cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;

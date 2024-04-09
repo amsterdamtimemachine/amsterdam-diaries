@@ -54,7 +54,9 @@
   --spacing-9: 2rem;
   --spacing-10: 2.25rem;
   --spacing-11: 2.5rem;
-  --spacing-12: 3.5rem;
+  --spacing-12: 2.75rem;
+  --spacing-13: 3.25rem;
+  --spacing-14: 3.5rem;
 
   // Page related
   --page-margin: 5rem;
@@ -71,9 +73,12 @@
   --border-radius-6: 3rem;
   --border-radius-7: 50%;
 
-  // Shadows and transitions
+  // Shadows
   --card-shadow: 0 1.875rem 2.5rem 0 rgba(0, 0, 0, 0.12);
-  --smooth-transition: all 0.12s ease;
+
+  // Transitions
+  --transition-1: all 0.12s ease;
+  --transition-2: all 0.75s ease;
 }
 
 body {

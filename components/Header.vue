@@ -23,7 +23,7 @@ header {
   width: 100%;
 }
 .title {
-  width: var(--size-13);
+  width: calc(var(--size-11) * 3);
 }
 .menu {
   display: flex;
@@ -33,7 +33,7 @@ header {
   height: var(--size-10);
   border-radius: var(--border-radius-7);
   background: var(--purple);
-  transition: var(--smooth-transition);
+  transition: var(--transition-1);
 
   &:hover {
     background: var(--pink);

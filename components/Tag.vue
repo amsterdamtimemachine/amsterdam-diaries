@@ -20,7 +20,7 @@ defineProps<{
   background: var(--white);
   border: var(--spacing-1) solid var(--black);
   border-radius: var(--border-radius-6);
-  transition: var(--smooth-transition);
+  transition: var(--transition-1);
   text-decoration: none;
 
   &:hover {
