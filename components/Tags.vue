@@ -1,6 +1,8 @@
 <template>
   <div class="tags">
-    <div class="font-body-l">
+    <div
+      v-if="title"
+      class="font-body-l">
       {{ title }}
     </div>
     <ul>
@@ -15,7 +17,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  title: string;
+  title?: string;
   tags: Tag[];
 }>();
 </script>

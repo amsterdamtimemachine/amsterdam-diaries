@@ -5,7 +5,7 @@
       <Transition name="fade">
         <nav v-if="showMenu">
           <NuxtLink to="/"> Home </NuxtLink>
-          <NuxtLink to="/etalages"> Dagboekschrijvers </NuxtLink>
+          <NuxtLink to="/dagboekschrijfsters/els-polak"> Dagboekschrijfsters </NuxtLink>
           <NuxtLink to="/about"> Over ATM </NuxtLink>
         </nav>
       </Transition>
