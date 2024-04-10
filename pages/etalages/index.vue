@@ -1,1 +1,0 @@
-<template>Etalages - overzicht</template>

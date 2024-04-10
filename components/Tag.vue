@@ -1,6 +1,6 @@
 <template>
   <NuxtLink
-    class="tag"
+    :class="{ tag: true, active: tag.active }"
     :to="tag.link">
     {{ tag.title }}
   </NuxtLink>
@@ -23,7 +23,8 @@ defineProps<{
   transition: var(--transition-1);
   text-decoration: none;
 
-  &:hover {
+  &:hover,
+  &.active {
     background: var(--black);
     color: var(--white);
   }

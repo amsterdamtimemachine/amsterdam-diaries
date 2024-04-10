@@ -12,6 +12,13 @@ declare global {
     end?: number;
   };
 
+  type Author = {
+    name: string;
+    description: string;
+    slug: string;
+    photos?: string[];
+  };
+
   type Image = {
     uri: string;
     width?: number;
@@ -37,6 +44,7 @@ declare global {
   };
 
   type Tag = {
+    active?: boolean;
     title: string;
     link: string;
   };

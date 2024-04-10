@@ -21,7 +21,12 @@
             v-if="showAuthors"
             class="tags"
             title="Selecteer een auteur:"
-            :tags="authors" />
+            :tags="
+              useAuthorData().map(a => ({
+                title: a.name,
+                link: `/dagboekschrijfsters/${a.slug}`,
+              }))
+            " />
         </Transition>
       </div>
     </div>
@@ -34,41 +39,6 @@ definePageMeta({
   layout: 'home',
 });
 const showAuthors = ref<boolean>(false);
-// TODO: Replace authors with actual authors from api
-const authors = [
-  {
-    title: 'Els Polak',
-    link: '/dagboeken/els-polak',
-  },
-  {
-    title: 'Toby Vos',
-    link: '/dagboeken/toby-vos',
-  },
-  {
-    title: 'Dien de Jong',
-    link: '/dagboeken/dien-de-jong',
-  },
-  {
-    title: 'Samuel',
-    link: '/dagboeken/samuel',
-  },
-  {
-    title: 'Jan',
-    link: '/dagboeken/jan',
-  },
-  {
-    title: 'Truus',
-    link: '/dagboeken/truus',
-  },
-  {
-    title: 'Kees',
-    link: '/dagboeken/kees',
-  },
-  {
-    title: 'Gerda',
-    link: '/dagboeken/gerda',
-  },
-];
 </script>
 
 <style lang="scss" scoped>
