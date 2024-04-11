@@ -1,0 +1,60 @@
+stages:
+  - build
+  - package
+  - deploy
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == $STAGING_BRANCH
+
+.deploy-template-acc:
+  before_script:
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY_ATM_ACC" | base64 -d > ~/.ssh/id_rsa
+    - chmod 400 ~/.ssh/id_rsa
+    - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  image: cr.totaldesign.com/total-design/ansistrano:3.11.0
+  needs:
+    - package
+  stage: deploy
+
+npm-staging:
+  artifacts:
+    paths:
+      - ./.output
+    expire_in: 1 hour
+  cache:
+    paths:
+      - node_modules/
+  image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/node:20
+  rules:
+    - if: $CI_COMMIT_BRANCH == $STAGING_BRANCH
+  script:
+    - npm ci
+    - npm run build
+  stage: build
+
+package:
+  artifacts:
+    paths:
+      - dist.tgz
+    expire_in: 1 hour
+  before_script:
+    - apk update
+    - apk add openjdk8 apache-ant
+  image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/alpine:3
+  script:
+    - ant
+  stage: package
+
+deploy-staging:
+  environment:
+    name: staging
+    url: www.acc.atm.tdrn.dev
+  extends: .deploy-template-acc
+  rules:
+    - if: $CI_COMMIT_BRANCH == $STAGING_BRANCH
+  script:
+    - ansible-playbook ansible/deploy.yml -i ansible/acceptance

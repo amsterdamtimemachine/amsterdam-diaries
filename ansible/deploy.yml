@@ -1,0 +1,9 @@
+---
+- hosts: webserver
+  vars:
+    ansistrano_allow_anonymous_stats: false
+    ansistrano_deploy_via: "copy_unarchive"
+  # Including handlers does not function at this time:
+  # @See: https://github.com/ansible/ansible/issues/13485
+  roles:
+    - { role: ansistrano.deploy }
