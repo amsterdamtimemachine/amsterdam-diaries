@@ -1,9 +1,10 @@
-import fs from 'node:fs';
-import path from 'path';
+const loadDiaryFile = async (writer: string, filename: string): Promise<any> => {
+  const result = await useStorage('assets:server').getItem(`diaries/${writer}/${filename}`, {});
 
-const loadDiaryFile = (writer: string, filename: string) => {
-  const filePath = path.join(process.cwd(), 'assets', 'diaries', writer, filename);
-  return fs.readFileSync(filePath, 'utf-8');
+  if (result instanceof Uint8Array) {
+    return JSON.parse(Buffer.from(result).toString('utf8'));
+  }
+  return result;
 };
 
 export { loadDiaryFile };
