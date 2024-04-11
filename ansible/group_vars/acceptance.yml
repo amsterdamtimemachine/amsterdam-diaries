@@ -1,0 +1,4 @@
+---
+project_dir: atmacc_e27bb
+
+ansistrano_keep_releases: 1

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="atm" default="package">
+    <target name="package" description="Create a package to be deployed">
+        <tar destfile="${basedir}/dist.tgz" basedir="${basedir}/.output" compression="gzip"/>
+    </target>
+</project>
