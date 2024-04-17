@@ -5,11 +5,21 @@ declare global {
 
   type Annotation = {
     id?: string;
-    type?: string;
+    type?: AnnotationType;
     value?: string;
     ref?: string;
     start?: number;
     end?: number;
+    pos?: number;
+  };
+
+  type AnnotationType = 'place' | 'date' | 'organization' | 'theme' | 'person';
+
+  type ParagraphLine = {
+    type: 'text' | 'annotation';
+    value: string;
+    id?: string;
+    annotationType?: AnnotationType;
   };
 
   type Author = {

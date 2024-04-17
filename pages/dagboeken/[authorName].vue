@@ -1,5 +1,6 @@
 <template>
-  <DiaryBackgroundPhotos container-id="diary-pages" />
+  <!-- For now don't show background photos -->
+  <!-- <DiaryBackgroundPhotos container-id="diary-pages" /> -->
   <!-- TODO: Add props to open specific profile -->
   <DiaryProfile />
   <section
