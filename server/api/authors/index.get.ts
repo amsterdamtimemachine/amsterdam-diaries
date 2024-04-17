@@ -1,4 +1,4 @@
-export default defineEventHandler(async (event: Event) => {
+export default defineEventHandler(async event => {
   const items = await getCache('authors');
   if (items) {
     return items;

@@ -1,4 +1,5 @@
 import jsonld from 'jsonld';
+import type { JsonLdDocument } from 'jsonld';
 
 const sharedContext = {
   '@vocab': 'https://schema.org/',
@@ -68,12 +69,7 @@ const frames = {
   },
 };
 
-export default async (type: keyof typeof contexts, uri: string) => {
-  try {
-    const response = await $fetch(uri);
-    return await jsonld.frame(response, frames[type]);
-  } catch (e) {
-    console.error('Error:', e);
-    return;
-  }
+export default async (type: keyof typeof frames, uri: string) => {
+  const response = (await $fetch(uri)) as JsonLdDocument;
+  return await jsonld.frame(response, frames[type]);
 };

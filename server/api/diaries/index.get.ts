@@ -1,4 +1,4 @@
-export default defineEventHandler(async (event: Event) => {
+export default defineEventHandler(async event => {
   const items = await getCache('books');
   if (items) {
     return items;
@@ -7,6 +7,7 @@ export default defineEventHandler(async (event: Event) => {
   try {
     const config = useRuntimeConfig();
     const json = await useCompactJson('diary', config.app.getAllDiaries);
+    // @ts-expect-error Weird context thing
     const books = json['@graph'].map((book: Book) => {
       // Store the orginal bookId
       const originalId = book.id;
