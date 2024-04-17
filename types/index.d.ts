@@ -67,4 +67,62 @@ declare global {
     linkText: string;
     variant: CardColor;
   };
+
+  /**
+   * Data - JSON-LD
+   */
+  type Archive = {
+    id: string;
+    type: string;
+    name: string;
+  };
+
+  type Collection = {
+    id: string;
+    type: 'Collection';
+    archive: Archive;
+  };
+
+  type EntryRef = {
+    id: string;
+    type: 'Manuscript';
+    dateCreated: string;
+    name: string;
+  };
+
+  type Book = {
+    id: string;
+    type: 'Book';
+    name: string;
+    description: string;
+    entries?: EntryRef[];
+    collections?: Collection[];
+  };
+
+  type Entry = {
+    id: string;
+    type: 'Manuscript';
+    text: Text[];
+  };
+
+  type Text = {
+    id: string;
+    value: string;
+    items: TextAnnotation;
+  };
+
+  type TextAnnotation = {
+    id: string;
+    type: 'Annotation';
+    body: {
+      id: string;
+      source: string;
+    };
+    target: {
+      id: string;
+      // TODO: Define Selectors
+      selector: Record<string, string>[];
+    };
+    source: string;
+  };
 }
