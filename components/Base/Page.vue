@@ -8,7 +8,7 @@
 .page {
   @include flex-column;
   padding: var(--inner-page-padding);
-  background-color: var(--white-paper);
+  background-color: var(--white);
   border-radius: var(--border-radius-2);
   box-shadow: var(--card-shadow);
   gap: var(--spacing-2);
