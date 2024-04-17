@@ -11,6 +11,7 @@
   "files.trimTrailingWhitespace": true,
   "prettier.configPath": ".prettierrc",
   "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
