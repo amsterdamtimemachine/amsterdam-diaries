@@ -1,6 +1,6 @@
 <template>
   <header>
-    <span class="font-brand title">Amsterdam Time Machine</span>
+    <span class="font-brand title">Amsterdam Diaries Time Machine</span>
     <div class="menu-section">
       <Transition name="fade">
         <nav v-if="showMenu">
@@ -37,7 +37,7 @@ header {
 }
 
 .title {
-  width: calc(var(--size-11) * 3);
+  width: calc(var(--size-12) * 2);
 }
 
 .menu-section {
