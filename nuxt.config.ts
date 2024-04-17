@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['ress/ress.css', 'assets/scss/main.scss'],
-  modules: ['@pinia/nuxt', '@nuxtjs/google-fonts'],
+  modules: ['@pinia/nuxt', '@nuxtjs/google-fonts', '@vueuse/nuxt'],
   googleFonts: {
     families: {
       'Hanken Grotesk': true,
@@ -10,7 +10,7 @@ export default defineNuxtConfig({
     },
   },
   imports: {
-    dirs: ['helpers/**'],
+    dirs: ['helpers/**', 'data'],
   },
   vite: {
     css: {
