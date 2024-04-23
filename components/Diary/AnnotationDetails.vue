@@ -21,7 +21,7 @@
             v-else
             class="variant-color"
             to="#"
-            >{{ info.lblUrl || value }}</NuxtLink
+            >{{ info.lblUrl || annotation.value }}</NuxtLink
           >
         </div>
         <span class="line variant-bg" />
@@ -30,7 +30,7 @@
         v-if="info.isExternal"
         class="link variant-color"
         to="#"
-        >{{ info.lblUrl || value }}</NuxtLink
+        >{{ info.lblUrl || annotation.value }}</NuxtLink
       >
     </div>
   </div>
@@ -38,22 +38,20 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  annotation: Annotation;
+  annotation: AnnotationLine;
 }>();
 
-const { type, value } = props.annotation;
-
 const info = computed(() => {
-  switch (type) {
-    case 'place':
+  switch (props.annotation.subType) {
+    case 'Place':
       return AnnotationPlace;
-    case 'date':
+    case 'Date':
       return AnnotationDate;
-    case 'organization':
+    case 'Organization':
       return AnnotationOrganization;
-    case 'person':
+    case 'Person':
       return AnnotationPerson;
-    case 'theme':
+    case 'Theme':
       return AnnotationTheme;
     default:
       return AnnotationDefault;

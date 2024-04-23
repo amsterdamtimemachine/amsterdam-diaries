@@ -1,17 +1,17 @@
 <template>
   <button
-    v-if="line.type === 'annotation'"
+    v-if="line.type === 'Annotation'"
     @click="$emit('annotationClick', line)"
     :id="line.id"
-    :class="{ annotation: true, [line.annotationType!]: true }">
+    :class="{ annotation: true, [line.subType!.toLowerCase()]: true }">
     {{ line.value }}
   </button>
-  <span v-else> {{ line.value }} </span>
+  <span v-else>{{ line.value }}</span>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  line: ParagraphLine;
+  line: TextLine | AnnotationLine;
 }>();
 
 defineEmits(['annotationClick']);
@@ -21,7 +21,6 @@ defineEmits(['annotationClick']);
 // TODO: annotation type names may have to be changed
 .annotation {
   line-height: 1.3;
-  padding-inline: calc(var(--spacing-1) * 2);
 
   &.place {
     background: color-mix(in srgb, var(--green) 20%, transparent);
