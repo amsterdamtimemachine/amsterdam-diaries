@@ -5,10 +5,25 @@ declare global {
   type CardColor = 'light-green' | 'light-blue' | 'light-purple' | 'light-pink' | 'light-red' | 'light-yellow';
 
   type Author = {
+    id: string;
+    type: 'Person';
     name: string;
+    aliases?: string[];
     description: string;
     slug: string;
     photos?: string[];
+    birthDate?: string;
+    birthPlace?: {
+      id: string;
+      type?: 'Place';
+      name?: string;
+    };
+    deathDate?: string;
+    deathPlace?: {
+      id: string;
+      type?: 'Place';
+      name?: string;
+    };
   };
 
   type Tag = {
