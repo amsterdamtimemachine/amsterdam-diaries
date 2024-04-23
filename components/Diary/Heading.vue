@@ -1,5 +1,5 @@
 <template>
-  <p>
+  <h2 class="font-h2">
     <template
       v-for="(line, index) of input.lines"
       :key="index">
@@ -7,7 +7,7 @@
         :line="line"
         @annotation-click="$emit('annotationClick', $event)" />
     </template>
-  </p>
+  </h2>
 </template>
 
 <script setup lang="ts">
@@ -17,12 +17,3 @@ defineProps<{
 
 defineEmits(['annotationClick']);
 </script>
-
-<style lang="scss" scoped>
-span,
-button {
-  &:not(:last-child) {
-    margin-right: 4px;
-  }
-}
-</style>

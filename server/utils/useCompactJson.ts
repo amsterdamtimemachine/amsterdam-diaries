@@ -14,7 +14,7 @@ const frames = {
     },
     '@type': 'Person',
   },
-  booksForAuthor: {
+  diariesOfAuthor: {
     '@context': {
       ...sharedContext,
     },
@@ -22,34 +22,46 @@ const frames = {
     dateCreated: {},
     '@explicit': true,
   },
-  diary: {
+  entriesOfDiary: {
     '@context': {
       ...sharedContext,
       xsd: 'http://www.w3.org/2001/XMLSchema#',
       dateCreated: {
         '@type': 'xsd:date',
       },
-      entries: 'https://schema.org/hasPart',
     },
-    '@type': 'Book',
+    '@type': 'Manuscript',
+    dateCreated: {},
     '@explicit': true,
-    name: {},
-    description: {},
-    entries: {
-      '@default': [],
-      '@type': 'Manuscript',
-      name: {},
-      dateCreated: {},
-    },
   },
-  entry: {
+  getText: {
     '@context': [
       'https://www.w3.org/ns/anno.jsonld',
       {
-        ...sharedContext,
+        '@vocab': 'https://schema.org/',
         items: {
-          '@id': 'http://www.w3.org/ns/activitystreams#items',
+          '@id': 'as:items',
         },
+        Visual: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/regions/visual',
+        Caption: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/regions/caption',
+        Heading: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/regions/heading',
+        Marginalia: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/regions/marginalia',
+        'Page number': 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/regions/page-number',
+        Paragraph: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/regions/paragraph',
+        Region: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/regions/region',
+      },
+    ],
+    '@type': 'Manuscript',
+    items: {
+      '@type': {},
+      items: {},
+    },
+  },
+  getAnnotation: {
+    '@context': [
+      'https://www.w3.org/ns/anno.jsonld',
+      {
+        '@vocab': 'https://schema.org/',
         latitude: {
           '@type': 'xsd:double',
           '@id': 'https://schema.org/latitude',
@@ -61,11 +73,10 @@ const frames = {
         name: {
           '@id': 'https://schema.org/name',
         },
+        Concept: 'skos:Concept',
       },
     ],
-    '@type': 'Manuscript',
-    '@explicit': true,
-    text: {},
+    '@type': 'Annotation',
   },
 };
 

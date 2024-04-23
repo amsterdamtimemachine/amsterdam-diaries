@@ -1,5 +1,7 @@
 <template>
-  <div class="container">
+  <div
+    class="container"
+    ref="containerRef">
     <BasePage
       class="current-page"
       ref="basePageEl">
@@ -7,17 +9,15 @@
       <ReadTimeIndicator
         class="read-indicator"
         :input="rawText" />
-
-      <div ref="pageContent">
-        <template
-          v-for="(paragraph, idx) in paragraphs"
-          :key="idx">
-          <DiaryParagraph
-            :paragraph="paragraph"
-            @annotation-click="setAnnotationDetails" />
-          <br v-if="idx !== paragraphs.length - 1" />
-        </template>
-      </div>
+      <template
+        v-for="(section, idx) in page.sections"
+        :key="idx">
+        <component
+          :is="fetchComponent(section.type)"
+          :input="section"
+          @annotation-click="setAnnotationDetails" />
+        <br v-if="idx !== page.sections.length - 1" />
+      </template>
     </BasePage>
     <Transition name="fade">
       <DiaryAnnotationDetails
@@ -34,125 +34,59 @@
 /**
  * State & Props
  */
-const diary = ref<DiaryPage>();
-const paragraphs = ref<ParagraphLine[][]>([]);
-const rawText = ref<string>();
-const annotationDetails = ref<Annotation | null>(null);
-const pageContent = ref<HTMLElement | null>(null);
-const basePageEl = ref<HTMLElement | null>(null);
-const contentPadding = 112;
+const annotationDetails = ref<AnnotationLine & { pos?: number }>();
+const containerRef = ref<HTMLElement>();
+const basePageEl = ref();
 
 const props = defineProps<{
-  pageNumber: number;
+  page: Page;
 }>();
 
-const parseLine = (line: Line) => {
-  // Fetch the text
-  let text = line.text + ' ';
-  let parts: ParagraphLine[] = [
-    {
-      type: 'text',
-      value: text,
-    },
-  ];
-
-  if (line.annotations?.length) {
-    parts = [];
-  }
-
-  // Loop over the annotations, sort them by start position (last one first)
-  (line.annotations || [])
-    .sort((a, b) => (a.start || 0) - (b.start || 0))
-    .forEach((annotation: Annotation) => {
-      const hasStart = typeof annotation.start === 'number';
-      const hasEnd = typeof annotation.end === 'number';
-
-      if (hasStart) {
-        const value = text.slice(0, annotation.start);
-        if (value) {
-          parts.push({
-            type: 'text',
-            value: text.slice(0, annotation.start),
-          });
-        }
-      }
-      if (hasStart && hasEnd) {
-        parts.push({
-          type: 'annotation',
-          value: text.slice(annotation.start, annotation.end),
-          id: `page-${props.pageNumber}-${annotation.id}`,
-          annotationType: annotation.type,
-        });
-      }
-      if (hasEnd) {
-        const value = text.slice(annotation.end);
-        if (value) {
-          parts.push({
-            type: 'text',
-            value: text.slice(annotation.end),
-          });
-        }
-      }
-    });
-  return parts;
-};
-
-onMounted(async () => {
-  // TODO: This should be done in the store
-  diary.value = await $fetch(`/api/diaries/${props.pageNumber}`);
-
-  // Parse lines
-  if (diary.value?.lines) {
-    const paragraphIds = [...new Set(diary.value.lines.map((line: Line) => line.paragraphIdx))];
-    const raw: string[] = [];
-
-    // Loop over the ids and fetch the lines
-    paragraphIds.forEach((id: number) => {
-      const linesNext = (diary.value?.lines || [])
-        .filter((line: Line) => line.paragraphIdx === id)
-        .sort((lineA: Line, lineb: Line) => lineA.lineIdx - lineb.lineIdx)
-        .map(parseLine);
-      const flattened = linesNext.flat();
-      paragraphs.value.push(flattened);
-      raw.push(
-        linesNext
-          .flat()
-          .map((line: any) => line.value)
-          .join(''),
-      );
-    });
-
-    rawText.value = raw.join('');
-  }
+/**
+ * Computed Properties
+ */
+const rawText = computed<string>(() => {
+  return props.page.sections
+    .map(s => s.lines)
+    .flat()
+    .map(y => y.value)
+    .join(' ');
 });
 
 /**
  * Methods
  */
-const setAnnotationDetails = async (line: ParagraphLine) => {
+const fetchComponent = (type: string) => {
+  switch (type) {
+    case 'Heading':
+      return resolveComponent('DiaryHeading');
+    case 'Paragraph':
+      return resolveComponent('DiaryParagraph');
+  }
+};
+
+const setAnnotationDetails = async (line: AnnotationLine) => {
   const currentAnnoId = annotationDetails.value?.id;
-  annotationDetails.value = null;
+  annotationDetails.value = undefined;
   // Deselect when same annotation is clicked
   if (currentAnnoId === line.id) {
     return;
   }
   // nextTick() is used to to correctly transition between annotation details
   await nextTick();
+
   // Set current annotation
-  annotationDetails.value = {
-    id: line.id,
-    type: line.annotationType,
-    value: line.value,
-  };
+  annotationDetails.value = line;
+
   // Set position
   setAnnotationDetailsPosition();
 };
 
 const setAnnotationDetailsPosition = () => {
   if (annotationDetails.value?.id) {
-    const annoPos = document.getElementById(annotationDetails.value.id)?.getBoundingClientRect().top || 0;
-    const contentTop = pageContent.value!.getBoundingClientRect().top;
-    annotationDetails.value.pos = annoPos - contentTop + contentPadding - 3;
+    const annoRect = document.getElementById(annotationDetails.value.id)?.getBoundingClientRect();
+    const containerPos = containerRef.value!.getBoundingClientRect().top;
+    annotationDetails.value.pos = annoRect!.top - containerPos - annoRect!.height / 4;
   }
 };
 
