@@ -5,15 +5,21 @@
     <span>{{ linkText }}</span>
     <BaseIcon
       class="arrow-icon"
-      icon="mdi:arrow-right" />
+      :icon="icon" />
   </NuxtLink>
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  link?: string;
-  linkText: string;
-}>();
+withDefaults(
+  defineProps<{
+    link?: string;
+    linkText: string;
+    icon?: string;
+  }>(),
+  {
+    icon: 'mdi:arrow-right',
+  },
+);
 </script>
 
 <style lang="scss" scoped>

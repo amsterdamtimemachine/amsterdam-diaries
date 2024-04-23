@@ -10,11 +10,7 @@
 </template>
 
 <script setup lang="ts">
-const diaries = ref<any[]>([]);
-
-onMounted(async () => {
-  diaries.value = (await $fetch('/api/diaries/Q125020291'))?.diaries;
-});
+const diaries = await useAuthorStore().fetchCurrentAuthorDiaries();
 
 /**
  * Metadata

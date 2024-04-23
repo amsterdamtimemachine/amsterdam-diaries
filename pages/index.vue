@@ -22,8 +22,8 @@
             class="tags"
             title="Selecteer een auteur:"
             :tags="
-              useAuthorData().map(a => ({
-                title: a.name,
+              authors.map(a => ({
+                title: Array.isArray(a.name) ? a.name.pop() : a.name,
                 link: `/dagboekschrijfsters/${a.slug}`,
               }))
             " />
@@ -39,6 +39,7 @@ definePageMeta({
   layout: 'home',
 });
 const showAuthors = ref<boolean>(false);
+const { authors } = storeToRefs(useAuthorStore());
 </script>
 
 <style lang="scss" scoped>
@@ -77,7 +78,7 @@ const showAuthors = ref<boolean>(false);
 
   :deep(ul) {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
 
     a {
       width: 100%;
