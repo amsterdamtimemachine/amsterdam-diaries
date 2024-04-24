@@ -82,6 +82,14 @@ declare global {
     longitude?: string;
   };
 
+  type ImageOptions = {
+    region?: string;
+    size?: string;
+    rotation?: string;
+    quality?: string;
+    format?: string;
+  };
+
   /***************************************************************************/
   /*                           Parse Annotations                             */
   /***************************************************************************/

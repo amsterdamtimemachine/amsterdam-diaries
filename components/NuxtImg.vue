@@ -10,5 +10,5 @@ const props = defineProps<{
   src: string;
   alt: string;
 }>();
-const img = props.src.startsWith('https://') ? props.src : useImage(props.src);
+const img = props.src.startsWith('https://') ? props.src : useLocalImage(props.src);
 </script>
