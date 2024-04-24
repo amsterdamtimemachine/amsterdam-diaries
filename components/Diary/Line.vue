@@ -3,7 +3,7 @@
     v-if="line.type === 'Annotation'"
     @click="$emit('annotationClick', line)"
     :id="line.id"
-    :class="{ annotation: true, [line.subType!.toLowerCase()]: true }">
+    :class="{ annotation: true, [typeof line.subType === 'string' ? line.subType!.toLowerCase() : '']: true }">
     {{ line.value }}
   </button>
   <span v-else>{{ line.value }}</span>
