@@ -88,6 +88,7 @@ const { authors, currentAuthor } = storeToRefs(useAuthorStore());
     position: absolute;
     left: var(--spacing-7);
     bottom: var(--spacing-7);
+    flex-flow: row-reverse;
   }
 
   .right-arrow {
