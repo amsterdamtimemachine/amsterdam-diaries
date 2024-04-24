@@ -31,4 +31,9 @@ export default defineNuxtConfig({
       personBaseUri: 'http://www.wikidata.org/entity/',
     },
   },
+  app: {
+    head: {
+      title: 'Amsterdam Diaries Time machine',
+    },
+  },
 });
