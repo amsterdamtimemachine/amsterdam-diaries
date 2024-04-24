@@ -1,4 +1,4 @@
-export default function useImage(path: string): string {
+export default function (path: string): string {
   const assets = import.meta.glob('~/assets/images/**', {
     eager: true,
     import: 'default',

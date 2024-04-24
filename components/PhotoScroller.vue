@@ -12,7 +12,7 @@
       class="photo"
       @click="setSelectedPhoto(n + 1, title)">
       <NuxtImg
-        :src="`photos/${slug}/${n + 1}.jpg`"
+        :src="useServerImage(`profile-overview/${slug}/${n + 1}.jpg`, { size: ',320' })"
         :alt="`${slug}-${n + 1}`" />
     </button>
     <CardDiaryTeaser
@@ -42,7 +42,7 @@
         </div>
         <NuxtImg
           class="full-photo"
-          :src="`photos/${slug}/${selectedPhoto.selected}.jpg`"
+          :src="useServerImage(`profile-overview/${slug}/${selectedPhoto.selected}.jpg`)"
           :alt="`${slug}-${selectedPhoto.selected}`" />
       </div>
     </div>

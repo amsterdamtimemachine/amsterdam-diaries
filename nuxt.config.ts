@@ -29,6 +29,7 @@ export default defineNuxtConfig({
       getAnnotationsUri: 'https://api.lod.uba.uva.nl/queries/ATM/atm-diaries-get-annotations/1/run',
       getTextUri: 'https://api.lod.uba.uva.nl/queries/ATM/atm-diaries-get-text/8/run',
       personBaseUri: 'http://www.wikidata.org/entity/',
+      imageServerUri: 'https://www.atm.images.tdrn.dev/iiif',
     },
   },
   app: {
