@@ -49,7 +49,7 @@ npm-staging:
     - npm ci
     - npm run build
   after_script:
-    - mv ./.output/robots-acc.txt ./dist/robots.txt
+    - mv ./.output/robots-acc.txt ./.output/robots.txt
     - rm ./.output/robots-prod.txt
   stage: build
 
@@ -68,7 +68,7 @@ npm-production:
     - npm ci
     - npm run build
   after_script:
-    - mv ./.output/robots-prod.txt ./dist/robots.txt
+    - mv ./.output/robots-prod.txt ./.output/robots.txt
     - rm ./.output/robots-acc.txt
   stage: build
 
