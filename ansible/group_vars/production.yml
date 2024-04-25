@@ -1,0 +1,4 @@
+---
+project_dir: atmprod_5b8c
+
+ansistrano_keep_releases: 3
