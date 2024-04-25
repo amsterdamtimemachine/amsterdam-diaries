@@ -78,6 +78,29 @@ const frames = {
     ],
     '@type': 'Annotation',
   },
+  locationsPerAuthor: {
+    '@context': [
+      'https://www.w3.org/ns/anno.jsonld',
+      {
+        '@vocab': 'https://schema.org/',
+        items: {
+          '@id': 'http://www.w3.org/ns/activitystreams#items',
+        },
+        latitude: {
+          '@type': 'xsd:double',
+          '@id': 'https://schema.org/latitude',
+        },
+        longitude: {
+          '@type': 'xsd:double',
+          '@id': 'https://schema.org/longitude',
+        },
+        name: {
+          '@id': 'https://schema.org/name',
+        },
+      },
+    ],
+    '@type': 'Annotation',
+  },
 };
 
 export default async (type: keyof typeof frames, uri: string) => {
