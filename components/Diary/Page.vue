@@ -15,7 +15,8 @@
         <component
           :is="fetchComponent(section.type)"
           :input="section"
-          @annotation-click="setAnnotationDetails" />
+          @annotation-click="annotationClicked"
+          @annotation-hovering="setAnnotationDetails" />
         <br v-if="idx !== page.sections.length - 1" />
       </template>
     </BasePage>
@@ -35,6 +36,7 @@
  * State & Props
  */
 const annotationDetails = ref<AnnotationLine & { pos?: number }>();
+const annotationDetailsLocked = ref<boolean>(false);
 const containerRef = ref<HTMLElement>();
 const basePageEl = ref();
 
@@ -65,18 +67,41 @@ const fetchComponent = (type: string) => {
   }
 };
 
-const setAnnotationDetails = async (line: AnnotationLine) => {
-  const currentAnnoId = annotationDetails.value?.id;
-  annotationDetails.value = undefined;
-  // Deselect when same annotation is clicked
-  if (currentAnnoId === line.id) {
+const annotationClicked = async (line: AnnotationLine) => {
+  // Toggle annotation details lock when clicking on the same annotation
+  if (!annotationDetails.value?.id || annotationDetails.value?.id === line.id) {
+    annotationDetailsLocked.value = !annotationDetailsLocked.value;
+  }
+
+  // Deselect annotation to hide annotation details immediately
+  if (!annotationDetailsLocked.value) {
+    annotationDetails.value = undefined;
+  } else {
+    // else set annotation details to the clicked annotation
+    annotationDetails.value = line;
+    setAnnotationDetailsPosition();
+  }
+
+  // nextTick() is used to to correctly transition between annotation details
+  await nextTick();
+};
+
+const setAnnotationDetails = async (event: { line: AnnotationLine; hovering: boolean }) => {
+  // Don't set annotation details when hovering over a different annotation
+  if (annotationDetails.value?.id && annotationDetails.value?.id !== event.line.id) {
+    return;
+  }
+
+  // Deselect when annotation is not hovered and annotation details are not locked
+  if (!event.hovering && !annotationDetailsLocked.value) {
+    annotationDetails.value = undefined;
     return;
   }
   // nextTick() is used to to correctly transition between annotation details
   await nextTick();
 
   // Set current annotation
-  annotationDetails.value = line;
+  annotationDetails.value = event.line;
 
   // Set position
   setAnnotationDetailsPosition();

@@ -2,6 +2,8 @@
   <button
     v-if="line.type === 'Annotation'"
     @click="$emit('annotationClick', line)"
+    @mouseover="$emit('annotationHovering', { line, hovering: true })"
+    @mouseleave="$emit('annotationHovering', { line, hovering: false })"
     :id="line.id"
     :class="{ annotation: true, [typeof line.subType === 'string' ? line.subType!.toLowerCase() : '']: true }">
     {{ line.value }}
@@ -14,7 +16,7 @@ defineProps<{
   line: TextLine | AnnotationLine;
 }>();
 
-defineEmits(['annotationClick']);
+defineEmits(['annotationClick', 'annotationHovering']);
 </script>
 
 <style lang="scss" scoped>

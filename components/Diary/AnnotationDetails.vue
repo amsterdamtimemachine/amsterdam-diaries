@@ -57,7 +57,7 @@ const info = computed(() => {
       return AnnotationDefault;
   }
 });
-const variantColor = `var(--${info.value?.variant})`;
+const variantColor = computed(() => `var(--${info.value?.variant})`);
 </script>
 
 <style lang="scss" scoped>
@@ -67,6 +67,8 @@ const variantColor = `var(--${info.value?.variant})`;
   height: fit-content;
   z-index: 2;
   gap: var(--spacing-3);
+  background-color: var(--white-paper);
+  padding-block: var(--spacing-3);
 
   .right {
     @include flex-column;

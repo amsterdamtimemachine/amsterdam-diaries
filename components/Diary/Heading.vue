@@ -5,7 +5,8 @@
       :key="index">
       <DiaryLine
         :line="line"
-        @annotation-click="$emit('annotationClick', $event)" />
+        @annotation-click="$emit('annotationClick', $event)"
+        @annotation-hovering="$emit('annotationHovering', $event)" />
     </template>
   </h2>
 </template>
@@ -15,5 +16,5 @@ defineProps<{
   input: Section;
 }>();
 
-defineEmits(['annotationClick']);
+defineEmits(['annotationClick', 'annotationHovering']);
 </script>
