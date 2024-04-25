@@ -1,12 +1,15 @@
 <template>
-  <!-- For now don't show background photos -->
-  <!-- <DiaryBackgroundPhotos container-id="diary-pages" /> -->
+  <DiaryBackgroundPhotos
+    v-if="diaries"
+    container-id="diary-pages" />
   <!-- TODO: Add props to open specific profile -->
   <DiaryProfile />
-  <DiaryBook
-    v-for="diary in diaries"
-    :key="diary.id"
-    :diary="diary" />
+  <div id="diary-pages">
+    <DiaryBook
+      v-for="diary in diaries"
+      :key="diary.id"
+      :diary="diary" />
+  </div>
 </template>
 
 <script setup lang="ts">
