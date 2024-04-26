@@ -62,7 +62,7 @@ const { authors, currentAuthor } = storeToRefs(useAuthorStore());
   gap: var(--spacing-14) calc(var(--spacing-9) * 2);
   min-height: 46rem;
 
-  margin-top: calc(var(--page-margin) + var(--spacing-13));
+  margin-top: calc(var(--spacing-14) + var(--spacing-3));
   margin-bottom: calc(var(--spacing-10) * 2);
 
   .info {

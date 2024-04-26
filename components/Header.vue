@@ -1,12 +1,15 @@
 <template>
   <header>
-    <span class="font-brand title">Amsterdam Diaries Time Machine</span>
+    <NuxtImg
+      src="logos/atm.svg"
+      alt="Amsterdam Diaries Time Machine" />
     <div class="menu-section">
       <Transition name="fade">
         <nav v-if="showMenu">
           <NuxtLink to="/"> Home </NuxtLink>
           <NuxtLink to="/dagboekschrijfsters/els-polak"> Dagboekschrijfsters </NuxtLink>
           <NuxtLink to="/about"> Over ATM </NuxtLink>
+          <NuxtLink to="/amsterdam"> Wat gebeurde in Amsterdam </NuxtLink>
         </nav>
       </Transition>
       <button
@@ -31,13 +34,10 @@ header {
   justify-content: space-between;
   align-items: center;
   position: sticky;
-  top: calc(var(--spacing-7) * 2);
+  top: 0;
   z-index: 10;
   width: 100%;
-}
-
-.title {
-  width: calc(var(--size-12) * 2);
+  padding-block: var(--spacing-13) var(--spacing-8);
 }
 
 .menu-section {

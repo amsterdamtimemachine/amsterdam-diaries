@@ -1,6 +1,6 @@
 <template>
   <div class="content-wrapper">
-    <Header />
+    <Header class="header" />
     <div class="content">
       <slot />
     </div>
@@ -8,6 +8,10 @@
 </template>
 
 <style lang="scss" scoped>
+.header {
+  padding: 0;
+}
+
 .content-wrapper {
   padding: var(--inner-page-padding);
 }
