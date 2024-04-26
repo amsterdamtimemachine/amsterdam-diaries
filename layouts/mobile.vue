@@ -28,11 +28,12 @@
 .warning-popup {
   @include flex-column;
   position: fixed;
-  background: var(--light-cyan);
+  background: linear-gradient(180deg, var(--light-cyan) 0%, var(--white) 50%);
   left: 0;
   right: 0;
   bottom: 0;
   top: 0;
+  overflow-y: auto;
 
   .header {
     padding: var(--spacing-7);
@@ -43,7 +44,7 @@
 
   .background-image {
     object-fit: cover;
-    height: 100%;
+    flex: 1;
   }
 
   .content-block {
