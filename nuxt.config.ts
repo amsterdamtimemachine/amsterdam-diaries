@@ -1,12 +1,18 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['ress/ress.css', 'assets/scss/main.scss'],
-  modules: ['@pinia/nuxt', '@nuxtjs/google-fonts', '@vueuse/nuxt', '@nuxtjs/device'],
+  modules: ['@pinia/nuxt', '@nuxtjs/google-fonts', '@vueuse/nuxt', '@nuxtjs/device', '@nuxtjs/robots'],
   googleFonts: {
     families: {
       'Hanken Grotesk': true,
       'Schibsted Grotesk': true,
       'Familjen Grotesk': true,
+    },
+  },
+  robots: {
+    rules: {
+      UserAgent: '*',
+      Disallow: '/',
     },
   },
   imports: {
