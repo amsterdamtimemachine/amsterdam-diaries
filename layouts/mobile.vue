@@ -11,8 +11,8 @@
       src="home-bg.jpg"
       alt="About ATM" />
     <div class="content-block">
-      <h2>Gemaakt voor grote schermen</h2>
-      <div class="content">
+      <h2 class="font-h2">Gemaakt voor grote schermen</h2>
+      <div class="content font-body-l">
         <p>
           Voor de ultieme beleving van Amsterdam Diaries, raden we je aan om deze op een groter scherm te bekijken. De
           persoonlijke dagboeken en boeiende verhalen komen dan volledig to hun recht. Bezoek te website op een apparaat
@@ -26,21 +26,18 @@
 
 <style lang="scss" scoped>
 .warning-popup {
+  @include flex-column;
   position: fixed;
-  background: #c7ecf7;
+  background: var(--light-cyan);
   left: 0;
   right: 0;
   bottom: 0;
   top: 0;
 
-  display: flex;
-  flex-direction: column;
-  align-content: stretch;
-
   .header {
-    padding: 1.5rem;
+    padding: var(--spacing-7);
     overflow: visible;
-    height: 3.5rem;
+    height: var(--size-11);
     z-index: 2;
   }
 
@@ -51,25 +48,20 @@
 
   .content-block {
     background-color: var(--white);
-    padding: 2.75rem 2.125rem;
+    padding: var(--spacing-9);
     display: flex;
     flex-direction: column;
-    gap: 0.9375rem;
+    gap: var(--spacing-5);
 
     h2 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      line-height: 100%;
-      letter-spacing: -0.48px;
+      font-size: var(--size-6);
     }
 
     .content {
-      font-size: 14px;
+      @include flex-column;
+      font-size: 0.875rem;
       line-height: 180%;
-      letter-spacing: -0.14px;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
+      gap: var(--spacing-9);
     }
   }
 }
