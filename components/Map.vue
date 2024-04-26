@@ -21,49 +21,10 @@ const props = withDefaults(
     ],
     minZoom: 14,
     zoom: 15,
-    // TODO: Once we have real data
-    markers: () => [
-      {
-        lat: 52.35876,
-        lng: 4.87177,
-      },
-      {
-        lat: 52.3646,
-        lng: 4.8863,
-      },
-      {
-        lat: 52.377,
-        lng: 4.8884,
-      },
-      {
-        lat: 52.372,
-        lng: 4.8949,
-      },
-      {
-        lat: 52.374,
-        lng: 4.9006,
-      },
-      {
-        lat: 52.3688,
-        lng: 4.902,
-      },
-      {
-        lat: 52.3595,
-        lng: 4.9124,
-      },
-      {
-        lat: 52.3682,
-        lng: 4.9165,
-      },
-      {
-        lat: 52.3595,
-        lng: 4.8984,
-      },
-    ],
   },
 );
 
-onMounted(() => {
+onMounted(async () => {
   const { $L } = useNuxtApp();
 
   const map = $L
@@ -77,19 +38,24 @@ onMounted(() => {
       '&copy; Kaartgegevens: <a href="https://www.kadaster.nl/">Kadaster</a>, cartografie: <a href="https://www.webmapper.net/">Webmapper</a>',
   }).addTo(map);
 
+  const params = new URLSearchParams();
+  params.append('bounds', JSON.stringify(props.maxBounds));
+
+  const markers = await $fetch(`/api/locations?${params.toString()}`);
+
   // Markers
   const svgFlag = `
     <svg xmlns="http://www.w3.org/2000/svg" width="34" height="41" viewBox="0 0 34 41" >
       <path fill-rule="evenodd" clip-rule="evenodd" d="M4 0.5H0V40.5H4V20.5H34L28 10.5L34 0.5H4Z" fill="currentColor"/>
     </svg>`;
 
-  props.markers.forEach(marker => {
+  markers.forEach(marker => {
     const flagIcon = $L.divIcon({
       className: `${props.markerVariant}-marker`,
       html: svgFlag,
       iconSize: [34, 41],
     });
-    $L.marker([marker.lat, marker.lng], { icon: flagIcon }).addTo(map);
+    $L.marker([Number(marker.geo.latitude), Number(marker.geo.longitude)], { icon: flagIcon }).addTo(map);
   });
 
   // TODO: Add popup window / click event to page for markers
@@ -100,6 +66,7 @@ onMounted(() => {
 #map {
   width: 100%;
   height: var(--map-height);
+  margin: 0;
 }
 
 :deep(.yellow-marker) {
