@@ -2,7 +2,7 @@
   <div class="warning-popup">
     <div class="header">
       <NuxtImg
-        src="logos/atm.svg"
+        src="logos/atm-diaries.svg"
         alt="About ATM" />
     </div>
 

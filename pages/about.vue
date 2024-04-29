@@ -61,6 +61,16 @@ const adParagraphs = ref<string[]>([
 
 const logos = ref<{ name: string; src: string; url: string }[]>([
   {
+    name: 'Amsterdam Time Machine',
+    src: 'logos/atm.svg',
+    url: 'https://www.amsterdamtimemachine.nl/',
+  },
+  {
+    name: 'Netwerk Digitaal Erfgoed',
+    src: 'logos/nde.png',
+    url: 'https://netwerkdigitaalerfgoed.nl/',
+  },
+  {
     name: 'UvA',
     src: 'logos/uva.png',
     url: 'https://www.uva.nl/',
@@ -76,19 +86,24 @@ const logos = ref<{ name: string; src: string; url: string }[]>([
     url: 'https://www.amsterdam.nl/stadsarchief/',
   },
   {
-    name: 'Atria',
-    src: 'logos/atria.png',
-    url: 'https://atria.nl/',
-  },
-  {
     name: 'Joods Cultureel Kwartier',
     src: 'logos/jck.png',
     url: 'https://jck.nl/',
   },
   {
+    name: 'Atria',
+    src: 'logos/atria.png',
+    url: 'https://atria.nl/',
+  },
+  {
     name: 'Verzetsmuseum',
     src: 'logos/vrm.png',
     url: 'https://www.verzetsmuseum.org/',
+  },
+  {
+    name: 'Total Design',
+    src: 'logos/td.png',
+    url: 'https://totaldesign.com/',
   },
 ]);
 </script>

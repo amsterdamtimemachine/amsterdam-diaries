@@ -1,7 +1,7 @@
 <template>
   <header>
     <NuxtImg
-      src="logos/atm.svg"
+      src="logos/atm-diaries.svg"
       alt="Amsterdam Diaries Time Machine" />
     <div class="menu-section">
       <Transition name="fade">
