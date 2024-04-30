@@ -81,4 +81,11 @@ export const AuthorPhotoData: Record<string, string[]> = {
     'Dagboek van Toby Vos - Kunst',
     'Dagboek van Toby Vos - Schets',
   ],
+  'neeltje-toby-vos': [
+    'Dagboek van Toby Vos - Kaft',
+    'Dagboek van Toby Vos - Binnenwerk',
+    'Dagboek van Toby Vos - Binnenwerk 2',
+    'Dagboek van Toby Vos - Kunst',
+    'Dagboek van Toby Vos - Schets',
+  ],
 } as const;
