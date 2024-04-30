@@ -11,7 +11,8 @@ const fetchAndParseAnnotations = async (pageId: string) => {
       annotations.push(...annotation);
     }
   }
-  return annotations;
+  const supportedAnnotations = ['Place', 'Etenswaren'];
+  return annotations.filter(filter => supportedAnnotations.includes(filter.type));
 };
 
 const generateTextpart = (value: string): TextLine => {

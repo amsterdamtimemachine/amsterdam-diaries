@@ -23,7 +23,7 @@ defineEmits(['annotationClick', 'annotationHovering']);
 <style lang="scss" scoped>
 figure {
   img {
-    width: 100%;
+    max-width: 100%;
   }
 
   figcaption {
