@@ -53,6 +53,7 @@ const props = defineProps<{
  */
 const rawText = computed<string>(() => {
   return props.page.sections
+    .filter(s => s.type !== 'Visual')
     .map(s => s.lines)
     .flat()
     .map(y => y.value)
@@ -68,6 +69,8 @@ const fetchComponent = (type: string) => {
       return resolveComponent('DiaryHeading');
     case 'Paragraph':
       return resolveComponent('DiaryParagraph');
+    case 'Visual':
+      return resolveComponent('DiaryVisual');
   }
 };
 

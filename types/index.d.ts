@@ -60,9 +60,15 @@ declare global {
     sections: Section[];
   };
 
-  type Section = {
+  type TextSection = {
     type: 'Heading' | 'Paragraph'; // TODO: Not yet defining Marginalia
-    lines: TextLine | AnnotationLine[];
+    lines: (TextLine | AnnotationLine)[];
+  };
+
+  type VisualSection = {
+    type: 'Visual';
+    uri: string;
+    captions?: TextLine[];
   };
 
   type TextLine = {

@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  input: Section;
+  input: TextSection;
 }>();
 
 defineEmits(['annotationClick', 'annotationHovering']);
