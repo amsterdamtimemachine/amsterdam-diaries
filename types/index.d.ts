@@ -24,6 +24,13 @@ declare global {
       type?: 'Place';
       name?: string;
     };
+    diaries: Diary[];
+  };
+
+  type Diary = {
+    id: string;
+    type: 'Diary';
+    pages: Page[];
   };
 
   type Tag = {

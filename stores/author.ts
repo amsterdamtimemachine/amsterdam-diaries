@@ -20,16 +20,35 @@ export const useAuthorStore = defineStore('Author', () => {
 
   const fetchCurrentAuthorDiaries = async () => {
     if (!currentAuthor.value) {
-      return [];
+      return;
+    }
+    if (currentAuthor.value.diaries?.length) {
+      return;
     }
     const result: any = await $fetch(`/api/diaries/${currentAuthor.value.id}`);
-    return result.diaries;
+    currentAuthor.value.diaries = result.diaries;
   };
 
-  // TODO: Should probably not be in store
+  const fetchDiaryPage = (entryId: string): Page | undefined => {
+    let page: Page | undefined;
+    currentAuthor.value?.diaries.forEach(diary => {
+      diary.pages.forEach(p => {
+        if (p.id === entryId) {
+          page = p;
+        }
+      });
+    });
+    return page;
+  };
+
   const fetchDiaryEntrySections = async (entryId: string) => {
+    const page = fetchDiaryPage(entryId);
+    if (page?.sections?.length) {
+      return;
+    }
+
     const result: any = await $fetch(`/api/entries/${entryId}`);
-    return result.sections;
+    page!.sections = result.sections;
   };
 
   return {

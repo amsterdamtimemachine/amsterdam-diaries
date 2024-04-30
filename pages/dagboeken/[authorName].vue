@@ -35,9 +35,13 @@
 </template>
 
 <script setup lang="ts">
-const diaries = (await useAuthorStore().fetchCurrentAuthorDiaries()) || [];
-const totalPages = diaries.reduce((acc: number, diary: any) => acc + diary.pages.length, 0);
-const currentDiary = ref<any>(diaries.shift());
+await useAuthorStore().fetchCurrentAuthorDiaries();
+let diaryIndex = 0;
+let pageIndex = 0;
+
+const diaries = useAuthorStore().currentAuthor?.diaries || [];
+const totalPages = diaries.reduce((acc: number, diary: Diary) => acc + diary.pages.length, 0);
+const currentDiary = ref<Diary>(diaries[diaryIndex++]);
 const pages = ref<Page[]>([]);
 const processingPage = ref<boolean>(false);
 const loadedAllPages = ref<boolean>(false);
@@ -70,9 +74,10 @@ const loadMore = async () => {
 
 const getSections = async () => {
   processingPage.value = true;
-  const page: Page = currentDiary.value.pages.shift();
+  const page: Page = currentDiary.value.pages[pageIndex++];
   if (!page) {
-    const newDiary = diaries.shift();
+    pageIndex = 0;
+    const newDiary = diaries[diaryIndex++];
     if (!newDiary) {
       loadedAllPages.value = true;
       return;
@@ -81,7 +86,7 @@ const getSections = async () => {
     await getSections();
     return;
   }
-  page.sections = await useAuthorStore().fetchDiaryEntrySections(page.id);
+  await useAuthorStore().fetchDiaryEntrySections(page.id);
   pages.value.push(page);
   addPhotos();
   processingPage.value = false;
