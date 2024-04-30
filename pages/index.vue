@@ -4,9 +4,10 @@
       <div class="info">
         <h1 class="font-h2">Amsterdam</h1>
         <div class="font-body-l">
-          Stap in de schoenen van Amsterdammers die de Tweede Wereldoorlog meemaakten. Beleef de impact van bezetting en
-          terreur op hun dagelijks leven, hun strijd voor vrijheid en normaliteit, en de moed die ze toonden in het
-          verzet tegen de vijand.
+          Hoe zag het dagelijks leven in Amsterdam eruit in de Tweede Wereldoorlog? Hoe beleefden Amsterdammers hun
+          stad? De Amsterdam Diaries Time Machine brengt het verleden tot leven met dagboekfragmenten van Amsterdamse
+          vrouwen tijdens WOII. Navigeer door hun dagboeken. Lees over hun familie en vrienden, plaatsen en gebouwen in
+          de stad.
         </div>
       </div>
       <div class="bottom">
@@ -45,7 +46,7 @@ const { authors } = storeToRefs(useAuthorStore());
 <style lang="scss" scoped>
 .home {
   display: grid;
-  grid-template-columns: 27.75rem 1fr;
+  grid-template-columns: calc(var(--size-12) * 5) 1fr;
   height: 100%;
 }
 
