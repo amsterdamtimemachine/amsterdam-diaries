@@ -20,16 +20,18 @@ const fetchAndParseDiaries = async (id: string) => {
   const uri = `${config.app.getDiariesOfAuthorUri}?person=${id}`;
   const json = await useCompactJson('diariesOfAuthor', uri);
   const result = [];
-  if (Array.isArray(json['@graph'])) {
-    for (let idx = 0; idx < json['@graph'].length; ++idx) {
-      const diary = json['@graph'][idx];
-      result.push({
-        ...diary,
-        id: useSimplifyId(diary.id as string),
-        pages: await fetchAndParsePages(diary.id as string),
-      });
-    }
+
+  const diaries = Array.isArray(json['@graph']) ? json['@graph'] : [json];
+
+  for (let idx = 0; idx < diaries.length; ++idx) {
+    const diary = diaries[idx];
+    result.push({
+      ...diary,
+      id: useSimplifyId(diary.id as string),
+      pages: await fetchAndParsePages(diary.id as string),
+    });
   }
+
   return result;
 };
 
