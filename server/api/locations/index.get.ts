@@ -12,10 +12,10 @@ const fetchAndParseLocations = async (id: string, bounds: number[][]) => {
 
       // Check if the location is within the specified bounds (i.e. Amsterdam)
       const withinBounds =
-        Number(location.geo.latitude) >= bounds[1][0] &&
-        Number(location.geo.latitude) <= bounds[0][0] &&
-        Number(location.geo.longitude) >= bounds[1][1] &&
-        Number(location.geo.longitude) <= bounds[0][1];
+        Number(location?.geo.latitude) >= bounds[1][0] &&
+        Number(location?.geo.latitude) <= bounds[0][0] &&
+        Number(location?.geo.longitude) >= bounds[1][1] &&
+        Number(location?.geo.longitude) <= bounds[0][1];
 
       if (withinBounds) {
         result.push({
