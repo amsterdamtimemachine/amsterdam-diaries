@@ -26,7 +26,7 @@
         :total-pages="totalPages" />
     </div>
     <div
-      v-intersect="0.5"
+      v-intersect="0.25"
       @intersect="loadMore"
       v-if="!loadedAllPages">
       <LoadingSpinner class="spinner" />
@@ -57,11 +57,14 @@ const addPhotos = async () => {
   }
 };
 
-// TODO: If after the first page is loaded and the spinner is still on screen, more pages need to be loaded.
-// This does not happen yet. Find a fix for this.
 const loadMore = async () => {
   if (!processingPage.value) {
     await getSections();
+
+    // If the content we added isn't filling the screen, call loadMore again
+    if ((diaryBook.value?.offsetHeight || 0) < window.innerHeight) {
+      loadMore();
+    }
   }
 };
 
