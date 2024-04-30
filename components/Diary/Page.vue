@@ -5,7 +5,9 @@
     <BasePage
       class="current-page"
       ref="basePageEl">
-      <ReadIndicator />
+      <ReadIndicator
+        :page-number="pageNumber"
+        :total-pages="totalPages" />
       <ReadTimeIndicator
         class="read-indicator"
         :input="rawText" />
@@ -42,6 +44,8 @@ const basePageEl = ref();
 
 const props = defineProps<{
   page: Page;
+  pageNumber: number;
+  totalPages: number;
 }>();
 
 /**

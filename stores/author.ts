@@ -26,10 +26,17 @@ export const useAuthorStore = defineStore('Author', () => {
     return result.diaries;
   };
 
+  // TODO: Should probably not be in store
+  const fetchDiaryEntrySections = async (entryId: string) => {
+    const result: any = await $fetch(`/api/entries/${entryId}`);
+    return result.sections;
+  };
+
   return {
     authors,
     currentAuthor,
     fetchAuthors,
     fetchCurrentAuthorDiaries,
+    fetchDiaryEntrySections,
   };
 });

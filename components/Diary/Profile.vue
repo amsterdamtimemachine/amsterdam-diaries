@@ -1,17 +1,23 @@
 <template>
-  <!-- TODO: Hardcoded for now. Replace with store data later -->
   <div class="profile content-container">
     <div class="left">
-      <span class="font-h2">Els Polak</span>
+      <span class="font-h2">{{ currentAuthor?.name }}</span>
     </div>
-    <div class="right">
+    <!-- TODO: Add correct avatar URL here when available -->
+    <div
+      v-if="currentAuthor?.photos?.[0]"
+      class="right">
       <NuxtImg
         class="profile-image"
-        src="photos/els-polak.png"
-        alt="Els Polak" />
+        :src="`photos/${currentAuthor.slug}.png`"
+        :alt="currentAuthor.slug" />
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+const currentAuthor = useAuthorStore().currentAuthor;
+</script>
 
 <style lang="scss" scoped>
 .profile {

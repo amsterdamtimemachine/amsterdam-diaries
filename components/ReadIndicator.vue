@@ -9,13 +9,12 @@
 </template>
 
 <script setup lang="ts">
-const indicator = ref<HTMLElement>();
-const percentage = ref<number>(0);
-
-onMounted(() => {
-  const scrollHeight = indicator.value?.getBoundingClientRect().top;
-  const documentHeight = document.querySelector('body')?.getBoundingClientRect().height;
-  percentage.value = ((scrollHeight || 0) / (documentHeight || 1)) * 100;
+const props = defineProps<{
+  pageNumber: number;
+  totalPages: number;
+}>();
+const percentage = computed<number>(() => {
+  return (props.pageNumber / props.totalPages) * 100;
 });
 </script>
 

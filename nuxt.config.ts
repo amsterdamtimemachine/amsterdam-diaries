@@ -37,6 +37,7 @@ export default defineNuxtConfig({
       getLocationsPerAuthorUri: 'https://api.lod.uba.uva.nl/queries/ATM/atm-diaries-get-locations-per-author/2/run',
       personBaseUri: 'http://www.wikidata.org/entity/',
       imageServerUri: 'https://images.diaries.amsterdamtimemachine.nl/iiif',
+      entryBaseUri: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/',
     },
   },
   app: {
