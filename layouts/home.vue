@@ -1,6 +1,8 @@
 <template>
   <div class="content-wrapper">
-    <Header class="header" />
+    <Header
+      class="header"
+      transparent />
     <div class="content">
       <slot />
     </div>

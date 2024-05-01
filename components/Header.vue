@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header :class="{ transparent: transparent, active: showMenu }">
     <NuxtImg
       src="logos/atm-diaries.svg"
       alt="Amsterdam Diaries Time Machine" />
@@ -25,6 +25,10 @@
 </template>
 
 <script setup lang="ts">
+defineProps<{
+  transparent: boolean;
+}>();
+
 const showMenu = ref<boolean>(false);
 </script>
 
@@ -38,6 +42,12 @@ header {
   z-index: 10;
   width: 100%;
   padding-block: var(--spacing-13) var(--spacing-8);
+  background-color: transparent;
+  transition: var(--transition-1);
+
+  &.active:not(.transparent) {
+    background-color: var(--white-paper);
+  }
 }
 
 .menu-section {

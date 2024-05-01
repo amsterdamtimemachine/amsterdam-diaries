@@ -23,7 +23,7 @@ defineEmits(['annotationClick', 'annotationHovering']);
 span,
 button {
   &:not(:last-child) {
-    margin-right: 4px;
+    margin-right: var(--spacing-2);
   }
 }
 </style>

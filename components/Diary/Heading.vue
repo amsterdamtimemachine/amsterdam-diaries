@@ -18,3 +18,12 @@ defineProps<{
 
 defineEmits(['annotationClick', 'annotationHovering']);
 </script>
+
+<style lang="scss" scoped>
+span,
+button {
+  &:not(:last-child) {
+    margin-right: var(--spacing-2);
+  }
+}
+</style>
