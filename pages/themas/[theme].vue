@@ -14,20 +14,6 @@
         :link="card.link"
         :linkText="card.linkText" />
     </div>
-    <div class="related">
-      <CardColored
-        class="content-sub-container"
-        description="De interacties met familie, vrienden en buren spelen een belangrijke rol in alle verhalen."
-        image="collectie-1.jpg"
-        imageAlt="Interacties familie"
-        link="/themas/collectie-interpersoonlijke-relaties-en-gemeenschap"
-        linkText="Collectie: Interpersoonlijke Relaties en Gemeenschap"
-        variant="light-purple" />
-    </div>
-    <Tags
-      class="content-sub-container"
-      title="Anderen bekeken ook:"
-      :tags="tags" />
   </div>
 </template>
 
@@ -74,17 +60,6 @@ const diaryCards = [
     linkText: 'Lees Dien’ dagboek',
   },
 ];
-const tags = ref<Tag[]>([
-  { title: 'Vervoer', link: '/themas/vervoer' },
-  { title: 'School', link: '/themas/school' },
-  { title: 'Verzet', link: '/themas/verzet' },
-  { title: 'Bevrijding', link: '/themas/bevrijding' },
-  { title: 'Tweede wereldoorlog', link: '/themas/tweede-wereldoorlog' },
-  { title: 'Vrije tijd', link: '/themas/vrije-tijd' },
-  { title: 'Voeding', link: '/themas/voeding' },
-  { title: 'Media', link: '/themas/media' },
-  { title: 'Feest', link: '/themas/feest' },
-]);
 </script>
 
 <style lang="scss" scoped>
@@ -100,13 +75,6 @@ const tags = ref<Tag[]>([
   }
 
   .diaries {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--spacing-5);
-  }
-
-  .related {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
