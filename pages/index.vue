@@ -53,7 +53,7 @@ const { authors } = storeToRefs(useAuthorStore());
 .content {
   @include flex-column;
   justify-content: space-between;
-  padding-top: calc(var(--spacing-9) * 6);
+  padding-top: calc(var(--spacing-8) * 5);
   padding-inline: var(--inner-page-padding);
   padding-bottom: var(--spacing-12);
   overflow: hidden; // Needed so no scrollbar appears when link is translated off screen
@@ -71,19 +71,6 @@ const { authors } = storeToRefs(useAuthorStore());
   > * {
     position: absolute;
     bottom: 0;
-  }
-}
-
-.tags {
-  width: 100%;
-
-  :deep(ul) {
-    display: grid;
-    grid-template-columns: 1fr;
-
-    a {
-      width: 100%;
-    }
   }
 }
 

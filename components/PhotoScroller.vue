@@ -123,8 +123,6 @@ const scrollPhotos = (toRight: boolean) => {
     height: 100%;
     border-radius: var(--border-radius-3);
     padding: var(--spacing-11);
-    height: calc(100% - var(--spacing-12) * 2);
-    margin-top: calc(var(--spacing-12) * 2);
   }
 
   .full-header {

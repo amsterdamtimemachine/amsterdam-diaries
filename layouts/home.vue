@@ -16,6 +16,7 @@
 
 .content-wrapper {
   padding: var(--inner-page-padding);
+  padding-block: var(--spacing-9);
 }
 .content {
   position: absolute;

@@ -22,7 +22,7 @@ const currentAuthor = useAuthorStore().currentAuthor;
 <style lang="scss" scoped>
 .profile {
   position: fixed;
-  top: calc(var(--page-margin) * 2 + var(--spacing-3));
+  top: calc(var(--spacing-13) * 3);
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
   grid-template-areas: 'left . right';

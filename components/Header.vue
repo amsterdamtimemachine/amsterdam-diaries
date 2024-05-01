@@ -7,7 +7,7 @@
       <Transition name="fade">
         <nav v-if="showMenu">
           <NuxtLink to="/"> Home </NuxtLink>
-          <NuxtLink to="/dagboekschrijfsters/els-polak"> Dagboekschrijfsters </NuxtLink>
+          <NuxtLink to="/dagboekschrijfsters/gerda-oestreicher-laqueur"> Dagboekschrijfsters </NuxtLink>
           <NuxtLink to="/about"> Over ATM </NuxtLink>
           <NuxtLink to="/amsterdam"> Wat gebeurde in Amsterdam </NuxtLink>
         </nav>
@@ -41,7 +41,7 @@ header {
   top: 0;
   z-index: 10;
   width: 100%;
-  padding-block: var(--spacing-13) var(--spacing-8);
+  padding-block: var(--spacing-9) var(--spacing-8);
   background-color: transparent;
   transition: var(--transition-1);
 

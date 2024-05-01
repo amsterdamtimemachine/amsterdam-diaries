@@ -12,7 +12,7 @@
 
 <style lang="scss" scoped>
 .content {
-  margin: calc(var(--page-margin) / 2) auto calc(var(--spacing-11) * 2);
+  margin: calc(var(--page-margin) / 2) auto calc(var(--page-margin) / 2);
   width: var(--content-sub-width);
 
   display: flex;
