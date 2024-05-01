@@ -17,7 +17,7 @@
         class="logo"
         :to="logo.url"
         target="_blank">
-        <NuxtImg
+        <Image
           :src="logo.src"
           :alt="logo.name" />
       </NuxtLink>

@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="top">
-      <NuxtImg
+      <Image
         class="image"
         :src="`photos/${image}`"
         :alt="imageAlt" />

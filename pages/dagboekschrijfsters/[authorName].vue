@@ -4,9 +4,16 @@
     class="diary-authors">
     <div class="info">
       <div class="title-desc">
-        <h1 class="font-h2">
-          {{ currentAuthor.name }}
-        </h1>
+        <div class="profile-image-name">
+          <Image
+            class="profile-image"
+            :src="`${useServerImage(`profile-overview/${currentAuthor.slug}/profile/1.jpg`, { size: '96,' })}`"
+            default="default-profile.png"
+            :alt="currentAuthor.slug" />
+          <h1 class="font-h2">
+            {{ currentAuthor.name }}
+          </h1>
+        </div>
         <div class="font-body-l">
           {{ currentAuthor.description || 'Nederlandse dagboekschrijfster' }}
         </div>
@@ -74,6 +81,18 @@ const { authors, currentAuthor } = storeToRefs(useAuthorStore());
   .title-desc {
     @include flex-column;
     gap: var(--spacing-9);
+  }
+  .profile-image-name {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-6);
+  }
+  .profile-image {
+    height: calc(var(--size-10) * 2);
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: var(--border-radius-3);
+    background: var(--profile-bg);
   }
   .background {
     display: flex;

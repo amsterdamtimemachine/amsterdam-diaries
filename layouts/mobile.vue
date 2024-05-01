@@ -1,12 +1,12 @@
 <template>
   <div class="warning-popup">
     <div class="header">
-      <NuxtImg
+      <Image
         src="logos/atm-diaries.svg"
         alt="About ATM" />
     </div>
 
-    <NuxtImg
+    <Image
       class="background-image"
       src="home-bg.jpg"
       alt="About ATM" />

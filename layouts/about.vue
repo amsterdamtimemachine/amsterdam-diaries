@@ -1,6 +1,6 @@
 <template>
   <div class="content-wrapper">
-    <NuxtImg
+    <Image
       class="background-image content-wrapper content-container"
       src="about-atm.png"
       alt="About ATM" />

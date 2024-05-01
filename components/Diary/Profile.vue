@@ -1,15 +1,15 @@
 <template>
-  <div class="profile content-container">
+  <div
+    v-if="currentAuthor"
+    class="profile content-container">
     <div class="left">
-      <span class="font-h2">{{ currentAuthor?.name }}</span>
+      <span class="font-h2">{{ currentAuthor.name }}</span>
     </div>
-    <!-- TODO: Add correct avatar URL here when available -->
-    <div
-      v-if="currentAuthor?.photos?.[0]"
-      class="right">
-      <NuxtImg
+    <div class="right">
+      <Image
         class="profile-image"
-        :src="`photos/${currentAuthor.slug}.png`"
+        :src="`${useServerImage(`profile-overview/${currentAuthor.slug}/profile/1.jpg`)}`"
+        default="default-profile.png"
         :alt="currentAuthor.slug" />
     </div>
   </div>
@@ -44,6 +44,7 @@ const currentAuthor = useAuthorStore().currentAuthor;
     border-radius: var(--border-radius-5);
     box-shadow: var(--card-shadow);
     grid-column: 3;
+    background: var(--profile-bg);
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <header :class="{ transparent: transparent, active: showMenu }">
-    <NuxtImg
+  <header :class="{ transparent, active: showMenu }">
+    <Image
       src="logos/atm-diaries.svg"
       alt="Amsterdam Diaries Time Machine" />
     <div class="menu-section">
@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  transparent: boolean;
+  transparent?: boolean;
 }>();
 
 const showMenu = ref<boolean>(false);

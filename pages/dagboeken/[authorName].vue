@@ -9,7 +9,7 @@
         photo: true,
         'align-right': idx % 2,
       }">
-      <NuxtImg
+      <Image
         :src="photo"
         :alt="`foto-${idx}`" />
     </div>
