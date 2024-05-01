@@ -53,8 +53,8 @@ const props = defineProps<{
  */
 const rawText = computed<string>(() => {
   return props.page.sections
-    .filter(s => s.type !== 'Visual')
-    .map(s => s.lines)
+    .filter((s: Section) => s.type !== 'Visual')
+    .map((s: Section) => (s as TextSection).lines)
     .flat()
     .map(y => y.value)
     .join(' ');

@@ -4,35 +4,6 @@ export {};
 declare global {
   type CardColor = 'light-green' | 'light-blue' | 'light-purple' | 'light-pink' | 'light-red' | 'light-yellow';
 
-  type Author = {
-    id: string;
-    type: 'Person';
-    name: string;
-    aliases?: string[];
-    description: string;
-    slug: string;
-    photos?: string[];
-    birthDate?: string;
-    birthPlace?: {
-      id: string;
-      type?: 'Place';
-      name?: string;
-    };
-    deathDate?: string;
-    deathPlace?: {
-      id: string;
-      type?: 'Place';
-      name?: string;
-    };
-    diaries: Diary[];
-  };
-
-  type Diary = {
-    id: string;
-    type: 'Diary';
-    pages: Page[];
-  };
-
   type Tag = {
     active?: boolean;
     title: string;
@@ -53,6 +24,30 @@ declare global {
   /*                                 Display                                 */
   /***************************************************************************/
 
+  type Author = {
+    id: string;
+    type: 'Person';
+    name: string;
+    aliases?: string[];
+    description: string;
+    slug: string;
+    photos?: string[];
+    birthDate?: string;
+    birthPlace?: {
+      id: string;
+      type?: 'Place';
+      name?: string;
+    };
+    deathDate?: string;
+    deathPlace?: {
+      id: string;
+      type?: 'Place';
+      name?: string;
+    };
+    totalPages: number;
+    pages?: Page[];
+  };
+
   type Book = {
     id: string;
     type: 'Book';
@@ -66,6 +61,8 @@ declare global {
     dateCreated: string;
     sections: Section[];
   };
+
+  type Section = TextSection | VisualSection;
 
   type TextSection = {
     type: 'Heading' | 'Paragraph'; // TODO: Not yet defining Marginalia

@@ -1,61 +1,60 @@
 export const useAuthorStore = defineStore('Author', () => {
+  /**
+   * State
+   */
   const authors = ref<Author[]>([]);
-  const route = useRoute();
 
   /**
-   * Computed
+   * Private methods
    */
-  const currentAuthor = computed<Author | undefined>(() => {
-    return authors.value.find(author => author.slug === route.params.authorName);
-  });
+  const findAuthorBySlug = (slug: string) => {
+    return authors.value.find(author => author.slug === slug);
+  };
 
   /**
    * Methods
    */
-
   const fetchAuthors = async () => {
     const result: any = await $fetch('/api/authors');
     authors.value = result.authors;
   };
 
-  const fetchCurrentAuthorDiaries = async () => {
-    if (!currentAuthor.value) {
+  const fetchNextPage = async (slug: string, lastId?: string): Promise<Page | undefined> => {
+    const author = findAuthorBySlug(slug);
+    if (!author) {
       return;
     }
-    if (currentAuthor.value.diaries?.length) {
-      return;
-    }
-    const result: any = await $fetch(`/api/diaries/${currentAuthor.value.id}`);
-    currentAuthor.value.diaries = result.diaries;
-  };
 
-  const fetchDiaryPage = (entryId: string): Page | undefined => {
-    let page: Page | undefined;
-    currentAuthor.value?.diaries.forEach(diary => {
-      diary.pages.forEach(p => {
-        if (p.id === entryId) {
-          page = p;
-        }
-      });
-    });
+    // If there aren't any pages, load in al references
+    if (!author.pages?.length) {
+      const result = await $fetch(`/api/diaries/${author.id}`);
+      author.pages = ((result?.diaries || []) as Book[])
+        .map((diary: Book) => diary.pages)
+        .flat()
+        .sort((a: Page, b: Page) => a.dateCreated.localeCompare(b.dateCreated));
+      author.totalPages = author.pages.length;
+    }
+
+    // Use the lastId to find the next page
+    const index = author.pages!.findIndex(page => page.id === lastId);
+    const page = author.pages![index + 1];
+
+    // If no other page was found, return nothing
+    if (!page) {
+      return;
+    }
+
+    if (!page.sections?.length) {
+      const result: any = await $fetch(`/api/entries/${page.id}`);
+      page.sections = result.sections;
+    }
     return page;
-  };
-
-  const fetchDiaryEntrySections = async (entryId: string) => {
-    const page = fetchDiaryPage(entryId);
-    if (page?.sections?.length) {
-      return;
-    }
-
-    const result: any = await $fetch(`/api/entries/${entryId}`);
-    page!.sections = result.sections;
   };
 
   return {
     authors,
-    currentAuthor,
+    findAuthorBySlug,
     fetchAuthors,
-    fetchCurrentAuthorDiaries,
-    fetchDiaryEntrySections,
+    fetchNextPage,
   };
 });

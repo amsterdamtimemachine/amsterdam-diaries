@@ -23,73 +23,77 @@
         :key="page.id"
         :page="page"
         :page-number="idx + 1"
-        :total-pages="totalPages" />
+        :total-pages="totalPages"
+        @vue:mounted="mountedPage" />
     </div>
     <div
-      v-intersect="0.25"
-      @intersect="loadMore"
-      v-if="!loadedAllPages">
+      v-intersect="0.01"
+      @intersect="loadNextPage"
+      v-if="allowLoadingMore">
       <LoadingSpinner class="spinner" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-await useAuthorStore().fetchCurrentAuthorDiaries();
-let diaryIndex = 0;
-let pageIndex = 0;
+/**
+ * Store deps
+ */
+const authorStore = useAuthorStore();
+const authorSlug = useRoute().params.authorName as string;
 
-const diaries = useAuthorStore().currentAuthor?.diaries || [];
-const totalPages = diaries.reduce((acc: number, diary: Diary) => acc + diary.pages.length, 0);
-const currentDiary = ref<Diary>(diaries[diaryIndex++]);
-const pages = ref<Page[]>([]);
-const processingPage = ref<boolean>(false);
-const loadedAllPages = ref<boolean>(false);
-
+/**
+ * State & props
+ */
 const diaryBook = ref<HTMLElement>();
-const PHOTO_AMOUNT = 8;
+const pages = ref<Page[]>([]);
 const photos = ref<string[]>([]);
 const bgPhotosHeight = ref<number>(0);
+const allowLoadingMore = ref<boolean>(true);
 
-const addPhotos = async () => {
-  await nextTick();
+const PHOTO_AMOUNT = 8;
+
+/**
+ * Computed Properties
+ */
+const totalPages = computed<number>(() => {
+  const author = authorStore.findAuthorBySlug(authorSlug);
+  return author?.totalPages || 0;
+});
+
+/**
+ * Methods
+ */
+
+/**
+ * LoadNextPage callback
+ * - Check which page wasn't loaded yet
+ * - Turn off the spinner
+ * - Fetch the next page and add to Array
+ */
+const loadNextPage = async () => {
+  const lastId = pages.value[pages.value.length - 1]?.id;
+  if (allowLoadingMore.value) {
+    allowLoadingMore.value = false;
+    const page = await authorStore.fetchNextPage(authorSlug, lastId);
+    if (page) {
+      pages.value.push(page);
+    }
+  }
+};
+
+/**
+ * Page mounted callback
+ * - Add extra photos to the background
+ * - Informat the spinner to allow more content
+ */
+const mountedPage = () => {
+  allowLoadingMore.value = true;
   bgPhotosHeight.value = diaryBook.value?.scrollHeight || 0;
   const amount = 2 + photos.value.length;
   for (let i = photos.value.length; i < amount; i++) {
-    // Make sure to loop through photos
     photos.value.push(useServerImage(`diary-bg/${(i % PHOTO_AMOUNT) + 1}.jpg`));
   }
-};
-
-const loadMore = async () => {
-  if (!processingPage.value) {
-    await getSections();
-
-    // If the content we added isn't filling the screen, call loadMore again
-    if ((diaryBook.value?.offsetHeight || 0) < window.innerHeight) {
-      loadMore();
-    }
-  }
-};
-
-const getSections = async () => {
-  processingPage.value = true;
-  const page: Page = currentDiary.value.pages[pageIndex++];
-  if (!page) {
-    pageIndex = 0;
-    const newDiary = diaries[diaryIndex++];
-    if (!newDiary) {
-      loadedAllPages.value = true;
-      return;
-    }
-    currentDiary.value = newDiary;
-    await getSections();
-    return;
-  }
-  await useAuthorStore().fetchDiaryEntrySections(page.id);
-  pages.value.push(page);
-  addPhotos();
-  processingPage.value = false;
 };
 </script>
 

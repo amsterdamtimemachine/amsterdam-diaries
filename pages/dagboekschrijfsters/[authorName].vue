@@ -57,7 +57,13 @@
 </template>
 
 <script setup lang="ts">
-const { authors, currentAuthor } = storeToRefs(useAuthorStore());
+const authorStore = useAuthorStore();
+const { authors } = storeToRefs(authorStore);
+
+const currentAuthor = computed<Author | undefined>(() => {
+  const authorSlug = useRoute().params.authorName as string;
+  return authorStore.findAuthorBySlug(authorSlug);
+});
 </script>
 
 <style lang="scss" scoped>
