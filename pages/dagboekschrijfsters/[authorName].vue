@@ -28,7 +28,7 @@
       <!-- TODO: Replace diary teaser text with actual text -->
       <PhotoScroller
         :slug="currentAuthor.slug"
-        diary-teaser-text="p.20 8 mei 1941 Korte studie over het antisemitisme. Er zijn geen Joden meer. Er zijn geen Christenen">
+        :diary-teaser-text="AuthorDiaryPreviews[currentAuthor.slug]">
         <template #prev-button="{ scrollPhotos }">
           <LinkArrow
             class="left-arrow"

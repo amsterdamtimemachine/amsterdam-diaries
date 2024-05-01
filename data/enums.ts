@@ -101,3 +101,18 @@ export const AuthorPhotoData: Record<string, string[]> = {
     'Neeltje (Toby) Vos - Foto 3',
   ],
 } as const;
+
+export const AuthorDiaryPreviews: Record<string, string> = {
+  'berdi-pront':
+    'Ik ben Berdi Pront, 16 jaar oud en woon in Amsterdam. Ik zit in de 4e klas van de HBS. Ik ben Joods en heb een zusje van 14 jaar. Mijn vader is overleden en mijn moeder is ziek.',
+  'celina-veffer':
+    "Eigenlijk is Dinsdag geen goede dag om een dagboek te beginnen, maar 's Maandags had ik er nog niet aangedacht.",
+  'dien-kiewit-de-jonge':
+    'Onophoudelijke bombardementen door de geallieerden op Duits grondgebied. Italiaanse leger capituleert, Mussolini gevangen genomen, Badoglio neemt de legerleiding.',
+  'els-polak':
+    'Vanmorgen hebben we weer de Montessorischool bezocht. Het was veel rumoeriger in de klas als dan verleden keer.',
+  'gerda-oestreicher-laqueur':
+    "Ich war 4 Tage in A'dam. Sonderbarwie viel dort los ist. Gehöre ichdort noch hin? Freitag 15. Nov. Früh um 8 Uhr fuhrenwir mit Bhs. Forderen los.",
+  'neeltje-toby-vos':
+    'Eens zal ik een dame zijn van een jaar of veertig of misschien vijftig.Ik stel mij voor, dat ik dan op een zomerse dag in de Haarlemse tram zit omgroenteofaardappelente halen ten behoeve van mijn gezin.',
+} as const;
