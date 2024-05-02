@@ -83,6 +83,23 @@
   --transition-1: all 0.12s ease;
   --transition-2: all 0.75s ease;
   --transition-3: all 0.5s ease;
+
+  // Gradients
+  .gradient-1 {
+    background: linear-gradient(to right, var(--light-green) 0%, var(--light-yellow) 200%);
+  }
+
+  .gradient-2 {
+    background: linear-gradient(to right, var(--light-red) 0%, var(--light-yellow) 100%);
+  }
+
+  .gradient-3 {
+    background: linear-gradient(to right, var(--light-blue) 0%, var(--light-yellow) 200%);
+  }
+
+  .gradient-4 {
+    background: linear-gradient(to right, var(--light-purple) 0%, var(--light-yellow) 200%);
+  }
 }
 
 body {

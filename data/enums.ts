@@ -116,3 +116,12 @@ export const AuthorDiaryPreviews: Record<string, string> = {
   'neeltje-toby-vos':
     'Eens zal ik een dame zijn van een jaar of veertig of misschien vijftig.Ik stel mij voor, dat ik dan op een zomerse dag in de Haarlemse tram zit omgroenteofaardappelente halen ten behoeve van mijn gezin.',
 } as const;
+
+export const AuthorDiaryOverviewGradients: Record<string, string> = {
+  'berdi-pront': 'gradient-1',
+  'celina-veffer': 'gradient-2',
+  'dien-kiewit-de-jonge': 'gradient-3',
+  'els-polak': 'gradient-4',
+  'gerda-oestreicher-laqueur': 'gradient-2',
+  'neeltje-toby-vos': 'gradient-1',
+} as const;

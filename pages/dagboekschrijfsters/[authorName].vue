@@ -23,7 +23,7 @@
         :link-text="`Dagboek van ${currentAuthor.name}`" />
     </div>
     <div
-      class="background"
+      :class="{ background: true, [AuthorDiaryOverviewGradients[currentAuthor.slug]]: true }"
       ref="bgcontainer">
       <!-- TODO: Replace diary teaser text with actual text -->
       <PhotoScroller
@@ -100,11 +100,11 @@ const currentAuthor = computed<Author | undefined>(() => {
     border-radius: var(--border-radius-3);
     background: var(--profile-bg);
   }
+
   .background {
     display: flex;
     align-items: center;
     grid-area: bg;
-    background: linear-gradient(to left, var(--light-yellow) 0%, var(--light-purple) 100%);
     position: relative;
     overflow-x: hidden;
   }
