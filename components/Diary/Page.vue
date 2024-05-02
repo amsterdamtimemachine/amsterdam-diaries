@@ -37,7 +37,7 @@
           :subType="annotationDetails.subType" />
         <DiaryAnnotationDetailsPerson
           v-if="annotationDetails.subType === 'Person'"
-          :name="annotationDetails.name || annotationDetails.reference"
+          :name="annotationDetails.name || annotationDetails.reference || annotationDetails.value || ''"
           :description="annotationDetails.description" />
       </div>
     </Transition>
