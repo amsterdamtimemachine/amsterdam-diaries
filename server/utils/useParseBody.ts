@@ -26,6 +26,11 @@ const parseSpecificIdentifier = ({ source }: SpecificIdentifier): SelectorBody =
     description: source.description,
   } as SelectorBody;
 
+  // TODO: Probably not the best solution for this, but it works for now
+  if (typeof output.type === 'string' && output.type.startsWith('https://schema.org/')) {
+    output.type = output.type.replace('https://schema.org/', '');
+  }
+
   if (Object.hasOwn(source, 'geo')) {
     const { latitude, longitude } = (source as GeoSource).geo;
     output.latitude = latitude;

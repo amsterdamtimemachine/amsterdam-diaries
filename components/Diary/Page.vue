@@ -35,6 +35,10 @@
         <DiaryAnnotationDetailsTheme
           v-if="annotationDetails.subType === 'Etenswaren'"
           :subType="annotationDetails.subType" />
+        <DiaryAnnotationDetailsPerson
+          v-if="annotationDetails.subType === 'Person'"
+          :name="annotationDetails.name || annotationDetails.reference"
+          :description="annotationDetails.description" />
       </div>
     </Transition>
   </div>
@@ -123,9 +127,12 @@ const setAnnotationDetails = async (event: { line: AnnotationLine; hovering: boo
 
 const setAnnotationDetailsPosition = () => {
   if (annotationDetails.value?.id) {
-    const annoRect = document.getElementById(annotationDetails.value.id)?.getBoundingClientRect();
-    const containerPos = containerRef.value!.getBoundingClientRect().top;
-    annotationDetails.value.pos = annoRect!.top - containerPos - annoRect!.height / 4;
+    const anno = document.getElementById(annotationDetails.value.id);
+    const annoRect = anno!.getBoundingClientRect();
+    const annoPos = annoRect.top + window.scrollY;
+    const annoOffset = anno?.parentElement?.tagName === 'H2' ? 0 : annoRect.height / 2;
+    const containerPos = containerRef.value!.getBoundingClientRect().top + window.scrollY;
+    annotationDetails.value.pos = annoPos - containerPos - annoOffset;
   }
 };
 

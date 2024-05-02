@@ -32,6 +32,10 @@ defineEmits(['annotationClick', 'annotationHovering']);
     background: color-mix(in srgb, var(--purple) 20%, transparent);
   }
 
+  &.person {
+    background: color-mix(in srgb, var(--blue) 20%, transparent);
+  }
+
   &.organization,
   &.date {
     color: var(--blue);
