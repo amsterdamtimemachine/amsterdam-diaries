@@ -23,12 +23,19 @@
       </template>
     </BasePage>
     <Transition name="fade">
-      <DiaryAnnotationDetails
+      <div
         v-if="annotationDetails"
         class="annotation-details"
         :id="`${annotationDetails.id}-details`"
-        :annotation="annotationDetails"
-        :style="{ marginTop: `${annotationDetails.pos}px` }" />
+        :style="{ marginTop: `${annotationDetails.pos}px` }">
+        <DiaryAnnotationDetailsDate
+          v-if="annotationDetails.subType === 'Date'"
+          :date-reference="annotationDetails.reference" />
+        <DiaryAnnotationDetailsPlace v-if="annotationDetails.subType === 'Place'" />
+        <DiaryAnnotationDetailsTheme
+          v-if="annotationDetails.subType === 'Etenswaren'"
+          :subType="annotationDetails.subType" />
+      </div>
     </Transition>
   </div>
 </template>
@@ -149,5 +156,7 @@ useResizeObserver(basePageEl, () => {
 .annotation-details {
   grid-area: left;
   transition: var(--transition-1);
+  z-index: 2;
+  width: 100%;
 }
 </style>
