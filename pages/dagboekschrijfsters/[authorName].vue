@@ -25,7 +25,6 @@
     <div
       :class="{ background: true, [AuthorDiaryOverviewGradients[currentAuthor.slug]]: true }"
       ref="bgcontainer">
-      <!-- TODO: Replace diary teaser text with actual text -->
       <PhotoScroller
         :slug="currentAuthor.slug"
         :diary-teaser-text="AuthorDiaryPreviews[currentAuthor.slug]">

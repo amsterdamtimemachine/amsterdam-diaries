@@ -51,7 +51,7 @@ const photos = ref<string[]>([]);
 const bgPhotosHeight = ref<number>(0);
 const allowLoadingMore = ref<boolean>(true);
 
-const PHOTO_AMOUNT = 8;
+const PHOTO_AMOUNT = 10;
 
 /**
  * Computed Properties
