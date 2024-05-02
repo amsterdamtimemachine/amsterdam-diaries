@@ -69,10 +69,12 @@ export default async (input: Annotation) => {
     // Making it harder to rely on the input and a nightmare for typing
     const parsedBody = useParseBody(input.body);
     const parseTargets = useParseTarget(input.target);
+    const parsedPartOf = useParsePartOf(input.isPartOf);
     return parseTargets.map((target: SelectorTarget): AnnotationRef => {
       return {
         ...target,
         ...parsedBody,
+        ...parsedPartOf,
       };
     });
   } catch (e) {

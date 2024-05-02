@@ -1,12 +1,25 @@
+const parseSource = (source: string | TextualBody) => {
+  if (typeof source === 'string') {
+    return { source };
+  }
+
+  const content = `${source.prev?.value || ''} ${source.value} ${source.next?.value || ''}`.trim();
+
+  return {
+    source: source.id,
+    content,
+  };
+};
+
 const parseSelectors = (selectors: Array<TextPositionSelector | TextQuoteSelector>) => {
   return selectors.reduce(
     (
-      output: Partial<{ value: string; start: number; end: number }>,
+      output: Partial<{ highlight: string; start: number; end: number }>,
       selector: TextPositionSelector | TextQuoteSelector,
     ) => {
       switch (selector.type) {
         case 'TextQuoteSelector':
-          output.value = selector.exact;
+          output.highlight = selector.exact;
           break;
         case 'TextPositionSelector':
           output.start = selector.start;
@@ -23,7 +36,7 @@ export default (input: Target | Target[]): SelectorTarget[] => {
   const targets = useForceArray(input);
   return targets.map((target: Target) => {
     return {
-      source: target.source,
+      ...parseSource(target.source),
       ...parseSelectors(target.selector),
     };
   });

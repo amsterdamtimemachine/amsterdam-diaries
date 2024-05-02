@@ -1,8 +1,5 @@
 const fetchAndParsePages = async (diaryId: string) => {
-  const config = useRuntimeConfig();
-  const uri = `${config.app.getEntriesOfDiaryUri}?diary=${diaryId}`;
-  const json = await useCompactJson('entriesOfDiary', uri);
-  const pages = Array.isArray(json['@graph']) ? json['@graph'] : [json];
+  const pages = await useFetchGraph('entriesOfDiary', diaryId);
   const result = [];
   for (let idx = 0; idx < pages.length; ++idx) {
     const page = pages[idx];
@@ -15,10 +12,7 @@ const fetchAndParsePages = async (diaryId: string) => {
 };
 
 const fetchAndParseDiaries = async (id: string) => {
-  const config = useRuntimeConfig();
-  const uri = `${config.app.getDiariesOfAuthorUri}?person=${id}`;
-  const json = await useCompactJson('diariesOfAuthor', uri);
-  const diaries = Array.isArray(json['@graph']) ? json['@graph'] : [json];
+  const diaries = await useFetchGraph('diariesOfAuthor', id);
   const result = [];
 
   for (let idx = 0; idx < diaries.length; ++idx) {
@@ -37,7 +31,7 @@ const fetchAndParseDiaries = async (id: string) => {
 export default defineEventHandler(async event => {
   const config = useRuntimeConfig();
   const personId = getRouterParam(event, 'personId');
-  const id = `${config.app.personBaseUri}${personId}`;
+  const id = `${config.app.entityBaseUri}${personId}`;
 
   try {
     const diaries = await fetchAndParseDiaries(id);

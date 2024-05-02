@@ -1,8 +1,5 @@
 const fetchAndParseAnnotations = async (pageId: string) => {
-  const config = useRuntimeConfig();
-  const uri = `${config.app.getAnnotationsUri}?entry=${pageId}`;
-  const json = await useCompactJson('getAnnotation', uri);
-  const items = Array.isArray(json['@graph']) ? json['@graph'] : [json];
+  const items = await useFetchGraph('getAnnotation', pageId);
   const annotations = [];
 
   for (let idx = 0; idx < items.length; ++idx) {

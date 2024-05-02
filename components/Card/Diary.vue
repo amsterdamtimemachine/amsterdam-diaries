@@ -44,6 +44,7 @@ defineProps<{
     overflow: hidden;
     margin: var(--spacing-10);
     margin-top: 0;
+    flex: 1;
 
     .content-text {
       display: -webkit-box;

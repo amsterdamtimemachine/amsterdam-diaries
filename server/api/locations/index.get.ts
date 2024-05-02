@@ -1,64 +1,54 @@
-const fetchAndParseLocations = async (id: string, bounds: number[][]) => {
-  const config = useRuntimeConfig();
-  const uri = `${config.app.getLocationsPerAuthorUri}?author=${id}`;
+const withinBounds = (data?: AnnotationRef): boolean => {
+  const bounds = useRuntimeConfig().app.maxBounds;
 
-  const json = await useCompactJson('locationsPerAuthor', uri);
-  const result = [];
-  if (Array.isArray(json['@graph'])) {
-    for (let idx = 0; idx < json['@graph'].length; ++idx) {
-      const annotation: { [key: string]: any } = json['@graph'][idx];
-
-      const location = annotation['body']['source'] as GeoSource;
-
-      // Check if the location is within the specified bounds (i.e. Amsterdam)
-      const withinBounds =
-        Number(location?.geo.latitude) >= bounds[1][0] &&
-        Number(location?.geo.latitude) <= bounds[0][0] &&
-        Number(location?.geo.longitude) >= bounds[1][1] &&
-        Number(location?.geo.longitude) <= bounds[0][1];
-
-      if (withinBounds) {
-        result.push({
-          annotation: annotation['body'],
-          ...(annotation['body']['source'] as GeoSource),
-        });
-      }
-    }
-  }
-  return result;
+  return (
+    Number(data?.latitude) >= bounds[1][0] &&
+    Number(data?.latitude) <= bounds[0][0] &&
+    Number(data?.longitude) >= bounds[1][1] &&
+    Number(data?.longitude) <= bounds[0][1]
+  );
 };
 
-const parseAuthors = async (authors: string[], bounds: number[][]) => {
-  let results = [] as GeoSource[];
+const fetchAndParseLocations = async (id: string): Promise<LocationRef[]> => {
+  const items = await useFetchGraph('locationsPerAuthor', id);
+  const locations: LocationRef[] = [];
 
-  for (const author of authors) {
-    const locations = await fetchAndParseLocations(author, bounds);
-
-    if (!locations.length) {
-      continue;
+  for (let idx = 0; idx < items.length; ++idx) {
+    const annotations = await useParseAnnotation(items[idx] as Annotation);
+    if (annotations) {
+      annotations.forEach((annotation: AnnotationRef) => {
+        if (withinBounds(annotation)) {
+          locations.push({
+            id: btoa(annotation.value),
+            name: annotation.name,
+            latitude: annotation.latitude,
+            longitude: annotation.longitude,
+          });
+        }
+      });
     }
-
-    results = results.concat(locations);
   }
-
-  return results;
+  return locations;
 };
 
 export default defineEventHandler(async event => {
-  const query = getQuery(event);
-  const bounds = JSON.parse(query.bounds as string) as number[][];
-
-  const { authors } = (await $fetch('/api/authors')) as { authors: Author[] };
   const config = useRuntimeConfig();
 
-  const authorIds = authors.map(author => `${config.app.personBaseUri}${author.id}`);
-
-  if (!authors) {
+  // Fetch the Authors, throw error when not found
+  const result: { authors: Author[] } = await $fetch('/api/authors');
+  if (!result?.authors) {
     console.error('Error: no authors found');
     setResponseStatus(event, 404);
   }
 
-  const results = await parseAuthors(authorIds, bounds);
+  // Parse the location for each author
+  const locations: LocationRef[][] = [];
+  for (const author of result.authors) {
+    locations.push(await fetchAndParseLocations(`${config.app.entityBaseUri}${author.id}`));
+  }
 
-  return results;
+  // Return the locations
+  return {
+    locations: locations.flat().filter(x => x),
+  };
 });

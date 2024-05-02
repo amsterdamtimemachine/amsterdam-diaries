@@ -100,6 +100,27 @@ declare global {
     format?: string;
   };
 
+  type LocationRef = {
+    id: string;
+    name?: string;
+    latitude?: string;
+    longitude?: string;
+  };
+
+  type DiaryCard = {
+    headerTitle: string;
+    headerSubtitle: string;
+    content: string;
+    link: string;
+    linkText: string;
+  };
+
+  type EntityContext = AnnotationRef & {
+    type: 'Annotation';
+    id: string;
+    subType: string;
+  };
+
   /***************************************************************************/
   /*                           Parse Annotations                             */
   /***************************************************************************/
@@ -115,12 +136,25 @@ declare global {
 
   type SelectorTarget = {
     source: string;
-    value?: string;
+    highlight?: string;
     start?: number;
     end?: number;
+    content?: string;
   };
 
-  type AnnotationRef = SelectorBody & SelectorTarget;
+  type ParsedAbout = {
+    slug: string;
+    firstName: string;
+    name: string;
+  };
+
+  type ParsedIsPartOf = {
+    author?: ParsedAbout;
+    diaryName?: string;
+    temporalCoverage?: string;
+  };
+
+  type AnnotationRef = SelectorBody & SelectorTarget & ParsedIsPartOf;
 
   /***************************************************************************/
   /*                                 INPUT                                   */
@@ -140,9 +174,34 @@ declare global {
     body: AnnotationBody | AnnotationBody[];
     target: Target | Target[];
     source: string;
+    isPartOf?: IsPartOf;
   };
 
   type AnnotationBody = Classification | TextualBody | SpecificResource;
+
+  type TextualBody = {
+    id: string;
+    type: 'TextualBody';
+    value: string;
+    next?: TextualBody;
+    prev?: TextualBody;
+  };
+
+  type About = {
+    id: string;
+    type: string;
+    name: string;
+  };
+
+  type IsPartOf = {
+    id: string;
+    type: 'Manuscript' | 'Book';
+    name: string;
+    isPartOf?: IsPartOf;
+    dateCreated?: string;
+    about?: About;
+    temporalCoverage?: string;
+  };
 
   /**
    * Clarifications
@@ -198,7 +257,7 @@ declare global {
    */
   type Target = {
     type: 'SpecificResource';
-    source: string;
+    source: string | TextualBody;
     selector: Array<TextPositionSelector | TextQuoteSelector>;
   };
 

@@ -5,6 +5,9 @@
 <script setup lang="ts">
 import 'leaflet/dist/leaflet.css';
 
+/**
+ * State & Props
+ */
 const props = withDefaults(
   defineProps<{
     minZoom?: number;
@@ -15,35 +18,51 @@ const props = withDefaults(
   }>(),
   {
     markerVariant: 'yellow',
-    maxBounds: () => [
-      [52.3815, 4.9576],
-      [52.328, 4.836],
-    ],
     minZoom: 14,
     zoom: 15,
   },
 );
+const emit = defineEmits(['markerClick']);
 
-const markerSources = ref<GeoSource[]>([]);
+const markerSources = ref<LocationRef[]>([]);
 
+/**
+ * Methods
+ */
+const popupMarker = (name: string) => {
+  return `<p class="font-body-l">${name}</p>`;
+};
+
+const onMarkerClick = (marker: L.LeafletMouseEvent) => {
+  emit('markerClick', getMarkerSource(marker));
+};
+
+const getMarkerSource = (marker: any): LocationRef | undefined => {
+  return markerSources.value.find((source: LocationRef) => {
+    return Number(source.latitude) === marker.latlng.lat && Number(source.longitude) === marker.latlng.lng;
+  });
+};
+
+/**
+ * Lifecycle methods
+ */
 onMounted(async () => {
   const { $L } = useNuxtApp();
+  const { app } = useRuntimeConfig();
 
   const map = $L
     .map('map')
     .setView([52.3678, 4.8969], props.zoom)
     .setMinZoom(props.minZoom)
-    .setMaxBounds(props.maxBounds);
+    .setMaxBounds(props.maxBounds || app.maxBounds);
 
   $L.tileLayer('https://images.diginfra.net/webmapper/maps/pw-1943/{z}/{x}/{y}.png', {
     attribution:
       '&copy; Kaartgegevens: <a href="https://www.kadaster.nl/">Kadaster</a>, cartografie: <a href="https://www.webmapper.net/">Webmapper</a>',
   }).addTo(map);
 
-  const params = new URLSearchParams();
-  params.append('bounds', JSON.stringify(props.maxBounds));
-
-  markerSources.value = await $fetch(`/api/locations?${params.toString()}`);
+  const { locations } = await $fetch(`/api/locations`);
+  markerSources.value = locations;
 
   // Markers
   const svgFlag = `
@@ -51,41 +70,19 @@ onMounted(async () => {
       <path fill-rule="evenodd" clip-rule="evenodd" d="M4 0.5H0V40.5H4V20.5H34L28 10.5L34 0.5H4Z" fill="currentColor"/>
     </svg>`;
 
-  markerSources.value.forEach((marker: GeoSource) => {
+  markerSources.value.forEach((marker: LocationRef) => {
     const flagIcon = $L.divIcon({
       className: `${props.markerVariant}-marker`,
       html: svgFlag,
       iconSize: [34, 41],
       popupAnchor: [0, 160],
     });
-    $L.marker([Number(marker.geo.latitude), Number(marker.geo.longitude)], { icon: flagIcon })
-      .bindPopup(popupMarker(marker.name), { closeButton: false })
+    $L.marker([Number(marker.latitude), Number(marker.longitude)], { icon: flagIcon })
+      .bindPopup(popupMarker(marker?.name || ''), { closeButton: false })
       .on('click', onMarkerClick)
       .addTo(map);
   });
-
-  // TODO: Add popup window / click event to page for markers
 });
-
-const popupMarker = (name: string) => {
-  return `<p class="font-body-l">${name}</p>`;
-};
-
-const onMarkerClick = (marker: L.LeafletMouseEvent) => {
-  const source = getMarkerSource(marker);
-
-  emit('markerClick', source);
-};
-
-const getMarkerSource = (marker: any): GeoSource | undefined => {
-  const source = markerSources.value.find(source => {
-    return Number(source.geo.latitude) === marker.latlng.lat && Number(source.geo.longitude) === marker.latlng.lng;
-  });
-
-  return source;
-};
-
-const emit = defineEmits(['markerClick']);
 </script>
 
 <style lang="scss" scoped>
