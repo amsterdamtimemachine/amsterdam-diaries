@@ -20,7 +20,6 @@ defineEmits(['annotationClick', 'annotationHovering']);
 </script>
 
 <style lang="scss" scoped>
-// TODO: annotation type names may have to be changed
 .annotation {
   line-height: 1.3;
 
@@ -28,14 +27,15 @@ defineEmits(['annotationClick', 'annotationHovering']);
     background: color-mix(in srgb, var(--green) 20%, transparent);
   }
 
+  // TODO: If we want to support multiple themes in the future this should be just '.theme'
+  &.etenswaren {
+    background: color-mix(in srgb, var(--purple) 20%, transparent);
+  }
+
   &.organization,
   &.date {
     color: var(--blue);
     text-decoration: underline;
-  }
-
-  &.theme {
-    background: color-mix(in srgb, var(--purple) 20%, transparent);
   }
 }
 </style>

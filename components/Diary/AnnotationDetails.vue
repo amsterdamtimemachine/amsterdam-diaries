@@ -16,11 +16,10 @@
             v-if="info.isExternal">
             ga naar ....
           </span>
-          <!-- TODO: add correct URL for nuxt links -->
           <NuxtLink
             v-else
             class="variant-color"
-            to="#"
+            :to="url"
             >{{ info.lblUrl || annotation.value }}</NuxtLink
           >
         </div>
@@ -51,13 +50,24 @@ const info = computed(() => {
       return AnnotationOrganization;
     case 'Person':
       return AnnotationPerson;
-    case 'Theme':
-      return AnnotationTheme;
+    // TODO: In the future, it would be better to have a 'Theme' subType. Needs to be discussed.
+    case 'Etenswaren':
+      return { ...AnnotationTheme, lblUrl: props.annotation.subType };
     default:
       return AnnotationDefault;
   }
 });
 const variantColor = computed(() => `var(--${info.value?.variant})`);
+const url = computed(() => {
+  switch (props.annotation.subType) {
+    case 'Place':
+      return '/amsterdam';
+    case 'Etenswaren':
+      return `/themas/${props.annotation.subType.toLowerCase()}`;
+    default:
+      return props.annotation.value;
+  }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -69,6 +79,7 @@ const variantColor = computed(() => `var(--${info.value?.variant})`);
   gap: var(--spacing-3);
   background-color: var(--white-paper);
   padding-block: var(--spacing-3);
+  padding-left: var(--spacing-3);
 
   .right {
     @include flex-column;
