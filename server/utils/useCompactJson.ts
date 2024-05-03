@@ -7,6 +7,7 @@ const frames = {
   entriesOfDiary: EntriesOfDiaryFrame,
   getText: TextFrame,
   getEntityAnnotation: AnnotationFrame,
+  getConceptAnnotation: AnnotationFrame,
   getAnnotation: AnnotationFrame,
   locationsPerAuthor: LocationsPerAuthorFrame,
 };

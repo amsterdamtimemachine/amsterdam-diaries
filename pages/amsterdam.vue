@@ -45,42 +45,12 @@ const diariesHeaderText = computed(() =>
  */
 const onMarkerClick = async (source: AnnotationLine) => {
   locationsName.value = source?.name || '';
-  const annotations = await fetchAnnotations(source.id);
-  mapDiaryCards(annotations);
+  const annotations = await useFetchAnnotations('context', source.id);
+  diaryCards.value = useMapDiaryCards(annotations);
 };
 
-const fetchAnnotations = async (entityId: string) => {
-  const { annotations }: { annotations: EntityContext[] } = await $fetch(`/api/context/${entityId}`); // Amsterdam
-  return annotations;
-};
-
-const highlightContent = (content?: string, highlight?: string) => {
-  if (!content) {
-    return '';
-  }
-  if (!highlight) {
-    return content;
-  }
-  return content.replace(highlight, `<span class="highlight">${highlight}</span>`);
-};
-
-const mapDiaryCards = (annotations: EntityContext[]): void => {
-  diaryCards.value = [];
-  annotations.forEach((annotation: EntityContext) => {
-    if (annotation.author) {
-      diaryCards.value.push({
-        headerTitle: annotation.diaryName,
-        headerSubtitle: annotation.temporalCoverage,
-        content: highlightContent(annotation.content, annotation.highlight),
-        link: `/dagboeken/${annotation.author.slug}`,
-        linkText: `Lees ${annotation.author.firstName}'${annotation.author.firstName.slice(-1) !== 's' ? 's' : ''} dagboek`,
-      } as DiaryCard);
-    }
-  });
-};
-
-const annotations = await fetchAnnotations('aHR0cDovL3d3dy53aWtpZGF0YS5vcmcvZW50aXR5L1E3Mjc='); // Amsterdam
-mapDiaryCards(annotations);
+const annotations = await useFetchAnnotations('context', 'aHR0cDovL3d3dy53aWtpZGF0YS5vcmcvZW50aXR5L1E3Mjc='); // Amsterdam
+diaryCards.value = useMapDiaryCards(annotations);
 </script>
 
 <style lang="scss" scoped>
