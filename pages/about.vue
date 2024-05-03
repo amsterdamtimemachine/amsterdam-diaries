@@ -53,8 +53,10 @@ const adParagraphs = ref<string[]>([
   `Voor de nieuwe applicatie is een selectie gemaakt van een aantal dagboeken uit het Amsterdam Diaries-project.
   De dagboeken komen uit de collecties van het Stadsarchief, Atria, het Joods Cultureel Kwartier en het Verzetsmuseum.
   Het betreft dagboeken die alle gaan over de periode van de Tweede Wereldoorlog.
-  Door het combineren van de dagboeken van deze bijzondere vrouwen ontstaat een persoonlijke blik op een
+  Door het combineren van de dagboekfragmenten van deze bijzondere vrouwen ontstaat een persoonlijke blik op een
   roerige periode in de Amsterdamse geschiedenis.`,
+  `We zijn geïnteresseerd in aanvullend materiaal en andere verhalen van vrouwen in Amsterdam tijdens de Tweede Wereldoorlog.
+  Contact opnemen kan via het e-mailadres <a href="mailto:m.j.m.rensen@uva.nl">m.j.m.rensen@uva.nl</a>.`,
   `De applicatie is ontwikkeld door <a href="https://www.totaldesign.com/" target="_blank">Total Design</a>,
   met steun van het <a href="https://netwerkdigitaalerfgoed.nl/" target="_blank">Netwerk Digitaal Erfgoed.</a>`,
 ]);

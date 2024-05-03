@@ -5,9 +5,11 @@
         class="content-text"
         v-html="content" />
     </div>
-    <LinkArrow
-      :link="link"
-      :linkText="linkText" />
+    <div class="link-container">
+      <LinkArrow
+        :link="link"
+        :linkText="linkText" />
+    </div>
   </div>
 </template>
 
@@ -46,7 +48,7 @@ defineProps<{
     }
   }
 
-  .link {
+  .link-container {
     background-color: var(--white-basic);
     padding: var(--spacing-6);
   }
