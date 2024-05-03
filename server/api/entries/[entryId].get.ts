@@ -115,6 +115,7 @@ const fetchAndParseText = async (pageId: string) => {
       case 'Visual':
         sections.unshift(parseVisualBasedSection(section));
         break;
+      case 'Caption':
       case 'Heading':
       case 'Paragraph':
         sections.unshift(parseTextBasedSection(section, annotations));

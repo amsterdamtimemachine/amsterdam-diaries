@@ -19,7 +19,7 @@
           :input="section"
           @annotation-click="annotationClicked"
           @annotation-hovering="setAnnotationDetails" />
-        <br v-if="idx !== page.sections.length - 1" />
+        <br v-if="addBreak(idx)" />
       </template>
     </BasePage>
     <Transition name="fade">
@@ -82,7 +82,23 @@ const fetchComponent = (type: string) => {
       return resolveComponent('DiaryParagraph');
     case 'Visual':
       return resolveComponent('DiaryVisual');
+    case 'Caption':
+      return resolveComponent('DiaryCaption');
   }
+};
+
+// Helper function to determine if we should add a break or not;
+const addBreak = (sectionIdx: number) => {
+  const sections = props.page.sections;
+  const lastSectionIdx = sections.length - 1;
+  const currentSection = sections[sectionIdx];
+  if (currentSection.type === 'Visual') {
+    const nextSection = sections[sectionIdx + 1];
+    if (nextSection?.type === 'Caption') {
+      return false;
+    }
+  }
+  return sectionIdx !== lastSectionIdx;
 };
 
 const annotationClicked = async (line: AnnotationLine) => {

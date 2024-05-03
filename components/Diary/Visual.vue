@@ -1,39 +1,29 @@
 <template>
   <figure>
     <img :src="input.uri" />
-    <figcaption v-if="input.captions?.length">
-      <template
-        v-for="(line, index) of input.captions"
-        :key="index">
-        <DiaryLine
-          :line="line"
-          class="caption" />
-      </template>
-    </figcaption>
+    <DiaryCaption
+      v-if="input.captions?.length"
+      :input="captionInput" />
   </figure>
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   input: VisualSection;
 }>();
 defineEmits(['annotationClick', 'annotationHovering']);
+const captionInput = computed<TextSection>(() => {
+  return {
+    type: 'Caption',
+    lines: props.input.captions || [],
+  };
+});
 </script>
 
 <style lang="scss" scoped>
 figure {
   img {
     max-width: 100%;
-  }
-
-  figcaption {
-    color: var(--gray);
-    padding-left: var(--spacing-4);
-    border-left: var(--spacing-1) solid var(--gray);
-  }
-
-  .caption {
-    display: block;
   }
 }
 </style>
