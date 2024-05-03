@@ -74,8 +74,8 @@ const totalPages = computed<number>(() => {
 const loadNextPage = async () => {
   const lastId = pages.value[pages.value.length - 1]?.id;
   if (allowLoadingMore.value) {
-    allowLoadingMore.value = false;
     const page = await authorStore.fetchNextPage(authorSlug, lastId);
+    allowLoadingMore.value = false;
     if (page) {
       pages.value.push(page);
     }
