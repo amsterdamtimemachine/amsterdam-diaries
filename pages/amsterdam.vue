@@ -36,8 +36,8 @@ const diaryCards = ref<DiaryCard[]>([]);
  */
 const diariesHeaderText = computed(() =>
   locationsName.value === 'Amsterdam'
-    ? `Dagboek teksten uit ${locationsName.value}`
-    : `Dagboek teksten over ${locationsName.value}`,
+    ? `Dagboekteksten uit ${locationsName.value}`
+    : `Dagboekteksten over ${locationsName.value}`,
 );
 
 /**
