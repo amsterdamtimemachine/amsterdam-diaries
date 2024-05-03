@@ -66,6 +66,7 @@ diaryCards.value = useMapDiaryCards(annotations);
 .diaries {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: var(--spacing-12);
   margin-bottom: var(--spacing-14);
 }

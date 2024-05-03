@@ -19,7 +19,7 @@ export default defineEventHandler(async event => {
         }
       });
     }
-    return { annotations: annotations.slice(0, 4) };
+    return { annotations: annotations.slice(0, 6) };
   } catch (e) {
     console.error('Error: ', e);
     setResponseStatus(event, 400);

@@ -48,7 +48,8 @@ diaryCards.value = useMapDiaryCards(annotations);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: var(--spacing-5);
+    gap: var(--spacing-12);
+    max-width: 87.5rem; // to have max 3 cards per row
   }
 }
 </style>
