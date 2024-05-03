@@ -1,8 +1,11 @@
 <template>
   <header :class="{ transparent, active: showMenu }">
-    <Image
-      src="logos/atm-diaries.svg"
-      alt="Amsterdam Diaries Time Machine" />
+    <NuxtLink to="/">
+      <Image
+        src="logos/atm-diaries.svg"
+        alt="Amsterdam Diaries Time Machine" />
+    </NuxtLink>
+
     <div class="menu-section">
       <Transition name="fade">
         <nav v-if="showMenu">
