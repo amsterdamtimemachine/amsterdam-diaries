@@ -30,7 +30,7 @@
         :style="{ marginTop: `${annotationDetails.pos}px` }">
         <DiaryAnnotationDetailsDate
           v-if="annotationDetails.subType === 'Date'"
-          :date-reference="annotationDetails.reference" />
+          :date-reference="annotationDetails.reference || annotationDetails.value || ''" />
         <DiaryAnnotationDetailsPlace v-if="annotationDetails.subType === 'Place'" />
         <DiaryAnnotationDetailsTheme
           v-if="annotationDetails.subType === 'Etenswaren'"

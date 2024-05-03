@@ -72,6 +72,7 @@ export default async (input: Annotation) => {
     const parsedPartOf = useParsePartOf(input.isPartOf);
     return parseTargets.map((target: SelectorTarget): AnnotationRef => {
       return {
+        guid: useSimplifyId(input.id),
         ...target,
         ...parsedBody,
         ...parsedPartOf,

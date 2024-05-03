@@ -154,7 +154,7 @@ declare global {
     temporalCoverage?: string;
   };
 
-  type AnnotationRef = SelectorBody & SelectorTarget & ParsedIsPartOf;
+  type AnnotationRef = SelectorBody & SelectorTarget & ParsedIsPartOf & { guid?: string };
 
   /***************************************************************************/
   /*                                 INPUT                                   */
