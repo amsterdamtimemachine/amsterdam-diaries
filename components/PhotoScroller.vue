@@ -110,7 +110,7 @@ const scrollPhotos = (toRight: boolean) => {
   inset: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 10;
+  z-index: 3000;
   padding: var(--spacing-14);
   background: rgba(0, 0, 0, 0.25);
   transition: var(--transition-1);

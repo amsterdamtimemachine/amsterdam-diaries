@@ -1,6 +1,8 @@
 <template>
   <header :class="{ transparent, active: showMenu }">
-    <NuxtLink to="/">
+    <NuxtLink
+      class="logo"
+      to="/">
       <Image
         src="logos/atm-diaries.svg"
         alt="Amsterdam Diaries Time Machine" />
@@ -42,21 +44,28 @@ header {
   align-items: center;
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 2000;
   width: 100%;
   padding-block: var(--spacing-9) var(--spacing-8);
   background-color: transparent;
   transition: var(--transition-1);
+  pointer-events: none;
 
   &.active:not(.transparent) {
     background-color: var(--white-paper);
+    pointer-events: initial;
   }
+}
+
+.logo {
+  pointer-events: initial;
 }
 
 .menu-section {
   display: flex;
   align-items: center;
   gap: calc(var(--spacing-13) + 1rem);
+  pointer-events: initial;
 
   nav {
     display: flex;
@@ -86,6 +95,7 @@ header {
   border-radius: var(--border-radius-7);
   background: var(--purple);
   transition: var(--transition-1);
+  pointer-events: initial;
 
   &:hover,
   &.active {

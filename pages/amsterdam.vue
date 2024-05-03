@@ -72,6 +72,6 @@ diaryCards.value = useMapDiaryCards(annotations);
 
 .diaries-header {
   text-align: center;
-  margin-block: var(--page-margin) var(--spacing-11);
+  margin-block: var(--spacing-11);
 }
 </style>
