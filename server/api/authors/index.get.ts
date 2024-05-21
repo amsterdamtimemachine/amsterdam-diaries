@@ -1,12 +1,6 @@
 export default defineEventHandler(async event => {
-  const items = await getCache('authors');
-  if (items) {
-    return { authors: items };
-  }
-
   try {
     const config = useRuntimeConfig();
-    const storage = useStorage('authors');
     const json = await useCompactJson('authors', config.app.getAuthorsUri);
     // @ts-expect-error Object is possible 'undefined'
     const authors = json['@graph'].map(author => {
@@ -18,7 +12,6 @@ export default defineEventHandler(async event => {
         slug: useSlugify(name),
         id: useSimplifyId(author.id),
       };
-      storage.setItem(author.id, newAuthor);
       return newAuthor;
     });
     return { authors };
