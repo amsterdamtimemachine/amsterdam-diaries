@@ -2,7 +2,7 @@
   <div class="tags">
     <div
       v-if="title"
-      class="font-body-l">
+      class="font-title">
       {{ title }}
     </div>
     <ul>

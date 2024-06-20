@@ -157,6 +157,12 @@ body {
   line-height: 100%;
 }
 
+// Used for link, photoscroller and tag titles
+// For mobile it is needed to use a new font since on mobile sizes are different
+.font-title {
+  @extend .font-body-l;
+}
+
 // Note: Per type different color
 .annotation-link {
   @extend .font-body-m;
@@ -208,4 +214,24 @@ body {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+
+// Media queries
+@include sm-screen-down {
+  .font-body-l {
+    font-size: 0.875rem;
+  }
+
+  .font-h2 {
+    font-size: 1.5rem;
+  }
+
+  .font-title {
+    font-size: 1.125rem;
+  }
+
+  .sm-hide {
+    display: none !important;
+  }
 }

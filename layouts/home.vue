@@ -23,4 +23,10 @@
   inset: 0;
   background: var(--white);
 }
+
+@include sm-screen-down {
+  .content-wrapper {
+    padding: calc(var(--inner-page-padding) / 2);
+  }
+}
 </style>

@@ -30,7 +30,7 @@
       v-if="selectedPhoto"
       class="full-photo-section">
       <div class="full-container">
-        <div class="full-header font-body-l">
+        <div class="full-header font-title">
           <span> {{ selectedPhoto.title }} </span>
           <button
             class="btn-close"

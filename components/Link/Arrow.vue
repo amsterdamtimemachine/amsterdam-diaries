@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     :to="link"
-    class="link font-body-l">
+    class="link font-title">
     <span>{{ linkText }}</span>
     <BaseIcon
       class="arrow-icon"

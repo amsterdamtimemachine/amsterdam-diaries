@@ -1,7 +1,9 @@
 <template>
   <div class="home">
     <div class="content">
-      <div class="info">
+      <div
+        class="info"
+        :class="{ 'sm-hide': showAuthors }">
         <h1 class="font-h2">Amsterdam</h1>
         <div class="font-body-l">
           Hoe zag het dagelijks leven in Amsterdam eruit in de Tweede Wereldoorlog? Hoe beleefden Amsterdammers hun
@@ -10,13 +12,12 @@
           de stad.
         </div>
       </div>
-      <div class="bottom">
-        <Transition name="slide">
-          <LinkArrow
-            v-if="!showAuthors"
-            @click="showAuthors = !showAuthors"
-            link-text="Ontdek het verhaal van de stad" />
-        </Transition>
+      <div>
+        <LinkArrow
+          v-if="!showAuthors"
+          class="link"
+          @click="showAuthors = !showAuthors"
+          link-text="Ontdek het verhaal van de stad" />
         <Transition name="fade">
           <Tags
             v-if="showAuthors"
@@ -47,16 +48,20 @@ const { authors } = storeToRefs(useAuthorStore());
 .home {
   display: grid;
   grid-template-columns: calc(var(--size-12) * 5) 1fr;
+  grid-template-areas: 'content background';
   height: 100%;
 }
 
 .content {
   @include flex-column;
+  gap: var(--spacing-6);
+  grid-area: content;
   justify-content: space-between;
   padding-top: calc(var(--spacing-8) * 5);
   padding-inline: var(--inner-page-padding);
   padding-bottom: var(--spacing-12);
   overflow: hidden; // Needed so no scrollbar appears when link is translated off screen
+  background: var(--white);
 }
 
 .info {
@@ -64,29 +69,27 @@ const { authors } = storeToRefs(useAuthorStore());
   gap: var(--spacing-6);
 }
 
-.bottom {
-  position: relative;
-  bottom: 0;
-
-  > * {
-    position: absolute;
-    bottom: 0;
-  }
+.link {
+  width: fit-content;
 }
 
 .background {
+  grid-area: background;
   background: url('@/assets/images/home-bg.jpg') no-repeat bottom;
   background-size: cover;
 }
 
-// Transitions
-.slide-enter-active,
-.slide-leave-active {
-  transition: var(--transition-2);
-}
-
-.slide-enter-from,
-.slide-leave-to {
-  transform: translateY(300%); // Translates off screen
+@include sm-screen-down {
+  .home {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(50%, 1.25fr) 1fr;
+    grid-template-areas:
+      'background'
+      'content';
+  }
+  .content {
+    padding: var(--spacing-11) var(--spacing-9);
+    overflow: initial;
+  }
 }
 </style>
