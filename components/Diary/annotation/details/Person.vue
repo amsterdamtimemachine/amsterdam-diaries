@@ -15,10 +15,17 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  name: string;
-  description?: string;
+const props = defineProps<{
+  line: AnnotationLine;
 }>();
+
+const name = computed<string>(() => {
+  return props.line.name || props.line.reference || props.line.value || '';
+});
+
+const description = computed<string>(() => {
+  return props.line.description || '';
+});
 </script>
 
 <style lang="scss" scoped>

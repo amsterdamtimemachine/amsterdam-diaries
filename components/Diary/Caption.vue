@@ -3,10 +3,12 @@
     <template
       v-for="(line, index) of input.lines"
       :key="index">
+      <DiaryAnnotationLine
+        v-if="line.type === 'Annotation'"
+        :line="line" />
       <DiaryLine
-        :line="line"
-        @annotation-click="$emit('annotationClick', $event)"
-        @annotation-hovering="$emit('annotationHovering', $event)" />
+        v-else
+        :line="line" />
     </template>
   </p>
 </template>
@@ -15,8 +17,6 @@
 defineProps<{
   input: TextSection;
 }>();
-
-defineEmits(['annotationClick', 'annotationHovering']);
 </script>
 
 <style lang="scss" scoped>
@@ -28,5 +28,11 @@ p {
   border-left: var(--spacing-1) solid var(--image-caption);
   padding-left: var(--spacing-4);
   color: var(--image-caption);
+}
+
+span {
+  &:not(:last-child) {
+    margin-right: var(--spacing-2);
+  }
 }
 </style>

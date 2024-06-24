@@ -5,15 +5,15 @@
     <span class="type">topic: </span>
     <NuxtLink
       class="link"
-      :to="`/themas/${subType.toLowerCase()}`"
-      >{{ subType }}</NuxtLink
+      :to="`/themas/${line.subType.toLowerCase()}`"
+      >{{ line.subType }}</NuxtLink
     >
   </DiaryAnnotationDetailsBase>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  subType: string;
+  line: AnnotationLine;
 }>();
 </script>
 

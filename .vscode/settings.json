@@ -5,6 +5,7 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.rulers": [80, 120],
   "editor.tabSize": 2,
+  "editor.formatOnSave": true,
   "html.format.wrapAttributes": "force-aligned",
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,

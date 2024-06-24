@@ -16,31 +16,10 @@
         :key="idx">
         <component
           :is="fetchComponent(section.type)"
-          :input="section"
-          @annotation-click="annotationClicked"
-          @annotation-hovering="setAnnotationDetails" />
+          :input="section" />
         <br v-if="addBreak(idx)" />
       </template>
     </BasePage>
-    <Transition name="fade">
-      <div
-        v-if="annotationDetails"
-        class="annotation-details"
-        :id="`${annotationDetails.id}-details`"
-        :style="{ marginTop: `${annotationDetails.pos}px` }">
-        <DiaryAnnotationDetailsDate
-          v-if="annotationDetails.subType === 'Date'"
-          :date-reference="annotationDetails.reference || annotationDetails.value || ''" />
-        <DiaryAnnotationDetailsPlace v-if="annotationDetails.subType === 'Place'" />
-        <DiaryAnnotationDetailsTheme
-          v-if="annotationDetails.subType === 'Etenswaren'"
-          :subType="annotationDetails.subType" />
-        <DiaryAnnotationDetailsPerson
-          v-if="annotationDetails.subType === 'Person'"
-          :name="annotationDetails.name || annotationDetails.reference || annotationDetails.value || ''"
-          :description="annotationDetails.description" />
-      </div>
-    </Transition>
   </div>
 </template>
 
@@ -48,8 +27,6 @@
 /**
  * State & Props
  */
-const annotationDetails = ref<AnnotationLine & { pos?: number }>();
-const annotationDetailsLocked = ref<boolean>(false);
 const containerRef = ref<HTMLElement>();
 const basePageEl = ref();
 
@@ -100,62 +77,6 @@ const addBreak = (sectionIdx: number) => {
   }
   return sectionIdx !== lastSectionIdx;
 };
-
-const annotationClicked = async (line: AnnotationLine) => {
-  // Toggle annotation details lock when clicking on the same annotation
-  if (!annotationDetails.value?.id || annotationDetails.value?.id === line.id) {
-    annotationDetailsLocked.value = !annotationDetailsLocked.value;
-  }
-
-  // Deselect annotation to hide annotation details immediately
-  if (!annotationDetailsLocked.value) {
-    annotationDetails.value = undefined;
-  } else {
-    // else set annotation details to the clicked annotation
-    annotationDetails.value = line;
-    setAnnotationDetailsPosition();
-  }
-
-  // nextTick() is used to to correctly transition between annotation details
-  await nextTick();
-};
-
-const setAnnotationDetails = async (event: { line: AnnotationLine; hovering: boolean }) => {
-  // Don't set annotation details when hovering over a different annotation
-  if (annotationDetails.value?.id && annotationDetails.value?.id !== event.line.id) {
-    return;
-  }
-
-  // Deselect when annotation is not hovered and annotation details are not locked
-  if (!event.hovering && !annotationDetailsLocked.value) {
-    annotationDetails.value = undefined;
-    return;
-  }
-  // nextTick() is used to to correctly transition between annotation details
-  await nextTick();
-
-  // Set current annotation
-  annotationDetails.value = event.line;
-
-  // Set position
-  setAnnotationDetailsPosition();
-};
-
-const setAnnotationDetailsPosition = () => {
-  if (annotationDetails.value?.id) {
-    const anno = document.getElementById(annotationDetails.value.id);
-    const annoRect = anno!.getBoundingClientRect();
-    const annoPos = annoRect.top + window.scrollY;
-    const annoOffset = anno?.parentElement?.tagName === 'H2' ? 0 : annoRect.height / 2;
-    const containerPos = containerRef.value!.getBoundingClientRect().top + window.scrollY;
-    annotationDetails.value.pos = annoPos - containerPos - annoOffset;
-  }
-};
-
-// Resize observer
-useResizeObserver(basePageEl, () => {
-  setAnnotationDetailsPosition();
-});
 </script>
 
 <style lang="scss" scoped>
@@ -179,7 +100,6 @@ useResizeObserver(basePageEl, () => {
 .annotation-details {
   grid-area: left;
   transition: var(--transition-1);
-  z-index: 2;
   width: 100%;
 }
 </style>

@@ -11,7 +11,7 @@
 const props = defineProps<{
   input: VisualSection;
 }>();
-defineEmits(['annotationClick', 'annotationHovering']);
+
 const captionInput = computed<TextSection>(() => {
   return {
     type: 'Caption',

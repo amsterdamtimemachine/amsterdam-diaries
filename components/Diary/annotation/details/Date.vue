@@ -11,11 +11,11 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  dateReference: string;
+  line: AnnotationLine;
 }>();
 
 const dateRef = computed(() => {
-  const dateString = props.dateReference;
+  const dateString = props.line.reference || props.line.value || '';
 
   if (!useIsValidDateString(dateString)) {
     return dateString;

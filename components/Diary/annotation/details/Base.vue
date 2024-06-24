@@ -10,7 +10,6 @@
       </span>
       <div class="right">
         <slot />
-        <span class="line variant-bg" />
       </div>
     </div>
     <div class="content">
@@ -29,9 +28,13 @@ const variantColor = computed(() => `var(--${props.variantColor})`);
 
 <style lang="scss" scoped>
 .annotation-details {
-  background-color: var(--white-paper);
-  padding-block: var(--spacing-3);
-  padding-left: var(--spacing-3);
+  position: absolute;
+  top: calc(100% + var(--size-1));
+  left: 0;
+  background: var(--white-paper);
+  padding: var(--size-2);
+  box-shadow: 0px var(--size-1) var(--size-1) rgba(0, 0, 0, 0.25);
+  z-index: 2;
 
   .main {
     display: flex;
@@ -44,6 +47,7 @@ const variantColor = computed(() => `var(--${props.variantColor})`);
       gap: var(--spacing-4);
       align-items: center;
       flex: 1;
+      text-wrap: nowrap;
 
       .line {
         height: var(--spacing-1);
@@ -65,6 +69,7 @@ const variantColor = computed(() => `var(--${props.variantColor})`);
     }
   }
   .content {
+    text-wrap: wrap;
     padding-left: var(--spacing-8);
   }
 }

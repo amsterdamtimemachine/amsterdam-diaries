@@ -13,7 +13,6 @@
   box-shadow: var(--card-shadow);
   gap: var(--spacing-2);
   width: var(--inner-page-width);
-  z-index: 2;
 
   img {
     border-radius: var(--border-radius-3);
