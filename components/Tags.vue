@@ -25,12 +25,12 @@ defineProps<{
 <style lang="scss" scoped>
 .tags {
   @include flex-column;
-  gap: var(--spacing-5);
+  gap: var(--space-4);
 
   ul {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--spacing-5) var(--spacing-4);
+    gap: var(--space-4) var(--space-3);
     list-style-type: none;
   }
 }

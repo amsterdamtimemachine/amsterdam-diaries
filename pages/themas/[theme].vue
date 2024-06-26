@@ -36,20 +36,20 @@ diaryCards.value = useMapDiaryCards(annotations);
 .theme {
   @include flex-column;
   align-items: center;
-  gap: calc(var(--spacing-8) * 3);
-  margin-block: calc(var(--page-margin) + var(--spacing-11)) var(--page-margin);
+  gap: var(--space-21);
+  margin-block: var(--space-30) var(--space-20);
 
   .intro {
     @include flex-column;
-    gap: var(--spacing-8);
+    gap: var(--space-7);
   }
 
   .diaries {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: var(--spacing-12);
-    max-width: 87.5rem; // to have max 3 cards per row
+    gap: var(--space-11);
+    max-width: var(--theme-diaries-max-width);
   }
 }
 </style>

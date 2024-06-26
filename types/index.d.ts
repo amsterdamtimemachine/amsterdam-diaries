@@ -1,6 +1,5 @@
 export {};
 
-// TODO: Clean up the old types and rename new ones to make more sense
 declare global {
   type CardColor = 'light-green' | 'light-blue' | 'light-purple' | 'light-pink' | 'light-red' | 'light-yellow';
 
@@ -8,16 +7,6 @@ declare global {
     active?: boolean;
     title: string;
     link: string;
-  };
-
-  // TODO: Check - Not used?
-  type ColoredCard = {
-    description: string;
-    image: string;
-    imageAlt: string;
-    link: string;
-    linkText: string;
-    variant: CardColor;
   };
 
   /***************************************************************************/

@@ -100,9 +100,9 @@ onMounted(async () => {
 }
 
 :deep(.leaflet-popup-content-wrapper) {
-  background: var(--white-paper);
+  background: var(--alabaster);
   border-radius: 0;
-  padding: var(--spacing-6) var(--spacing-9);
+  padding: var(--space-5) var(--space-8);
   box-shadow: none;
 
   p,
@@ -112,20 +112,20 @@ onMounted(async () => {
 }
 
 :deep(.leaflet-popup-tip-container) {
-  width: var(--size-10);
-  height: var(--size-6);
+  width: var(--space-12);
+  height: var(--space-6);
   position: relative;
-  top: calc(var(--size-10) * -2);
-  left: calc(50% - var(--size-10) / 2);
+  top: calc(var(--space-24) * -1);
+  left: calc(50% - var(--space-6));
   margin-left: 0;
   transform: rotate(180deg);
 
   .leaflet-popup-tip {
     box-shadow: none;
-    background-color: var(--white-paper);
-    width: var(--size-10);
-    height: var(--size-10);
-    margin: calc(var(--spacing-10) * -1) auto 0;
+    background-color: var(--alabaster);
+    width: var(--space-12);
+    height: var(--space-12);
+    margin: calc(var(--space-9) * -1) auto 0;
   }
 }
 </style>

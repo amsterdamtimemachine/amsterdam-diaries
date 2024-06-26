@@ -1,9 +1,9 @@
 :root {
   // Colors
   --black: #1E1A24;
-  --white-paper: #F1ECE6;
-  --white: #F8F3EC;
-  --white-basic: #FFFFFF;
+  --alabaster: #F1ECE6;
+  --linen: #F8F3EC;
+  --white: #FFFFFF;
   --light-green: #C1E4DC;
   --light-blue: #C7DCFE;
   --light-cyan: #C7ECF7;
@@ -21,53 +21,43 @@
   --brown: #C2AF98;
   --bone-gray: #e6ded4;
   --lavender-gray: #95929b;
-  --image-caption: #8F806D;
-  --profile-bg: #D8D1C8;
+  --taupe: #8F806D;
+  --timberwolf: #D8D1C8;
 
-  // Sizes / Dimensions
-  --size-1: 0.25rem;
-  --size-2: 0.5rem;
-  --size-3: 0.75rem;
-  --size-4: 1rem;
-  --size-5: 1.25rem;
-  --size-6: 1.5rem;
-  --size-7: 1.75rem;
-  --size-8: 2rem;
-  --size-9: 2.25rem;
-  --size-10: 3rem;
-  --size-11: 4rem;
-  --size-12: 8rem;
-  --size-13: 16rem;
+  // Black with opacity
+  --black-10: rgba(0, 0, 0, 0.1);
+  --black-25: rgba(0, 0, 0, 0.25);
 
+  // Spacing & Dimensions
+  --space-0: 0.0625rem; // 1px
+
+  @for $i from 1 through 40 {
+    $increment: 0.25rem;
+    $value: $i * $increment;
+    --space-#{$i}: #{$value};
+  }
+
+  --space-64: 16rem;
+
+  // Specific sizes
+  // Note: first collect, then maybe move into --space
+  --home-column-width: 40rem;
+  --diary-authors-min-height: 46rem;
   --diary-card-width: 21.25rem;
   --diary-card-teaser-width: 17.5rem;
   --content-width: 94.5rem;
   --content-sub-width: 43.5rem;
   --map-height: 39.5rem;
-
-  // Spacing
-  --spacing-1: 0.0625rem;
-  --spacing-2: 0.25rem;
-  --spacing-3: 0.5rem;
-  --spacing-4: 0.75rem;
-  --spacing-5: 1rem;
-  --spacing-6: 1.25rem;
-  --spacing-7: 1.5rem;
-  --spacing-8: 1.75rem;
-  --spacing-9: 2rem;
-  --spacing-10: 2.25rem;
-  --spacing-11: 2.5rem;
-  --spacing-12: 2.75rem;
-  --spacing-13: 3.25rem;
-  --spacing-14: 3.5rem;
-
-  // Page related
-  --page-margin: 5rem;
-  // Used for diary page + about text panel
-  --inner-page-padding: 3.75rem;
+  --photo-scroll-image-height: 20rem;
+  --about-background-height: 64rem;
+  --background-photos-height: 48rem;
+  --background-photos-gap: 30rem;
   --inner-page-width: 46rem;
+  // Limits number of diary cards to 3 (math is off)
+  --theme-diaries-max-width: 87.5rem;
 
   // Radius
+  // TODO: Reduce number of border radiuses
   --border-radius-1: 0.25rem;
   --border-radius-2: 0.5rem;
   --border-radius-3: 0.75rem;
@@ -77,7 +67,8 @@
   --border-radius-7: 50%;
 
   // Shadows
-  --card-shadow: 0 1.875rem 2.5rem 0 rgba(0, 0, 0, 0.12);
+  --shadow-1: 0 var(--space-7) var(--space-10) 0 var(--black-10);
+  --shadow-2: 0 var(--space-1) var(--space-1) 0 var(--black-25);
 
   // Transitions
   --transition-1: all 0.12s ease;
@@ -85,6 +76,9 @@
   --transition-3: all 0.5s ease;
 
   // Gradients
+  --linear-gradient-1: linear-gradient(to bottom, rgba(255, 240, 211, 0) 0%, rgba(255, 240, 211, 1) 100%);
+
+  // TODO: Move this into gradient variables
   .gradient-1 {
     background: linear-gradient(to right, var(--light-green) 0%, var(--light-yellow) 200%);
   }
@@ -107,7 +101,7 @@ body {
   font-size: 1.125rem;
   font-weight: 500;
   line-height: 200%;
-  background-color: var(--white-paper);
+  background-color: var(--alabaster);
   color: var(--black);
 }
 
@@ -140,49 +134,10 @@ body {
   line-height: 180%;
 }
 
-// Used for brand logo title
-.font-brand {
-  font-family: 'Familjen Grotesk';
-  font-size: 1.75rem;
-  font-weight: 700;
-  line-height: 90%;
-  color: var(--purple);
-}
-
-// TODO: Move to the button component?
-.font-btn-text {
-  font-family: "Hanken Grotesk";
-  font-size: 1.125rem;
-  font-weight: 600;
-  line-height: 100%;
-}
-
 // Used for link, photoscroller and tag titles
 // For mobile it is needed to use a new font since on mobile sizes are different
 .font-title {
   @extend .font-body-l;
-}
-
-// Note: Per type different color
-.annotation-link {
-  @extend .font-body-m;
-  text-decoration-line: underline;
-
-  &.green {
-    color: var(--green);
-  }
-
-  &.purple {
-    color: var(--purple);
-  }
-
-  &.blue {
-    color: var(--blue);
-  }
-
-  &.red {
-    color: var(--red);
-  }
 }
 
 /**
@@ -194,7 +149,7 @@ body {
 }
 
 .content-container {
-  width: calc(100% - 4 * var(--spacing-7));
+  width: calc(100% - var(--space-24));
   max-width: var(--content-width);
 }
 

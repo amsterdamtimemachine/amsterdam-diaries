@@ -112,29 +112,29 @@ const logos = ref<{ name: string; src: string; url: string }[]>([
 
 <style lang="scss" scoped>
 .about {
-  margin-top: calc(var(--page-margin) * 2);
-  margin-bottom: var(--page-margin);
+  margin-top: var(--space-40);
+  margin-bottom: var(--space-20);
 
   h2 {
-    margin-bottom: var(--size-9);
+    margin-bottom: var(--space-9);
   }
 
   p {
-    margin-bottom: var(--size-8);
+    margin-bottom: var(--space-8);
   }
 }
 
 .logos {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, calc(var(--size-12) - var(--size-4)));
-  gap: var(--spacing-6);
+  grid-template-rows: repeat(2, var(--space-28));
+  gap: var(--space-5);
 
   .logo {
     display: flex;
     align-items: center;
-    background: var(--white-paper);
-    padding: var(--spacing-9);
+    background: var(--alabaster);
+    padding: var(--space-8);
   }
 
   img {

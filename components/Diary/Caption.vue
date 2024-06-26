@@ -24,15 +24,15 @@ p {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--spacing-2);
-  border-left: var(--spacing-1) solid var(--image-caption);
-  padding-left: var(--spacing-4);
-  color: var(--image-caption);
+  gap: var(--space-1);
+  border-left: var(--space-0) solid var(--taupe);
+  padding-left: var(--space-3);
+  color: var(--taupe);
 }
 
 span {
   &:not(:last-child) {
-    margin-right: var(--spacing-2);
+    margin-right: var(--space-1);
   }
 }
 </style>

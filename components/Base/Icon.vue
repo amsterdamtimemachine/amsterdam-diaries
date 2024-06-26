@@ -11,6 +11,7 @@ defineOptions({
 
 const attrs = useAttrs();
 
+// TODO: Change into var(--space-6)?
 const iconBindings = computed(() => {
   const height = attrs.height || '1.5rem';
   const width = attrs.width || '1.5rem';

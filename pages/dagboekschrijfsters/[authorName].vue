@@ -69,35 +69,34 @@ const currentAuthor = computed<Author | undefined>(() => {
 .diary-authors {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  grid-template-rows: 1fr calc(var(--size-5) * 2);
+  grid-template-rows: 1fr var(--space-10);
   grid-template-areas: 'info bg' 'authors authors';
-  gap: var(--spacing-14) calc(var(--spacing-9) * 2);
-  min-height: 46rem;
-
-  margin-top: var(--spacing-10);
-  margin-bottom: calc(var(--spacing-10) * 2);
+  gap: var(--space-14) var(--space-16);
+  min-height: var(--diary-authors-min-height);
+  margin-top: var(--space-9);
+  margin-bottom: var(--space-18);
 
   .info {
     @include flex-column;
     justify-content: space-between;
-    gap: var(--spacing-9);
+    gap: var(--space-8);
     grid-area: info;
   }
   .title-desc {
     @include flex-column;
-    gap: var(--spacing-9);
+    gap: var(--space-8);
   }
   .profile-image-name {
     display: flex;
     align-items: center;
-    gap: var(--spacing-6);
+    gap: var(--space-5);
   }
   .profile-image {
-    height: calc(var(--size-10) * 2);
+    height: var(--space-24);
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: var(--border-radius-3);
-    background: var(--profile-bg);
+    background: var(--timberwolf);
   }
 
   .background {
@@ -110,22 +109,22 @@ const currentAuthor = computed<Author | undefined>(() => {
 
   .left-arrow {
     position: absolute;
-    left: var(--spacing-7);
-    bottom: var(--spacing-7);
+    left: var(--space-6);
+    bottom: var(--space-6);
     flex-flow: row-reverse;
   }
 
   .right-arrow {
     position: absolute;
-    right: var(--spacing-7);
-    bottom: var(--spacing-7);
+    right: var(--space-6);
+    bottom: var(--space-6);
   }
 
   .authors {
     grid-area: authors;
 
     :deep(ul) {
-      gap: var(--spacing-5) var(--spacing-6);
+      gap: var(--space-4) var(--space-5);
     }
   }
 }

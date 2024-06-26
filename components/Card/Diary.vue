@@ -29,20 +29,20 @@ defineProps<{
 .diary-card {
   @include flex-column;
   width: var(--diary-card-width);
-  background: var(--white);
-  box-shadow: var(--card-shadow);
+  background: var(--linen);
+  box-shadow: var(--shadow-1);
 
   .header {
     display: flex;
     justify-content: space-between;
-    padding: var(--spacing-6);
+    padding: var(--space-5);
     color: var(--lavender-gray);
   }
 
   .content {
-    height: var(--size-13);
+    height: var(--space-64);
     overflow: hidden;
-    margin: var(--spacing-10);
+    margin: var(--space-9);
     margin-top: 0;
     flex: 1;
 
@@ -51,8 +51,8 @@ defineProps<{
       -webkit-line-clamp: 7;
       -webkit-box-orient: vertical;
       position: relative;
-      padding-left: var(--spacing-8);
-      border-left: var(--spacing-1) solid var(--black);
+      padding-left: var(--space-7);
+      border-left: var(--space-0) solid var(--black);
 
       :deep(.highlight) {
         color: var(--purple);
@@ -61,8 +61,8 @@ defineProps<{
   }
 
   .link {
-    background-color: var(--white-basic);
-    padding: var(--spacing-6);
+    background-color: var(--white);
+    padding: var(--space-5);
   }
 }
 </style>

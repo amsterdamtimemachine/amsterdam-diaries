@@ -25,7 +25,7 @@ const currentAuthor = computed<Author | undefined>(() => {
 <style lang="scss" scoped>
 .profile {
   position: fixed;
-  top: calc(var(--spacing-13) * 3);
+  top: var(--space-39);
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
   grid-template-areas: 'left . right';
@@ -37,17 +37,17 @@ const currentAuthor = computed<Author | undefined>(() => {
 
 .right {
   grid-area: right;
-  padding-left: var(--spacing-14);
-  padding-bottom: var(--spacing-14);
+  padding-left: var(--space-14);
+  padding-bottom: var(--space-14);
 
   .profile-image {
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: var(--border-radius-5);
-    box-shadow: var(--card-shadow);
+    box-shadow: var(--shadow-1);
     grid-column: 3;
-    background: var(--profile-bg);
+    background: var(--timberwolf);
   }
 }
 </style>

@@ -27,7 +27,6 @@ const fetchAndParseDiaries = async (id: string) => {
   return result;
 };
 
-// TODO: Add caching
 export default defineEventHandler(async event => {
   const config = useRuntimeConfig();
   const personId = getRouterParam(event, 'personId');

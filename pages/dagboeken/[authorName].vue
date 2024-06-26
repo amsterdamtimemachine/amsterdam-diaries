@@ -99,26 +99,26 @@ const mountedPage = () => {
 
 <style lang="scss" scoped>
 .spinner {
-  margin-block: calc(var(--spacing-12) * -1) var(--spacing-9);
+  margin-block: calc(var(--space-11) * -1) var(--space-8);
 }
 
 .diary-book {
   @include flex-column;
-  margin-block: var(--page-margin);
-  gap: var(--spacing-14);
+  margin-block: var(--space-20);
+  gap: var(--space-14);
 }
 
 .background-photos {
   @include flex-column;
-  gap: calc(var(--spacing-11) * 12);
+  gap: var(--background-photos-gap);
   position: absolute;
-  margin-block: calc(var(--page-margin) + var(--spacing-11));
+  margin-block: var(--space-30);
   overflow: hidden;
 
   .photo {
     @include flex-column;
     justify-content: center;
-    height: calc(var(--size-13) * 3);
+    height: var(--background-photos-height);
 
     &.align-right {
       align-self: flex-end;

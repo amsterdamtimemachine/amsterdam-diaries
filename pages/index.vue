@@ -47,26 +47,26 @@ const { authors } = storeToRefs(useAuthorStore());
 <style lang="scss" scoped>
 .home {
   display: grid;
-  grid-template-columns: calc(var(--size-12) * 5) 1fr;
+  grid-template-columns: var(--home-column-width) 1fr;
   grid-template-areas: 'content background';
   height: 100%;
 }
 
 .content {
   @include flex-column;
-  gap: var(--spacing-6);
+  gap: var(--space-5);
   grid-area: content;
   justify-content: space-between;
-  padding-top: calc(var(--spacing-8) * 5);
-  padding-inline: var(--inner-page-padding);
-  padding-bottom: var(--spacing-12);
+  padding-top: var(--space-35);
+  padding-inline: var(--space-15);
+  padding-bottom: var(--space-11);
   overflow: hidden; // Needed so no scrollbar appears when link is translated off screen
-  background: var(--white);
+  background: var(--linen);
 }
 
 .info {
   @include flex-column;
-  gap: var(--spacing-6);
+  gap: var(--space-5);
 }
 
 .link {
@@ -88,7 +88,7 @@ const { authors } = storeToRefs(useAuthorStore());
       'content';
   }
   .content {
-    padding: var(--spacing-11) var(--spacing-9);
+    padding: var(--space-10) var(--space-8);
     overflow: initial;
   }
 }

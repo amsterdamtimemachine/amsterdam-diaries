@@ -15,10 +15,10 @@ defineProps<{
 <style lang="scss" scoped>
 .tag {
   display: inline-block;
-  padding: 0 var(--spacing-5);
+  padding: 0 var(--space-4);
   color: var(--black);
-  background: var(--white);
-  border: var(--spacing-1) solid var(--black);
+  background: var(--linen);
+  border: var(--space-0) solid var(--black);
   border-radius: var(--border-radius-6);
   transition: var(--transition-1);
   text-decoration: none;
@@ -26,7 +26,7 @@ defineProps<{
   &:hover,
   &.active {
     background: var(--black);
-    color: var(--white);
+    color: var(--linen);
   }
   &:active {
     background: var(--gray);

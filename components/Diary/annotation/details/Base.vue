@@ -3,9 +3,9 @@
     <div class="main">
       <span class="icon variant-bg">
         <BaseIcon
-          color="var(--white-paper)"
-          width="var(--size-3)"
-          height="var(--size-3)"
+          color="var(--alabaster)"
+          width="var(--space-3)"
+          height="var(--space-3)"
           :icon="icon" />
       </span>
       <div class="right">
@@ -29,28 +29,28 @@ const variantColor = computed(() => `var(--${props.variantColor})`);
 <style lang="scss" scoped>
 .annotation-details {
   position: absolute;
-  top: calc(100% + var(--size-1));
+  top: calc(100% + var(--space-1));
   left: 0;
-  background: var(--white-paper);
-  padding: var(--size-2);
-  box-shadow: 0px var(--size-1) var(--size-1) rgba(0, 0, 0, 0.25);
+  background: var(--alabaster);
+  padding: var(--space-2);
+  box-shadow: var(--shadow-2);
   z-index: 2;
 
   .main {
     display: flex;
     align-items: center;
     height: fit-content;
-    gap: var(--spacing-3);
+    gap: var(--space-2);
 
     .right {
       display: flex;
-      gap: var(--spacing-4);
+      gap: var(--space-3);
       align-items: center;
       flex: 1;
       text-wrap: nowrap;
 
       .line {
-        height: var(--spacing-1);
+        height: var(--space-0);
         flex: 1;
       }
     }
@@ -60,8 +60,8 @@ const variantColor = computed(() => `var(--${props.variantColor})`);
       justify-content: center;
       align-items: center;
       border-radius: var(--border-radius-7);
-      width: var(--size-5);
-      height: var(--size-5);
+      width: var(--space-5);
+      height: var(--space-5);
     }
 
     .variant-bg {
@@ -70,7 +70,7 @@ const variantColor = computed(() => `var(--${props.variantColor})`);
   }
   .content {
     text-wrap: wrap;
-    padding-left: var(--spacing-8);
+    padding-left: var(--space-7);
   }
 }
 </style>

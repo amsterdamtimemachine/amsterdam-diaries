@@ -15,16 +15,16 @@
 <style lang="scss" scoped>
 .background-image {
   position: fixed;
-  top: calc(var(--page-margin) * 2);
+  top: var(--space-40);
   z-index: 1;
-  border-radius: var(--spacing-4);
-  height: calc(var(--size-13) * 4);
+  border-radius: var(--space-3);
+  height: var(--about-background-height);
   object-fit: cover;
 }
 
 .gradient-bg {
   @extend .background-image;
-  background: linear-gradient(to bottom, rgba(255, 240, 211, 0) 0%, rgba(255, 240, 211, 1) 100%);
+  background: var(--linear-gradient-1);
   width: 100%;
   height: 100%;
 }

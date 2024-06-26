@@ -28,17 +28,18 @@ withDefaults(
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: var(--spacing-4);
+  gap: var(--space-3);
   color: var(--black);
   text-decoration: none;
   transition: var(--transition-1);
+  border-bottom: var(--space-0) solid transparent;
 
   .arrow-icon {
     flex: none;
   }
 
   &:hover {
-    box-shadow: inset 0 calc(var(--spacing-1) * -1) var(--black);
+    border-bottom: var(--space-0) solid var(--black);
   }
 }
 </style>

@@ -35,7 +35,7 @@ defineProps<{
 <style lang="scss" scopes>
 .card {
   @include flex-column;
-  box-shadow: var(--card-shadow);
+  box-shadow: var(--shadow-1);
 
   .top {
     display: flex;
@@ -43,24 +43,24 @@ defineProps<{
   }
 
   .image {
-    width: 8.5rem;
+    width: var(--space-34);
     object-fit: cover;
   }
 
   .content {
-    padding: var(--spacing-8);
+    padding: var(--space-7);
     display: flex;
     align-items: center;
 
     .card-text {
-      border-left: var(--spacing-1) solid var(--black);
-      padding-left: var(--spacing-4);
+      border-left: var(--space-0) solid var(--black);
+      padding-left: var(--space-3);
     }
   }
 
   .link-arrow {
-    background-color: var(--white-basic);
-    padding: var(--spacing-6);
+    background-color: var(--white);
+    padding: var(--space-5);
   }
 }
 </style>

@@ -22,7 +22,7 @@ defineProps<{
 <style lang="scss" scoped>
 span {
   &:not(:last-child) {
-    margin-right: var(--spacing-2);
+    margin-right: var(--space-1);
   }
 }
 </style>

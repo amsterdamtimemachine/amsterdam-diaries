@@ -21,8 +21,8 @@
         :class="{ menu: true, active: showMenu }"
         @click="showMenu = !showMenu">
         <BaseIcon
-          width="var(--size-9)"
-          color="var(--white)"
+          width="var(--space-9)"
+          color="var(--linen)"
           :icon="showMenu ? 'mdi:times' : 'mdi:menu'" />
       </button>
     </div>
@@ -46,13 +46,13 @@ header {
   top: 0;
   z-index: 2000;
   width: 100%;
-  padding-block: var(--spacing-9) var(--spacing-8);
+  padding-block: var(--space-8) var(--space-7);
   background-color: transparent;
   transition: var(--transition-1);
   pointer-events: none;
 
   &.active:not(.transparent) {
-    background-color: var(--white-paper);
+    background-color: var(--alabaster);
     pointer-events: initial;
   }
 }
@@ -64,18 +64,18 @@ header {
 .menu-section {
   display: flex;
   align-items: center;
-  gap: calc(var(--spacing-13) + 1rem);
+  gap: var(--space-17);
   pointer-events: initial;
 
   nav {
     display: flex;
-    gap: var(--spacing-9);
+    gap: var(--space-8);
 
     a {
       text-decoration: none;
       color: var(--black);
-      padding: var(--spacing-2);
-      border-bottom: var(--spacing-1) solid var(--black);
+      padding: var(--space-1);
+      border-bottom: var(--space-0) solid var(--black);
       transition: var(--transition-1);
 
       &:hover {
@@ -90,8 +90,8 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: var(--size-10);
-  height: var(--size-10);
+  width: var(--space-12);
+  height: var(--space-12);
   border-radius: var(--border-radius-7);
   background: var(--purple);
   transition: var(--transition-1);

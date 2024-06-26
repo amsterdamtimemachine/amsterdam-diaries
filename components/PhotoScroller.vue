@@ -37,7 +37,7 @@
             @click="setSelectedPhoto(0)">
             <BaseIcon
               icon="material-symbols:close"
-              color="var(--white)" />
+              color="var(--linen)" />
           </button>
         </div>
         <Image
@@ -77,10 +77,10 @@ const scrollPhotos = (toRight: boolean) => {
 .photos {
   display: flex;
   align-items: center;
-  gap: var(--spacing-11);
+  gap: var(--space-10);
   overflow: hidden;
   height: 100%;
-  padding-inline: var(--spacing-14);
+  padding-inline: var(--space-14);
 }
 
 .photo {
@@ -89,7 +89,7 @@ const scrollPhotos = (toRight: boolean) => {
 
   img {
     width: fit-content;
-    height: calc(var(--size-11) + var(--size-13));
+    height: var(--photo-scroll-image-height);
   }
 
   &:hover {
@@ -111,18 +111,18 @@ const scrollPhotos = (toRight: boolean) => {
   width: 100vw;
   height: 100vh;
   z-index: 3000;
-  padding: var(--spacing-14);
-  background: rgba(0, 0, 0, 0.25);
+  padding: var(--space-14);
+  background: var(--black-25);
   transition: var(--transition-1);
 
   .full-container {
     @include flex-column;
-    gap: var(--spacing-5);
-    background: var(--white);
+    gap: var(--space-4);
+    background: var(--linen);
     width: 100%;
     height: 100%;
     border-radius: var(--border-radius-3);
-    padding: var(--spacing-11);
+    padding: var(--space-10);
   }
 
   .full-header {
@@ -132,15 +132,15 @@ const scrollPhotos = (toRight: boolean) => {
 
   .full-photo {
     max-width: 100%;
-    max-height: calc(100% - var(--size-11));
+    max-height: calc(100% - var(--space-16));
     align-self: center;
   }
 
   .btn-close {
     background: var(--purple);
     border-radius: var(--border-radius-7);
-    width: var(--size-10);
-    height: var(--size-10);
+    width: var(--space-12);
+    height: var(--space-12);
     display: flex;
     justify-content: center;
     align-items: center;

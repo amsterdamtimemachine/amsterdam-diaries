@@ -26,19 +26,19 @@ defineProps<{
   @include flex-column;
   width: var(--diary-card-teaser-width);
   background: var(--light-yellow);
-  box-shadow: var(--card-shadow);
+  box-shadow: var(--shadow-1);
 
   .header {
     display: flex;
     justify-content: space-between;
-    padding: var(--spacing-6);
+    padding: var(--space-5);
     color: var(--lavender-gray);
   }
 
   .content {
     display: flex;
     align-items: center;
-    padding: var(--spacing-11);
+    padding: var(--space-10);
 
     .content-text {
       display: -webkit-box;
@@ -49,8 +49,8 @@ defineProps<{
   }
 
   .link-container {
-    background-color: var(--white-basic);
-    padding: var(--spacing-6);
+    background-color: var(--white);
+    padding: var(--space-5);
   }
 }
 </style>

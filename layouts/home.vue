@@ -15,18 +15,18 @@
 }
 
 .content-wrapper {
-  padding: var(--inner-page-padding);
-  padding-block: var(--spacing-9);
+  padding: var(--space-8) var(--space-16);
 }
+
 .content {
   position: absolute;
   inset: 0;
-  background: var(--white);
+  background: var(--linen);
 }
 
 @include sm-screen-down {
   .content-wrapper {
-    padding: calc(var(--inner-page-padding) / 2);
+    padding: var(--space-8);
   }
 }
 </style>
