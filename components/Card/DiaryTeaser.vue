@@ -2,7 +2,7 @@
   <div class="diary-card">
     <div class="content">
       <div
-        class="content-text"
+        class="content-text font-body-l"
         v-html="content" />
     </div>
     <div class="link-container">
@@ -24,6 +24,7 @@ defineProps<{
 <style lang="scss" scoped>
 .diary-card {
   @include flex-column;
+  justify-content: space-between;
   width: var(--diary-card-teaser-width);
   background: var(--light-yellow);
   box-shadow: var(--shadow-1);
@@ -51,6 +52,17 @@ defineProps<{
   .link-container {
     background-color: var(--white);
     padding: var(--space-5);
+  }
+}
+
+@include sm-screen-down {
+  .diary-card {
+    .content {
+      padding: var(--space-7);
+    }
+    .link-container {
+      padding: var(--space-4);
+    }
   }
 }
 </style>

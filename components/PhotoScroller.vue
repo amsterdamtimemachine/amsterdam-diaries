@@ -1,6 +1,7 @@
 <template>
   <div
     class="photos"
+    :style="{ pointerEvents: selectedPhoto ? 'none' : 'auto' }"
     ref="photos">
     <slot
       name="prev-button"
@@ -30,26 +31,28 @@
       v-if="selectedPhoto"
       class="full-photo-section">
       <div class="full-container">
-        <div class="full-header font-title">
-          <span> {{ selectedPhoto.title }} </span>
-          <button
-            class="btn-close"
-            @click="setSelectedPhoto(0)">
-            <BaseIcon
-              icon="material-symbols:close"
-              color="var(--linen)" />
-          </button>
+        <span class="full-header-title"> {{ selectedPhoto.title }} </span>
+        <button
+          class="btn-close"
+          @click="setSelectedPhoto(0)">
+          <BaseIcon
+            icon="material-symbols:close"
+            color="var(--linen)" />
+        </button>
+        <div class="full-photo-container">
+          <Image
+            class="full-photo"
+            @load="new PinchZoom($event.target)"
+            :src="useServerImage(`profile-overview/${slug}/${selectedPhoto.selected}.jpg`)"
+            :alt="AuthorPhotoData[slug][selectedPhoto.selected - 1]" />
         </div>
-        <Image
-          class="full-photo"
-          :src="useServerImage(`profile-overview/${slug}/${selectedPhoto.selected}.jpg`)"
-          :alt="AuthorPhotoData[slug][selectedPhoto.selected - 1]" />
       </div>
     </div>
   </Transition>
 </template>
 
 <script setup lang="ts">
+import PinchZoom from 'pinch-zoom-js';
 /**
  * State & Props
  */
@@ -65,8 +68,9 @@ const { x } = useScroll(photos, { behavior: 'smooth' });
 /**
  * Methods
  */
-const setSelectedPhoto = (n?: number, title?: string) => {
+const setSelectedPhoto = async (n?: number, title?: string) => {
   selectedPhoto.value = n && title ? { selected: n, title: title } : undefined;
+  selectedPhoto.value ? (document.body.style.overflow = 'hidden') : (document.body.style.overflow = 'initial');
 };
 const scrollPhotos = (toRight: boolean) => {
   x.value += toRight ? 500 : -500;
@@ -87,11 +91,6 @@ const scrollPhotos = (toRight: boolean) => {
   display: flex;
   transition: var(--transition-3);
 
-  img {
-    width: fit-content;
-    height: var(--photo-scroll-image-height);
-  }
-
   &:hover {
     transform: scale(1.1);
   }
@@ -108,15 +107,21 @@ const scrollPhotos = (toRight: boolean) => {
   align-items: center;
   position: fixed;
   inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 3000;
+  width: 100%;
+  height: 100%;
+  z-index: 2001;
   padding: var(--space-14);
   background: var(--black-25);
   transition: var(--transition-1);
 
   .full-container {
-    @include flex-column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      'top-info close'
+      'content content'
+      'bottom-info bottom-info';
     gap: var(--space-4);
     background: var(--linen);
     width: 100%;
@@ -125,15 +130,20 @@ const scrollPhotos = (toRight: boolean) => {
     padding: var(--space-10);
   }
 
-  .full-header {
-    display: flex;
-    justify-content: space-between;
+  .full-header-title {
+    grid-area: top-info;
+  }
+
+  .full-photo-container {
+    overflow: hidden;
+    grid-area: content;
   }
 
   .full-photo {
-    max-width: 100%;
-    max-height: calc(100% - var(--space-16));
-    align-self: center;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: top;
   }
 
   .btn-close {
@@ -145,10 +155,54 @@ const scrollPhotos = (toRight: boolean) => {
     justify-content: center;
     align-items: center;
     transition: var(--transition-1);
+    grid-area: close;
+    justify-self: flex-end;
 
     &:hover,
     &.active {
       background: var(--pink);
+    }
+  }
+}
+
+@include sm-screen-down {
+  .photos {
+    overflow-x: auto;
+    padding-block: var(--space-9);
+  }
+
+  .photo {
+    width: fit-content;
+    height: 100%;
+
+    img {
+      height: 100%;
+    }
+
+    &:hover {
+      transform: initial;
+    }
+  }
+
+  .full-photo-section {
+    padding: 0;
+
+    .full-container {
+      padding: var(--space-8);
+    }
+
+    .full-header-title {
+      grid-area: bottom-info;
+      justify-self: center;
+      text-align: center;
+    }
+
+    .full-photo-container {
+      margin-inline: calc(var(--space-8) * -1);
+    }
+
+    .full-photo {
+      object-position: initial;
     }
   }
 }

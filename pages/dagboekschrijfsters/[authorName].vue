@@ -14,13 +14,26 @@
             {{ currentAuthor.name }}
           </h1>
         </div>
-        <div class="font-body-l">
+        <div
+          class="profile-description font-body-l"
+          :class="{ 'show-full-description': showFullDescription }">
           {{ currentAuthor.description || 'Nederlandse dagboekschrijfster' }}
         </div>
+        <LinkArrow
+          class="show-more"
+          :link-text="showFullDescription ? 'Toon minder' : 'Toon meer'"
+          :icon="showFullDescription ? 'mdi:arrow-up' : 'mdi:arrow-down'"
+          @click="showFullDescription = !showFullDescription" />
       </div>
       <LinkArrow
+        class="diary-link"
         :link="`/dagboeken/${currentAuthor.slug}`"
         :link-text="`Dagboek van ${currentAuthor.name}`" />
+      <LinkArrow
+        class="view-more-authors"
+        link-text="Meer auteurs bekijken?"
+        icon="mdi:arrow-down"
+        @click="scrollToTags" />
     </div>
     <div
       :class="{ background: true, [AuthorDiaryOverviewGradients[currentAuthor.slug]]: true }"
@@ -43,26 +56,34 @@
         </template>
       </PhotoScroller>
     </div>
-    <Tags
-      class="authors"
-      :tags="
-        authors.map(a => ({
-          title: a.name,
-          link: `/dagboekschrijfsters/${a.slug}`,
-          active: currentAuthor?.slug === a.slug,
-        }))
-      " />
+    <div ref="tags">
+      <Tags
+        class="authors"
+        :tags="
+          authors.map(a => ({
+            title: a.name,
+            link: `/dagboekschrijfsters/${a.slug}`,
+            active: currentAuthor?.slug === a.slug,
+          }))
+        " />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 const authorStore = useAuthorStore();
 const { authors } = storeToRefs(authorStore);
+const showFullDescription = ref(false);
+const tags = ref<HTMLElement>();
 
 const currentAuthor = computed<Author | undefined>(() => {
   const authorSlug = useRoute().params.authorName as string;
   return authorStore.findAuthorBySlug(authorSlug);
 });
+
+const scrollToTags = () => {
+  tags.value?.scrollIntoView({ behavior: 'smooth' });
+};
 </script>
 
 <style lang="scss" scoped>
@@ -125,6 +146,81 @@ const currentAuthor = computed<Author | undefined>(() => {
 
     :deep(ul) {
       gap: var(--space-4) var(--space-5);
+    }
+  }
+
+  .show-more {
+    display: none;
+    box-shadow: inset 0 calc(var(--space-0) * -1) var(--black);
+    padding-bottom: var(--space-2);
+  }
+
+  // TODO: Add animation for show more
+  .show-full-description {
+    display: initial !important;
+    overflow: initial !important;
+  }
+
+  .view-more-authors {
+    display: none;
+    width: fit-content;
+    align-self: center;
+  }
+}
+
+@include sm-screen-down {
+  .diary-authors {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'bg'
+      'info'
+      'authors';
+    grid-template-rows: var(--space-80) auto auto;
+    gap: var(--space-9);
+
+    margin-top: 0;
+    margin-bottom: var(--space-8);
+
+    .profile-image {
+      height: var(--space-11);
+      border-radius: var(--border-radius-2);
+    }
+
+    .title-desc {
+      gap: var(--space-4);
+    }
+
+    .profile-description {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .show-more,
+    .view-more-authors {
+      display: flex;
+    }
+
+    .diary-link {
+      background: var(--linen);
+      border: var(--space-0) solid var(--black);
+      padding: var(--space-3) var(--space-5);
+
+      &:hover {
+        box-shadow: initial;
+      }
+    }
+
+    .left-arrow,
+    .right-arrow {
+      display: none;
+    }
+
+    .authors {
+      :deep(li:has(.active)) {
+        display: none;
+      }
     }
   }
 }

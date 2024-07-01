@@ -38,6 +38,7 @@
   }
 
   --space-64: 16rem;
+  --space-80: 20rem;
 
   // Specific sizes
   // Note: first collect, then maybe move into --space
@@ -174,8 +175,13 @@ body {
 
 // Media queries
 @include sm-screen-down {
+  .content-container {
+    width: calc(100% - var(--space-10));
+  }
+
   .font-body-l {
     font-size: 0.875rem;
+    line-height: 165%;
   }
 
   .font-h2 {
