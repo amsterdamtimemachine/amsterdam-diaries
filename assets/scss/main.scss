@@ -39,6 +39,7 @@
 
   --space-64: 16rem;
   --space-80: 20rem;
+  --space-88: 22rem;
 
   // Specific sizes
   // Note: first collect, then maybe move into --space
@@ -175,9 +176,17 @@ body {
 
 // Media queries
 @include sm-screen-down {
+
+  .font-body-m,
   .font-body-l {
     font-size: 0.875rem;
     line-height: 165%;
+  }
+
+  // TODO: Not sure about h1 font size being the same as h2. Discuss this
+  .font-h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
   }
 
   .font-h2 {

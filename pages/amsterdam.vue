@@ -8,10 +8,11 @@
     </p>
   </div>
   <Map
+    class="map"
     marker-variant="light-pink"
     @marker-click="onMarkerClick" />
 
-  <h2 class="diaries-header">{{ diariesHeaderText }}</h2>
+  <h2 class="diaries-header font-h2">{{ diariesHeaderText }}</h2>
   <div class="diaries">
     <CardDiary
       v-for="card in diaryCards"
@@ -74,5 +75,23 @@ diaryCards.value = useMapDiaryCards(annotations);
 .diaries-header {
   text-align: center;
   margin-block: var(--space-10);
+}
+
+.map {
+  border-radius: var(--border-radius-2);
+}
+
+@include sm-screen-down {
+  .content {
+    width: 100%;
+    gap: var(--space-4);
+  }
+  .content,
+  .diaries-header {
+    margin-block: var(--space-5);
+  }
+  .diaries {
+    gap: var(--space-6);
+  }
 }
 </style>

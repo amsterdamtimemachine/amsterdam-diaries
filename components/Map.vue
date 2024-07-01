@@ -128,4 +128,20 @@ onMounted(async () => {
     margin: calc(var(--space-9) * -1) auto 0;
   }
 }
+
+@include sm-screen-down {
+  #map {
+    height: var(--space-88);
+  }
+
+  :deep(.leaflet-marker-icon) {
+    svg {
+      transform: scale(0.75);
+    }
+  }
+
+  :deep(.leaflet-popup-content-wrapper) {
+    margin-bottom: var(--space-4);
+  }
+}
 </style>

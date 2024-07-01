@@ -65,4 +65,17 @@ defineProps<{
     padding: var(--space-5);
   }
 }
+
+@include sm-screen-down {
+  .diary-card {
+    .content .content-text {
+      font-size: 0.875rem;
+      line-height: 165%;
+    }
+    .content {
+      margin: var(--space-5);
+      margin-top: 0;
+    }
+  }
+}
 </style>
