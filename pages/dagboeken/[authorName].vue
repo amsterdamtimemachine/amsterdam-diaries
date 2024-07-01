@@ -1,30 +1,25 @@
 <template>
-  <div
-    class="background-photos content-container"
-    :style="{ height: `${bgPhotosHeight}px` }">
+  <div class="page">
+    <DiaryProfile />
     <div
-      v-for="(photo, idx) in photos"
-      :key="`foto-${idx}`"
-      :class="{
-        photo: true,
-        'align-right': idx % 2,
-      }">
-      <Image
-        :src="photo"
-        :alt="`foto-${idx}`" />
-    </div>
-  </div>
-  <DiaryProfile />
-  <div ref="diaryBook">
-    <!-- TODO: Add way to also load previous pages (navigating from other pages to specific page) -->
-    <div class="diary-book">
+      class="wrapper"
+      v-for="(page, idx) in pages"
+      :key="page.id">
       <DiaryPage
-        v-for="(page, idx) in pages"
-        :key="page.id"
+        :id="page.id"
         :page="page"
         :page-number="idx + 1"
-        :total-pages="totalPages"
-        @vue:mounted="mountedPage" />
+        :total-pages="totalPages" />
+      <div class="photos">
+        <Image
+          class="photo"
+          :src="useServerImage(`diary-bg/${((idx * 2) % PHOTO_AMOUNT) + 1}.jpg`)"
+          :alt="`foto-${idx * 2 + 1}`" />
+        <Image
+          class="photo right"
+          :src="useServerImage(`diary-bg/${((idx * 2) % PHOTO_AMOUNT) + 2}.jpg`)"
+          :alt="`foto-${idx * 2 + 2}`" />
+      </div>
     </div>
     <div
       v-intersect="0.01"
@@ -36,6 +31,10 @@
 </template>
 
 <script setup lang="ts">
+onMounted(() => loadNextPage());
+// TODO: Add way to also load previous pages (navigating from other pages to specific page)
+import type { DiaryPage } from '#build/components';
+
 /**
  * Store deps
  */
@@ -45,10 +44,7 @@ const authorSlug = useRoute().params.authorName as string;
 /**
  * State & props
  */
-const diaryBook = ref<HTMLElement>();
 const pages = ref<Page[]>([]);
-const photos = ref<string[]>([]);
-const bgPhotosHeight = ref<number>(0);
 const allowLoadingMore = ref<boolean>(true);
 
 const PHOTO_AMOUNT = 10;
@@ -74,60 +70,87 @@ const totalPages = computed<number>(() => {
 const loadNextPage = async () => {
   const lastId = pages.value[pages.value.length - 1]?.id;
   if (allowLoadingMore.value) {
-    const page = await authorStore.fetchNextPage(authorSlug, lastId);
     allowLoadingMore.value = false;
+    const page = await authorStore.fetchNextPage(authorSlug, lastId);
     if (page) {
       pages.value.push(page);
+      allowLoadingMore.value = true;
     }
-  }
-};
-
-/**
- * Page mounted callback
- * - Add extra photos to the background
- * - Informat the spinner to allow more content
- */
-const mountedPage = () => {
-  allowLoadingMore.value = true;
-  bgPhotosHeight.value = diaryBook.value?.scrollHeight || 0;
-  const amount = 2 + photos.value.length;
-  for (let i = photos.value.length; i < amount; i++) {
-    photos.value.push(useServerImage(`diary-bg/${(i % PHOTO_AMOUNT) + 1}.jpg`));
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.page {
+  @include flex-column;
+  align-items: center;
+  gap: var(--space-14);
+
+  &:last-child {
+    margin-bottom: var(--space-14);
+  }
+}
+
 .spinner {
   margin-block: calc(var(--space-11) * -1) var(--space-8);
 }
 
-.diary-book {
+.wrapper {
   @include flex-column;
-  margin-block: var(--space-20);
-  gap: var(--space-14);
+  position: relative;
+  align-items: center;
+  width: 100%;
 }
 
-.background-photos {
-  @include flex-column;
-  gap: var(--background-photos-gap);
+.photos {
+  display: grid;
+  grid-template-areas:
+    'l l l . .'
+    '. . r r r';
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr 1fr;
   position: absolute;
-  margin-block: var(--space-30);
-  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+  inset: 0;
 
   .photo {
-    @include flex-column;
-    justify-content: center;
-    height: var(--background-photos-height);
+    grid-area: l;
+    opacity: 0.6;
+    align-self: center;
 
-    &.align-right {
-      align-self: flex-end;
+    &.right {
+      grid-area: r;
+      justify-self: end;
     }
   }
+}
 
-  img {
-    width: fit-content;
-    opacity: 0.6;
+@include sm-screen-down {
+  .page {
+    margin-top: 0;
+    gap: var(--space-4);
+  }
+
+  .wrapper {
+    gap: var(--space-4);
+  }
+
+  .photos {
+    @include flex-column;
+    gap: var(--space-4);
+    position: relative;
+    overflow: hidden;
+
+    .photo {
+      display: none;
+      width: 100%;
+      height: auto;
+    }
+
+    :first-child {
+      display: block;
+    }
   }
 }
 </style>

@@ -175,10 +175,6 @@ body {
 
 // Media queries
 @include sm-screen-down {
-  .content-container {
-    width: calc(100% - var(--space-10));
-  }
-
   .font-body-l {
     font-size: 0.875rem;
     line-height: 165%;
@@ -194,5 +190,10 @@ body {
 
   .sm-hide {
     display: none !important;
+  }
+
+  .content-container {
+    width: calc(100% - var(--space-4));
+    max-width: 100%;
   }
 }

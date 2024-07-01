@@ -1,5 +1,8 @@
 <template>
-  <div class="annotation-details font-body-m">
+  <div
+    ref="details"
+    class="annotation-details font-body-m"
+    :style="detailsStyle">
     <div class="main">
       <span class="icon variant-bg">
         <BaseIcon
@@ -19,18 +22,32 @@
 </template>
 
 <script setup lang="ts">
+const details = ref<HTMLElement>();
 const props = defineProps<{
   icon: string;
   variantColor: 'purple' | 'green' | 'blue';
 }>();
 const variantColor = computed(() => `var(--${props.variantColor})`);
+
+const detailsStyle = computed(() => {
+  // If we don't have a parent element, return an empty object
+  const element = details.value;
+  const parentElement = element?.parentElement;
+  if (!parentElement) {
+    return { left: 0 };
+  }
+
+  // Get the parent element's bounding rect
+  const parentRect = parentElement.getBoundingClientRect();
+  const value = parentRect.left + element.offsetWidth;
+  return document.body.offsetWidth < value ? { right: 0 } : { left: 0 };
+});
 </script>
 
 <style lang="scss" scoped>
 .annotation-details {
   position: absolute;
   top: calc(100% + var(--space-1));
-  left: 0;
   background: var(--alabaster);
   padding: var(--space-2);
   box-shadow: var(--shadow-2);

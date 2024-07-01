@@ -1,5 +1,5 @@
 <template>
-  <BasePage class="about">
+  <BasePaper class="about">
     <h2 class="font-h2">{{ atmTitle }}</h2>
     <p
       v-for="(paragraph, idx) in atmParagraphs"
@@ -22,7 +22,7 @@
           :alt="logo.name" />
       </NuxtLink>
     </div>
-  </BasePage>
+  </BasePaper>
 </template>
 
 <script setup lang="ts">

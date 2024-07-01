@@ -50,4 +50,22 @@ const currentAuthor = computed<Author | undefined>(() => {
     background: var(--timberwolf);
   }
 }
+
+@include sm-screen-down {
+  .profile {
+    position: relative;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 'left right';
+    top: 0;
+  }
+
+  .right {
+    justify-self: flex-end;
+    padding-bottom: 0;
+
+    .profile-image {
+      width: var(--space-32);
+    }
+  }
+}
 </style>

@@ -1,35 +1,26 @@
 <template>
-  <div
-    class="container"
-    ref="containerRef">
-    <BasePage
-      class="current-page"
-      ref="basePageEl">
-      <ReadIndicator
-        :page-number="pageNumber"
-        :total-pages="totalPages" />
-      <ReadTimeIndicator
-        class="read-indicator"
-        :input="rawText" />
-      <template
-        v-for="(section, idx) in page.sections"
-        :key="idx">
-        <component
-          :is="fetchComponent(section.type)"
-          :input="section" />
-        <br v-if="addBreak(idx)" />
-      </template>
-    </BasePage>
-  </div>
+  <BasePaper>
+    <ReadIndicator
+      :page-number="pageNumber"
+      :total-pages="totalPages" />
+    <ReadTimeIndicator
+      class="read-indicator"
+      :input="rawText" />
+    <template
+      v-for="(section, idx) in page.sections"
+      :key="idx">
+      <component
+        :is="fetchComponent(section.type)"
+        :input="section" />
+      <br v-if="addBreak(idx)" />
+    </template>
+  </BasePaper>
 </template>
 
 <script setup lang="ts">
 /**
  * State & Props
  */
-const containerRef = ref<HTMLElement>();
-const basePageEl = ref();
-
 const props = defineProps<{
   page: Page;
   pageNumber: number;
@@ -78,28 +69,3 @@ const addBreak = (sectionIdx: number) => {
   return sectionIdx !== lastSectionIdx;
 };
 </script>
-
-<style lang="scss" scoped>
-.container {
-  display: grid;
-  grid-template-columns: 1fr 1.9fr 1fr;
-  grid-template-areas: 'left content right';
-  justify-items: center;
-  width: 100%;
-}
-
-.current-page {
-  position: relative;
-}
-
-.read-indicator,
-.page {
-  grid-area: content;
-}
-
-.annotation-details {
-  grid-area: left;
-  transition: var(--transition-1);
-  width: 100%;
-}
-</style>
