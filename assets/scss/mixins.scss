@@ -13,3 +13,9 @@
     @content;
   }
 }
+
+@mixin xs-screen-down {
+  @media screen and (max-width: 48rem) {
+    @content;
+  }
+}

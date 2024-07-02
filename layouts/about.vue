@@ -16,7 +16,7 @@
 .background-image {
   position: fixed;
   top: var(--space-40);
-  z-index: 1;
+  z-index: -1;
   border-radius: var(--space-3);
   height: var(--about-background-height);
   object-fit: cover;
@@ -27,5 +27,11 @@
   background: var(--linear-gradient-1);
   width: 100%;
   height: 100%;
+}
+
+@include sm-screen-down {
+  .background-image {
+    display: none;
+  }
 }
 </style>

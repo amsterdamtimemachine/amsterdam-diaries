@@ -134,11 +134,32 @@ const logos = ref<{ name: string; src: string; url: string }[]>([
     display: flex;
     align-items: center;
     background: var(--alabaster);
-    padding: var(--space-8);
+    padding: var(--space-6);
+    height: var(--space-28);
   }
 
   img {
     width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+@include sm-screen-down {
+  .about {
+    margin: 0;
+  }
+}
+
+@include xs-screen-down {
+  .logos {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    gap: var(--space-3);
+
+    .logo {
+      height: var(--space-24);
+    }
   }
 }
 </style>
