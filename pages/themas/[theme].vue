@@ -1,8 +1,11 @@
 <template>
-  <div class="theme content-container">
-    <div class="intro content-sub-container">
+  <div class="theme">
+    <div class="intro">
       <h1 class="title font-h1">{{ title }}</h1>
-      <div class="font-body-l">{{ description }}</div>
+      <Description
+        :input="description"
+        :lines="3"
+        class="font-body-l" />
     </div>
     <div class="diaries">
       <CardDiary
@@ -50,6 +53,19 @@ diaryCards.value = useMapDiaryCards(annotations);
     justify-content: center;
     gap: var(--space-11);
     max-width: var(--theme-diaries-max-width);
+  }
+}
+
+@include sm-screen-down {
+  .theme {
+    gap: var(--space-6);
+    margin-block: 0 var(--space-10);
+
+    .diaries {
+      @include flex-column;
+      gap: var(--space-6);
+      max-width: 100%;
+    }
   }
 }
 </style>

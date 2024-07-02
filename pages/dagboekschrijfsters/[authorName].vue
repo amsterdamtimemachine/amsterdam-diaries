@@ -14,16 +14,10 @@
             {{ currentAuthor.name }}
           </h1>
         </div>
-        <div
-          class="profile-description font-body-l"
-          :class="{ 'show-full-description': showFullDescription }">
-          {{ currentAuthor.description || 'Nederlandse dagboekschrijfster' }}
-        </div>
-        <LinkArrow
-          class="show-more"
-          :link-text="showFullDescription ? 'Toon minder' : 'Toon meer'"
-          :icon="showFullDescription ? 'mdi:arrow-up' : 'mdi:arrow-down'"
-          @click="showFullDescription = !showFullDescription" />
+        <Description
+          class="font-body-l"
+          :input="currentAuthor.description || 'Nederlandse dagboekschrijfster'"
+          :lines="3" />
       </div>
       <LinkArrow
         class="diary-link"
@@ -73,7 +67,6 @@
 <script setup lang="ts">
 const authorStore = useAuthorStore();
 const { authors } = storeToRefs(authorStore);
-const showFullDescription = ref(false);
 const tags = ref<HTMLElement>();
 
 const currentAuthor = computed<Author | undefined>(() => {
@@ -149,18 +142,6 @@ const scrollToTags = () => {
     }
   }
 
-  .show-more {
-    display: none;
-    box-shadow: inset 0 calc(var(--space-0) * -1) var(--black);
-    padding-bottom: var(--space-2);
-  }
-
-  // TODO: Add animation for show more
-  .show-full-description {
-    display: initial !important;
-    overflow: initial !important;
-  }
-
   .view-more-authors {
     display: none;
     width: fit-content;
@@ -188,18 +169,6 @@ const scrollToTags = () => {
 
     .title-desc {
       gap: var(--space-4);
-    }
-
-    .profile-description {
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .show-more,
-    .view-more-authors {
-      display: flex;
     }
 
     .diary-link {

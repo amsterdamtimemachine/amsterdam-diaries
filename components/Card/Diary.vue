@@ -68,6 +68,8 @@ defineProps<{
 
 @include sm-screen-down {
   .diary-card {
+    width: 100%;
+
     .content .content-text {
       font-size: 0.875rem;
       line-height: 165%;

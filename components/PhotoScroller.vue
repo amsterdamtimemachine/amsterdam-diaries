@@ -89,7 +89,7 @@ const scrollPhotos = (toRight: boolean) => {
 
 .photo {
   display: flex;
-  transition: var(--transition-3);
+  transition: var(--transition-2);
 
   &:hover {
     transform: scale(1.1);
