@@ -16,6 +16,8 @@ workflow:
     - chmod 400 ~/.ssh/id_rsa
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
+  after_script:
+    - supervisorctl restart all
   image: cr.totaldesign.com/total-design/ansistrano:3.11.0
   needs:
     - package
