@@ -45,7 +45,8 @@ const icon = computed<string>(() => {
 });
 
 const textStyles = computed(() => {
-  const value = isCollapsed.value ? collapsedHeight.value : maxHeight.value;
+  const collapsedValue = collapsedHeight.value >= maxHeight.value ? maxHeight.value : collapsedHeight.value;
+  const value = isCollapsed.value ? collapsedValue : maxHeight.value;
   const suffix = typeof value === 'number' ? 'px' : '';
   return {
     '--number-of-lines': props.lines,
@@ -55,7 +56,7 @@ const textStyles = computed(() => {
 
 const hasCollapse = computed<boolean>(() => {
   if (maxHeight.value === 'unset' || collapsedHeight.value === 'unset') {
-    return true;
+    return false;
   }
 
   return maxHeight.value > collapsedHeight.value;

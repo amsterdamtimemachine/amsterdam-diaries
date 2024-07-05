@@ -12,7 +12,7 @@
   border-radius: var(--border-radius-2);
   box-shadow: var(--shadow-1);
   gap: var(--space-1);
-  width: var(--inner-page-width);
+  width: var(--page-width);
   height: fit-content;
 
   img {

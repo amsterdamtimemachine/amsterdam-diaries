@@ -40,23 +40,18 @@
   --space-64: 16rem;
   --space-80: 20rem;
   --space-88: 22rem;
+  --space-160: 40rem;
 
   // Specific sizes
   // Note: first collect, then maybe move into --space
-  --home-column-width: 40rem;
-  --diary-authors-min-height: 46rem;
-  --diary-card-width: 21.25rem;
   --diary-card-teaser-width: 17.5rem;
-  --content-width: 94.5rem;
-  --content-sub-width: 43.5rem;
-  --map-height: 39.5rem;
-  --photo-scroll-image-height: 20rem;
+  --diary-card-width: 21.25rem;
+  --intro-width: 43.5rem;
+  --page-width: 46rem;
   --about-background-height: 64rem;
-  --background-photos-height: 48rem;
-  --background-photos-gap: 30rem;
-  --inner-page-width: 46rem;
   // Limits number of diary cards to 3 (math is off)
   --theme-diaries-max-width: 87.5rem;
+  --content-width: 94.5rem;
 
   // Radius
   // TODO: Reduce number of border radiuses
@@ -156,14 +151,21 @@ body {
   align-items: center;
 }
 
-.content-container {
+.container {
   width: calc(100% - var(--space-24));
   max-width: var(--content-width);
 }
 
-.content-sub-container {
-  max-width: var(--content-sub-width);
-  width: 100%;
+.page-container {
+  @extend .container;
+  position: relative;
+  margin: var(--space-32) var(--space-12) var(--space-18) var(--space-12);
+  min-height: calc(100vh - var(--space-32) - var(--space-18)); // TODO: Replace this
+}
+
+.fixed-full-screen {
+  position: fixed;
+  inset: 0;
 }
 
 /**
@@ -183,6 +185,23 @@ body {
 // Media queries
 @include sm-screen-down {
 
+  /**
+   * Generic Layout styles
+   */
+  .container {
+    width: 100%;
+    max-width: calc(100% - var(--space-8));
+  }
+
+  .page-container {
+    @extend .container;
+    margin: var(--space-22) var(--space-4) var(--space-8) var(--space-4);
+    min-height: calc(100vh - var(--space-30)); // 22 + 8
+  }
+
+  /**
+   * Font sizes
+   */
   .font-body-m,
   .font-body-l {
     font-size: 0.875rem;
@@ -205,10 +224,5 @@ body {
 
   .sm-hide {
     display: none !important;
-  }
-
-  .content-container {
-    width: calc(100% - var(--space-4));
-    max-width: 100%;
   }
 }

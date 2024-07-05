@@ -1,38 +1,38 @@
 <template>
-  <BasePaper class="about">
-    <h2 class="font-h2">{{ atmTitle }}</h2>
-    <p
-      v-for="(paragraph, idx) in atmParagraphs"
-      :key="idx"
-      v-html="paragraph" />
-    <h2 class="font-h2">{{ adTitle }}</h2>
-    <p
-      v-for="(paragraph, idx) in adParagraphs"
-      :key="idx"
-      v-html="paragraph" />
-    <div class="logos">
-      <NuxtLink
-        v-for="logo of logos"
-        :key="logo.name"
-        class="logo"
-        :to="logo.url"
-        target="_blank">
-        <Image
-          :src="logo.src"
-          :alt="logo.name" />
-      </NuxtLink>
-    </div>
-  </BasePaper>
+  <Image
+    class="background-image"
+    src="about-atm.png"
+    alt="About ATM" />
+  <div class="gradient-bg" />
+  <div class="page-container">
+    <BasePaper>
+      <h2 class="font-h2">{{ atmTitle }}</h2>
+      <p
+        v-for="(paragraph, idx) in atmParagraphs"
+        :key="idx"
+        v-html="paragraph" />
+      <h2 class="font-h2">{{ adTitle }}</h2>
+      <p
+        v-for="(paragraph, idx) in adParagraphs"
+        :key="idx"
+        v-html="paragraph" />
+      <div class="logos">
+        <NuxtLink
+          v-for="logo of logos"
+          :key="logo.name"
+          class="logo"
+          :to="logo.url"
+          target="_blank">
+          <Image
+            :src="logo.src"
+            :alt="logo.name" />
+        </NuxtLink>
+      </div>
+    </BasePaper>
+  </div>
 </template>
 
 <script setup lang="ts">
-/*
- * Metadata
- */
-definePageMeta({
-  layout: 'about',
-});
-
 const atmTitle = ref<string>('Amsterdam Time Machine');
 const atmParagraphs = ref<string[]>([
   `<a href="https://www.amsterdamtimemachine.nl/" target="_blank">De Amsterdam Time Machine (ATM)</a> is een open
@@ -111,17 +111,35 @@ const logos = ref<{ name: string; src: string; url: string }[]>([
 </script>
 
 <style lang="scss" scoped>
-.about {
-  margin-top: var(--space-40);
-  margin-bottom: var(--space-20);
+.background-image {
+  position: fixed;
+  top: var(--space-40);
+  z-index: -1;
+  border-radius: var(--space-3);
+  height: var(--about-background-height);
+  object-fit: cover;
+}
 
-  h2 {
-    margin-bottom: var(--space-9);
-  }
+.gradient-bg {
+  @extend .background-image;
+  background: var(--linear-gradient-1);
+  width: 100%;
+  height: 100%;
+}
 
-  p {
-    margin-bottom: var(--space-8);
+@include sm-screen-down {
+  .background-image {
+    display: none;
   }
+}
+
+.page-container {
+  @include flex-column;
+  align-items: center;
+}
+
+.paper {
+  gap: var(--space-8);
 }
 
 .logos {
@@ -146,12 +164,6 @@ const logos = ref<{ name: string; src: string; url: string }[]>([
 }
 
 @include sm-screen-down {
-  .about {
-    margin: 0;
-  }
-}
-
-@include xs-screen-down {
   .logos {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto;

@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <div class="page-container">
     <DiaryProfile />
     <div
       class="wrapper"
@@ -81,14 +81,10 @@ const loadNextPage = async () => {
 </script>
 
 <style lang="scss" scoped>
-.page {
+.page-container {
   @include flex-column;
   align-items: center;
   gap: var(--space-14);
-
-  &:last-child {
-    margin-bottom: var(--space-14);
-  }
 }
 
 .spinner {
@@ -127,11 +123,7 @@ const loadNextPage = async () => {
 }
 
 @include sm-screen-down {
-  .page {
-    margin-top: 0;
-    gap: var(--space-4);
-  }
-
+  .page-container,
   .wrapper {
     gap: var(--space-4);
   }

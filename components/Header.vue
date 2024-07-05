@@ -7,86 +7,114 @@
         src="logos/atm-diaries.svg"
         alt="Amsterdam Diaries Time Machine" />
     </NuxtLink>
-
-    <div class="menu-section">
-      <Transition name="fade">
-        <nav v-if="showMenu">
-          <NuxtLink to="/"> Home </NuxtLink>
-          <NuxtLink to="/dagboekschrijfsters/gerda-oestreicher-laqueur"> Dagboekschrijfsters </NuxtLink>
-          <NuxtLink to="/about"> Over ATM </NuxtLink>
-          <NuxtLink to="/amsterdam"> Wat gebeurde in Amsterdam </NuxtLink>
-        </nav>
-      </Transition>
-      <button
-        :class="{ menu: true, active: showMenu }"
-        @click="showMenu = !showMenu">
-        <BaseIcon
-          width="var(--space-9)"
-          color="var(--linen)"
-          :icon="showMenu ? 'mdi:times' : 'mdi:menu'" />
-      </button>
-    </div>
+    <nav class="menu-section">
+      <NuxtLink
+        @click="hideMenu"
+        to="/">
+        Home
+      </NuxtLink>
+      <NuxtLink
+        @click="hideMenu"
+        to="/dagboekschrijfsters/gerda-oestreicher-laqueur">
+        Dagboekschrijfsters
+      </NuxtLink>
+      <NuxtLink
+        @click="hideMenu"
+        to="/about">
+        Over ATM
+      </NuxtLink>
+      <NuxtLink
+        @click="hideMenu"
+        to="/amsterdam">
+        Wat gebeurde in Amsterdam
+      </NuxtLink>
+    </nav>
+    <button
+      class="menu-button"
+      @click="showMenu = !showMenu">
+      <BaseIcon
+        width="var(--space-9)"
+        color="var(--linen)"
+        :icon="showMenu ? 'mdi:times' : 'mdi:menu'" />
+    </button>
   </header>
 </template>
 
 <script setup lang="ts">
+/**
+ * State & Props
+ */
 defineProps<{
   transparent?: boolean;
 }>();
 
 const showMenu = ref<boolean>(false);
+
+/**
+ * Methods
+ */
+
+const hideMenu = () => {
+  showMenu.value = false;
+};
+
+/**
+ * Watcher
+ * Note: Needed to prevent the user from reloading the page on swipe down
+ */
+watch(showMenu, newValue => {
+  const htmlElement = document.documentElement;
+  if (newValue) {
+    htmlElement.style.overscrollBehavior = 'none';
+    htmlElement.style.overflow = 'hidden';
+  } else {
+    htmlElement.style.overscrollBehavior = '';
+    htmlElement.style.overflow = '';
+  }
+});
 </script>
 
 <style lang="scss" scoped>
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 2000;
   width: 100%;
-  padding-block: var(--space-8) var(--space-7);
+  max-width: var(--content-width);
+  display: grid;
+  grid-template-rows: var(--space-18); // 4.5rem;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: 'logo menu button';
+  gap: var(--space-16);
+  align-items: center;
+  position: fixed;
+  padding: var(--space-8) var(--space-12) 0 var(--space-12);
   background-color: transparent;
-  transition: var(--transition-1);
+  z-index: 2000; // Above the map
+  transition: var(--transition-3);
   pointer-events: none;
+  top: 0;
 
-  &.active:not(.transparent) {
-    background-color: var(--alabaster);
-    pointer-events: initial;
+  &.active {
+    &:not(.transparent) {
+      background-color: var(--alabaster);
+    }
+
+    .menu-section {
+      opacity: 1;
+    }
+
+    .menu-button {
+      background: var(--pink);
+    }
   }
 }
 
 .logo {
   pointer-events: initial;
+  grid-area: logo;
 }
 
-.menu-section {
-  display: flex;
-  align-items: center;
-  gap: var(--space-17);
-  pointer-events: initial;
-
-  nav {
-    display: flex;
-    gap: var(--space-8);
-
-    a {
-      text-decoration: none;
-      color: var(--black);
-      padding: var(--space-1);
-      border-bottom: var(--space-0) solid var(--black);
-      transition: var(--transition-1);
-
-      &:hover {
-        color: var(--purple);
-        border-color: var(--purple);
-      }
-    }
-  }
-}
-
-.menu {
+.menu-button {
+  position: relative;
+  grid-area: button;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -94,18 +122,82 @@ header {
   height: var(--space-12);
   border-radius: var(--border-radius-7);
   background: var(--purple);
-  transition: var(--transition-1);
   pointer-events: initial;
 
-  &:hover,
-  &.active {
+  &:hover {
     background: var(--pink);
   }
 }
 
-// Transitions
-.fade-enter-active,
-.fade-leave-active {
-  transition: var(--transition-1);
+.menu-section {
+  grid-area: menu;
+  justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  gap: var(--space-17);
+  pointer-events: initial;
+  opacity: 0;
+  width: 100%;
+  transition: var(--transition-3);
+  gap: var(--space-8);
+
+  a {
+    text-decoration: none;
+    color: var(--black);
+    padding: var(--space-1);
+    border-bottom: var(--space-0) solid var(--black);
+
+    &:hover {
+      color: var(--purple);
+      border-color: var(--purple);
+    }
+  }
+}
+
+@include sm-screen-down {
+  header {
+    max-width: 100%;
+    grid-template-rows: var(--space-20) auto;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'logo button'
+      'menu menu';
+    gap: 0;
+    padding: var(--space-2) var(--space-4);
+    transition: var(--transition-3);
+    height: var(--space-20);
+    overflow: hidden;
+    inset: 0;
+
+    &.active {
+      overscroll-behavior: none;
+      background-color: var(--alabaster);
+      height: 100%;
+
+      :root {
+        --scrollbar-width: 0;
+      }
+    }
+
+    .menu-button {
+      justify-self: end;
+    }
+
+    .menu-section {
+      justify-content: flex-start;
+      align-self: start;
+      overflow-y: scroll;
+      height: 100%;
+      flex-direction: column;
+      gap: 0;
+      width: 100%;
+      margin-bottom: var(--space-8);
+
+      a {
+        width: 100%;
+        padding-block: var(--space-6);
+      }
+    }
+  }
 }
 </style>

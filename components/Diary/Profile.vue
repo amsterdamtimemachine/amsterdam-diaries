@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="currentAuthor"
-    class="profile content-container">
+    class="profile container">
     <div class="left">
       <span class="font-h2">{{ currentAuthor.name }}</span>
     </div>
@@ -25,7 +25,6 @@ const currentAuthor = computed<Author | undefined>(() => {
 <style lang="scss" scoped>
 .profile {
   position: fixed;
-  top: var(--space-39);
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
   grid-template-areas: 'left . right';
@@ -56,7 +55,7 @@ const currentAuthor = computed<Author | undefined>(() => {
     position: relative;
     grid-template-columns: 1fr 1fr;
     grid-template-areas: 'left right';
-    top: 0;
+    max-width: 100%; // Override max-width to align with the content width
   }
 
   .right {

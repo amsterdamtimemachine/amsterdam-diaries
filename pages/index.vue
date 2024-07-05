@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="fixed-full-screen">
     <div class="content">
       <div
         class="info"
@@ -38,16 +38,16 @@
 
 <script lang="ts" setup>
 definePageMeta({
-  layout: 'home',
+  layout: 'transparent',
 });
 const showAuthors = ref<boolean>(false);
 const { authors } = storeToRefs(useAuthorStore());
 </script>
 
 <style lang="scss" scoped>
-.home {
+.fixed-full-screen {
   display: grid;
-  grid-template-columns: var(--home-column-width) 1fr;
+  grid-template-columns: var(--space-160) 1fr;
   grid-template-areas: 'content background';
   height: 100%;
 }
@@ -57,9 +57,7 @@ const { authors } = storeToRefs(useAuthorStore());
   gap: var(--space-5);
   grid-area: content;
   justify-content: space-between;
-  padding-top: var(--space-35);
-  padding-inline: var(--space-15);
-  padding-bottom: var(--space-11);
+  padding: var(--space-35) var(--space-12) var(--space-11) var(--space-12);
   overflow: hidden; // Needed so no scrollbar appears when link is translated off screen
   background: var(--linen);
 }
@@ -80,15 +78,15 @@ const { authors } = storeToRefs(useAuthorStore());
 }
 
 @include sm-screen-down {
-  .home {
+  .fixed-full-screen {
     grid-template-columns: 1fr;
-    grid-template-rows: minmax(50%, 1.25fr) 1fr;
+    grid-template-rows: 2fr 3fr;
     grid-template-areas:
       'background'
       'content';
   }
   .content {
-    padding: var(--space-10) var(--space-8);
+    padding: var(--space-6) var(--space-4);
     overflow: initial;
   }
 }

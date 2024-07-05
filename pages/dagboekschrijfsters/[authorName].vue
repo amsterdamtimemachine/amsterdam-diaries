@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="currentAuthor"
-    class="diary-authors">
+    class="diary-authors page-container">
     <div class="info">
       <div class="title-desc">
         <div class="profile-image-name">
@@ -50,17 +50,10 @@
         </template>
       </PhotoScroller>
     </div>
-    <div ref="tags">
-      <Tags
-        class="authors"
-        :tags="
-          authors.map(a => ({
-            title: a.name,
-            link: `/dagboekschrijfsters/${a.slug}`,
-            active: currentAuthor?.slug === a.slug,
-          }))
-        " />
-    </div>
+    <Tags
+      ref="tags"
+      class="authors"
+      :tags="authorTags" />
   </div>
 </template>
 
@@ -74,6 +67,14 @@ const currentAuthor = computed<Author | undefined>(() => {
   return authorStore.findAuthorBySlug(authorSlug);
 });
 
+const authorTags = computed(() => {
+  return authors.value.map(a => ({
+    title: a.name,
+    link: `/dagboekschrijfsters/${a.slug}`,
+    active: currentAuthor.value?.slug === a.slug,
+  }));
+});
+
 const scrollToTags = () => {
   tags.value?.scrollIntoView({ behavior: 'smooth' });
 };
@@ -82,13 +83,12 @@ const scrollToTags = () => {
 <style lang="scss" scoped>
 .diary-authors {
   display: grid;
-  grid-template-columns: 1fr 2fr;
   grid-template-rows: 1fr var(--space-10);
-  grid-template-areas: 'info bg' 'authors authors';
+  grid-template-columns: 1fr 2fr;
+  grid-template-areas:
+    'info bg'
+    'authors authors';
   gap: var(--space-14) var(--space-16);
-  min-height: var(--diary-authors-min-height);
-  margin-top: var(--space-9);
-  margin-bottom: var(--space-18);
 
   .info {
     @include flex-column;
@@ -158,9 +158,6 @@ const scrollToTags = () => {
       'authors';
     grid-template-rows: var(--space-80) auto auto;
     gap: var(--space-9);
-
-    margin-top: 0;
-    margin-bottom: var(--space-8);
 
     .profile-image {
       height: var(--space-11);

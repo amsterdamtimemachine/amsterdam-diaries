@@ -88,7 +88,7 @@ onMounted(async () => {
 <style lang="scss" scoped>
 #map {
   width: 100%;
-  height: var(--map-height);
+  height: var(--space-160);
   margin: 0;
 }
 

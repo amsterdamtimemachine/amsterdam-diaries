@@ -1,27 +1,16 @@
 <template>
-  <div class="content">
-    <h1 class="font-h1">Wat beleefden de dagboekschrijfsters in Amsterdam?</h1>
-    <p class="font-body-l">
-      In de dagboeken was veel aandacht voor de beslommeringen van alle dag. Onvermijdelijk drong ook de oorlog daarin
-      door. Bekijk op deze kaart waar in Amsterdam het dagelijks leven van de dagboekschrijfsters zich afspeelde en wat
-      ze erover in hun dagboeken noteerden.
-    </p>
-  </div>
-  <Map
-    class="map"
-    marker-variant="light-pink"
-    @marker-click="onMarkerClick" />
+  <div class="page-container">
+    <PageIntro
+      :title="introTitle"
+      :description="introDescription"
+      :lines="7" />
+    <Map
+      class="map"
+      marker-variant="light-pink"
+      @marker-click="onMarkerClick" />
 
-  <h2 class="diaries-header font-h2">{{ diariesHeaderText }}</h2>
-  <div class="diaries">
-    <CardDiary
-      v-for="card in diaryCards"
-      :key="card.headerTitle"
-      :headerTitle="card.headerTitle"
-      :headerSubtitle="card.headerSubtitle"
-      :content="card.content"
-      :link="card.link"
-      :linkText="card.linkText" />
+    <h2 class="diaries-header font-h2">{{ diariesHeaderText }}</h2>
+    <DiaryCards :cards="diaryCards" />
   </div>
 </template>
 
@@ -31,6 +20,12 @@
  */
 const locationsName = ref('Amsterdam');
 const diaryCards = ref<DiaryCard[]>([]);
+const introTitle = ref<string>('Wat beleefden de dagboekschrijfsters in Amsterdam?');
+const introDescription = ref<string>(
+  `In de dagboeken was veel aandacht voor de beslommeringen van alle dag. Onvermijdelijk drong ook de oorlog daarin
+   door. Bekijk op deze kaart waar in Amsterdam het dagelijks leven van de dagboekschrijfsters zich afspeelde en
+   wat ze erover in hun dagboeken noteerden.`,
+);
 
 /**
  * Computed Properties
@@ -55,21 +50,10 @@ diaryCards.value = useMapDiaryCards(annotations);
 </script>
 
 <style lang="scss" scoped>
-.content {
-  margin: var(--space-10) auto var(--space-10);
-  width: var(--content-sub-width);
-
-  display: flex;
-  flex-direction: column;
+.page-container {
+  @include flex-column;
+  align-items: center;
   gap: var(--space-8);
-}
-
-.diaries {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--space-11);
-  margin-bottom: var(--space-14);
 }
 
 .diaries-header {
@@ -82,16 +66,11 @@ diaryCards.value = useMapDiaryCards(annotations);
 }
 
 @include sm-screen-down {
-  .content {
-    width: 100%;
+  .page-container {
     gap: var(--space-4);
   }
-  .content,
   .diaries-header {
     margin-block: var(--space-5);
-  }
-  .diaries {
-    gap: var(--space-6);
   }
 }
 </style>

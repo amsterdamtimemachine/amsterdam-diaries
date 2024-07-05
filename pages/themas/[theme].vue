@@ -1,22 +1,10 @@
 <template>
-  <div class="theme">
-    <div class="intro">
-      <h1 class="title font-h1">{{ title }}</h1>
-      <Description
-        :input="description"
-        :lines="3"
-        class="font-body-l" />
-    </div>
-    <div class="diaries">
-      <CardDiary
-        v-for="card in diaryCards"
-        :key="card.headerTitle"
-        :headerTitle="card.headerTitle"
-        :headerSubtitle="card.headerSubtitle"
-        :content="card.content"
-        :link="card.link"
-        :linkText="card.linkText" />
-    </div>
+  <div class="page-container">
+    <PageIntro
+      :title="title"
+      :description="description"
+      :lines="3" />
+    <DiaryCards :cards="diaryCards" />
   </div>
 </template>
 
@@ -36,36 +24,15 @@ diaryCards.value = useMapDiaryCards(annotations);
 </script>
 
 <style lang="scss" scoped>
-.theme {
+.page-container {
   @include flex-column;
   align-items: center;
   gap: var(--space-21);
-  margin-block: var(--space-30) var(--space-20);
-
-  .intro {
-    @include flex-column;
-    gap: var(--space-7);
-  }
-
-  .diaries {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--space-11);
-    max-width: var(--theme-diaries-max-width);
-  }
 }
 
 @include sm-screen-down {
-  .theme {
+  .page-container {
     gap: var(--space-6);
-    margin-block: 0 var(--space-10);
-
-    .diaries {
-      @include flex-column;
-      gap: var(--space-6);
-      max-width: 100%;
-    }
   }
 }
 </style>
