@@ -1,0 +1,2 @@
+- name: Restart Supervisor processes
+  supervisorctl: name=all state=restarted
