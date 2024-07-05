@@ -4,7 +4,8 @@
     ansistrano_allow_anonymous_stats: false
     ansistrano_deploy_via: 'copy_unarchive'
 
-    ansistrano_rollback_after_cleanup_tasks_file: '{{ playbook_dir }}/my-after-cleanup-tasks.yml'
+    ansistrano_after_cleanup_tasks_file: '{{ playbook_dir }}/tasks/after-cleanup-tasks.yml'
+
   # Including handlers does not function at this time:
   # @See: https://github.com/ansible/ansible/issues/13485
   roles:
