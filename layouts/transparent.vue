@@ -4,3 +4,9 @@
     <slot />
   </div>
 </template>
+
+<style lang="scss" scoped>
+header {
+  max-width: unset;
+}
+</style>

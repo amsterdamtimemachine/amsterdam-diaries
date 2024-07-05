@@ -1,5 +1,5 @@
 <template>
-  <header :class="{ transparent, active: showMenu }">
+  <header :class="{ container: true, transparent, active: showMenu }">
     <NuxtLink
       class="logo"
       to="/">
@@ -76,8 +76,6 @@ watch(showMenu, newValue => {
 
 <style lang="scss" scoped>
 header {
-  width: 100%;
-  max-width: var(--content-width);
   display: grid;
   grid-template-rows: var(--space-18); // 4.5rem;
   grid-template-columns: auto 1fr auto;
@@ -85,7 +83,7 @@ header {
   gap: var(--space-16);
   align-items: center;
   position: fixed;
-  padding: var(--space-8) var(--space-12) 0 var(--space-12);
+  margin-top: var(--space-8);
   background-color: transparent;
   z-index: 2000; // Above the map
   transition: var(--transition-3);
@@ -156,18 +154,19 @@ header {
 
 @include sm-screen-down {
   header {
-    max-width: 100%;
     grid-template-rows: var(--space-20) auto;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
       'logo button'
       'menu menu';
     gap: 0;
+    margin: 0;
     padding: var(--space-2) var(--space-4);
     transition: var(--transition-3);
     height: var(--space-20);
     overflow: hidden;
     inset: 0;
+    max-width: unset;
 
     &.active {
       overscroll-behavior: none;

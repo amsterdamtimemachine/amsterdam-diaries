@@ -1,6 +1,6 @@
 <template>
   <Image
-    class="background-image"
+    class="background-image container"
     src="about-atm.png"
     alt="About ATM" />
   <div class="gradient-bg" />
