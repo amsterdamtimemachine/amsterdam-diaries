@@ -1,5 +1,4 @@
-- name: Supervisord | Restart
+- name: Restart all programs and program groups
   community.general.supervisorctl:
-    name: '{{ ansible_user }}-all:'
+    name: all
     state: restarted
-    supervisorctl_path: '/projects/{{ ansible_user }}/.local/bin/supervisorctl'
