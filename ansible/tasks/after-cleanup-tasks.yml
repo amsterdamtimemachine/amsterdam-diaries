@@ -1,2 +1,5 @@
-- name: Restart httpd processes
-  service: name=httpd state=restarted
+- name: Supervisord | Restart
+  community.general.supervisorctl:
+    name: '{{ ansible_user }}-all:'
+    state: restarted
+    supervisorctl_path: '/projects/{{ ansible_user }}/.local/bin/supervisorctl'
