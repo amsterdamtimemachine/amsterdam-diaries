@@ -59,7 +59,7 @@ const { authors } = storeToRefs(useAuthorStore());
   justify-content: space-between;
   padding: var(--space-35) var(--space-12) var(--space-11) var(--space-12);
   overflow: hidden; // Needed so no scrollbar appears when link is translated off screen
-  background: var(--light-green);
+  background: var(--linen);
 }
 
 .info {
