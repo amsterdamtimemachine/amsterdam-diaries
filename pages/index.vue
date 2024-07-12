@@ -5,12 +5,12 @@
         class="info"
         :class="{ 'sm-hide': showAuthors }">
         <h1 class="font-h2">Amsterdam</h1>
-        <div class="font-body-l">
-          Hoe zag het dagelijks leven in Amsterdam eruit in de Tweede Wereldoorlog? Hoe beleefden Amsterdammers hun
+        <TypingText
+          class="font-body-l"
+          text="Hoe zag het dagelijks leven in Amsterdam eruit in de Tweede Wereldoorlog? Hoe beleefden Amsterdammers hun
           stad? De Amsterdam Diaries Time Machine brengt het verleden tot leven met dagboekfragmenten van Amsterdamse
           vrouwen tijdens WOII. Navigeer door hun dagboeken. Lees over hun familie en vrienden, plaatsen en gebouwen in
-          de stad.
-        </div>
+          de stad." />
       </div>
       <div>
         <LinkArrow
