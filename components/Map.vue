@@ -98,6 +98,9 @@ onMounted(async () => {
 :deep(.light-pink-marker) {
   color: var(--light-pink);
 }
+:deep(.leaflet-marker-icon) {
+  animation: var(--animation-fade-in);
+}
 
 :deep(.leaflet-popup-content-wrapper) {
   background: var(--alabaster);

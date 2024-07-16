@@ -38,9 +38,7 @@ watch(() => props.cards, restartAnimation);
   justify-content: center;
   gap: var(--space-11);
   max-width: var(--theme-diaries-max-width);
-  opacity: 0;
-  transform: translateY(var(--space-5));
-  animation: fadeSlideIn 0.5s ease-in forwards;
+  animation: var(--animation-fade-in-up);
 }
 
 @include sm-screen-down {

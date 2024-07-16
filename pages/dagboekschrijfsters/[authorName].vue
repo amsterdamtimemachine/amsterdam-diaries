@@ -193,15 +193,12 @@ const setTagsVisibility = () => {
     }
 
     .authors {
-      opacity: 0;
-
       :deep(li:has(.active)) {
         display: none;
       }
 
       &.authors-animate {
-        transform: translateY(var(--space-5));
-        animation: fadeSlideIn 1s ease-in forwards;
+        animation: var(--animation-fade-in-up);
       }
     }
 
