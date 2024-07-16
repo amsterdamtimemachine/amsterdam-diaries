@@ -64,6 +64,7 @@ defineProps<{
 const photos = ref<HTMLElement>();
 const selectedPhoto = ref<{ selected: number; title: string }>();
 const { x } = useScroll(photos, { behavior: 'smooth' });
+const lastScrollTop = ref(0);
 
 /**
  * Methods
@@ -75,6 +76,23 @@ const setSelectedPhoto = async (n?: number, title?: string) => {
 const scrollPhotos = (toRight: boolean) => {
   x.value += toRight ? 500 : -500;
 };
+
+const updatedPhotosScrollPos = () => {
+  const distanceToScroll = window.scrollY - lastScrollTop.value;
+
+  if (photos.value) {
+    photos.value.scrollLeft += distanceToScroll;
+  }
+  lastScrollTop.value = window.scrollY;
+};
+
+onMounted(() => {
+  window.addEventListener('scroll', updatedPhotosScrollPos);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', updatedPhotosScrollPos);
+});
 </script>
 
 <style lang="scss" scoped>
