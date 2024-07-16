@@ -28,7 +28,7 @@ export default defineNuxtPlugin(nuxtApp => {
     mounted(el) {
       observer.observe(el);
     },
-    unmounted() {
+    beforeUnmount() {
       observer.disconnect();
     },
   });
