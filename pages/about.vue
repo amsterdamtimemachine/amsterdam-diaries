@@ -154,6 +154,11 @@ const logos = ref<{ name: string; src: string; url: string }[]>([
     background: var(--alabaster);
     padding: var(--space-6);
     height: var(--space-28);
+    transition: var(--transition-2);
+
+    &:hover {
+      transform: scale(1.1);
+    }
   }
 
   img {
