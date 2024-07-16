@@ -50,10 +50,13 @@
         </template>
       </PhotoScroller>
     </div>
-    <Tags
+    <div
       ref="tags"
       class="authors"
-      :tags="authorTags" />
+      v-intersect="0.01"
+      @intersect="setTagsVisibility">
+      <Tags :tags="authorTags" />
+    </div>
   </div>
 </template>
 
@@ -77,6 +80,12 @@ const authorTags = computed(() => {
 
 const scrollToTags = () => {
   tags.value?.scrollIntoView({ behavior: 'smooth' });
+};
+
+const setTagsVisibility = () => {
+  if (tags.value && !tags.value.classList.contains('authors-animate')) {
+    tags.value.classList.add('authors-animate');
+  }
 };
 </script>
 
@@ -184,10 +193,28 @@ const scrollToTags = () => {
     }
 
     .authors {
+      opacity: 0;
+
       :deep(li:has(.active)) {
         display: none;
       }
+
+      &.authors-animate {
+        transform: translateY(var(--space-5));
+        animation: fadeSlideIn 1s ease-in forwards;
+      }
     }
+
+    .view-more-authors {
+      display: flex;
+    }
+  }
+}
+
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>
