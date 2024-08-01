@@ -2,18 +2,26 @@
   <span
     ref="annotationLine"
     class="annotation-line">
-    <button
-      :id="line.id"
-      :class="{ annotation: true, [typeof line.subType === 'string' ? line.subType!.toLowerCase() : '']: true }"
-      @click="toggleAnnotation">
-      {{ line.value }}
-    </button>
-    <Transition name="fade">
+    <template v-if="isNonClickable">
       <component
-        v-if="clicked"
+        :class="annotationLineClass"
         :is="fetchComponent(line.subType!)"
         :line="line" />
-    </Transition>
+    </template>
+    <template v-else>
+      <button
+        :id="line.id"
+        :class="annotationLineClass"
+        @click="toggleAnnotation">
+        {{ line.value }}
+      </button>
+      <Transition name="fade">
+        <component
+          v-if="clicked"
+          :is="fetchComponent(line.subType!)"
+          :line="line" />
+      </Transition>
+    </template>
   </span>
 </template>
 
@@ -21,7 +29,7 @@
 /**
  * State & Props
  */
-defineProps<{
+const props = defineProps<{
   line: AnnotationLine;
 }>();
 
@@ -30,6 +38,22 @@ const annotationLine = ref<HTMLElement>();
 
 onClickOutside(annotationLine, () => {
   clicked.value = false;
+});
+
+/**
+ * Computed properties
+ */
+const isNonClickable = computed(() => {
+  return props.line.subType === 'Blackening';
+});
+
+const annotationLineClass = computed(() => {
+  const subType = props.line.subType;
+
+  return {
+    annotation: true,
+    [typeof subType === 'string' ? subType!.toLowerCase() : '']: true,
+  };
 });
 
 /**
@@ -50,6 +74,8 @@ const fetchComponent = (type: string) => {
       return resolveComponent('DiaryAnnotationDetailsTheme');
     case 'Person':
       return resolveComponent('DiaryAnnotationDetailsPerson');
+    case 'Blackening':
+      return resolveComponent('DiaryAnnotationDetailsBlackening');
   }
 };
 </script>
@@ -64,6 +90,10 @@ const fetchComponent = (type: string) => {
   display: flex;
   align-items: center;
   line-height: 1.3;
+
+  &.blackening {
+    background: var(--black);
+  }
 
   &.place {
     background: color-mix(in srgb, var(--green) 20%, transparent);

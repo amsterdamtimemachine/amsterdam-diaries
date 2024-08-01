@@ -8,7 +8,7 @@ const fetchAndParseAnnotations = async (pageId: string) => {
       annotations.push(...annotation);
     }
   }
-  const supportedAnnotations = ['Place', 'Etenswaren', 'Person', 'https://schema.org/Person', 'Date'];
+  const supportedAnnotations = ['Place', 'Etenswaren', 'Person', 'https://schema.org/Person', 'Date', 'Blackening'];
   return annotations.filter(filter => supportedAnnotations.includes(filter.type));
 };
 
