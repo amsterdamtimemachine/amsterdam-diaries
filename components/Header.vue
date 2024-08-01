@@ -97,6 +97,7 @@ header {
 
     .menu-section {
       opacity: 1;
+      pointer-events: initial;
     }
 
     .menu-button {
@@ -133,7 +134,7 @@ header {
   display: flex;
   align-items: center;
   gap: var(--space-17);
-  pointer-events: initial;
+  pointer-events: none;
   opacity: 0;
   width: 100%;
   transition: var(--transition-3);
