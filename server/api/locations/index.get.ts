@@ -48,7 +48,8 @@ export default defineEventHandler(async event => {
   }
 
   // Return the locations
+  // Only include unique locations
   return {
-    locations: locations.flat().filter(x => x),
+    locations: locations.flat().filter((value, index, self) => index === self.findIndex(obj => obj.id === value.id)),
   };
 });

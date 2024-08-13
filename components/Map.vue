@@ -15,6 +15,7 @@ const props = withDefaults(
     maxBounds?: [number, number][];
     markers?: { lat: number; lng: number }[];
     markerVariant?: 'yellow' | 'light-pink';
+    selectedMarkerId?: string;
   }>(),
   {
     markerVariant: 'yellow',
@@ -77,10 +78,20 @@ onMounted(async () => {
       iconSize: [34, 41],
       popupAnchor: [0, 160],
     });
-    $L.marker([Number(marker.latitude), Number(marker.longitude)], { icon: flagIcon })
+    const curMarker = $L
+      .marker([Number(marker.latitude), Number(marker.longitude)], { icon: flagIcon })
       .bindPopup(popupMarker(marker?.name || ''), { closeButton: false })
       .on('click', onMarkerClick)
       .addTo(map);
+
+    if (marker.id === props.selectedMarkerId) {
+      useFetchAnnotations('context', marker.id).then(annotations => {
+        if (annotations?.[0].value === atob(marker.id)) {
+          curMarker.openPopup();
+          emit('markerClick', marker);
+        }
+      });
+    }
   });
 });
 </script>

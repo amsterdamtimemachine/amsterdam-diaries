@@ -7,7 +7,8 @@
     <Map
       class="map"
       marker-variant="light-pink"
-      @marker-click="onMarkerClick" />
+      @marker-click="onMarkerClick"
+      :selected-marker-id="selectedMarkerId" />
 
     <h2 class="diaries-header font-h2">{{ diariesHeaderText }}</h2>
     <DiaryCards :cards="diaryCards" />
@@ -26,6 +27,7 @@ const introDescription = ref<string>(
    door. Bekijk op deze kaart waar in Amsterdam het dagelijks leven van de dagboekschrijfsters zich afspeelde en
    wat ze erover in hun dagboeken noteerden.`,
 );
+const selectedMarkerId = ref<string>('');
 
 /**
  * Computed Properties
@@ -45,8 +47,16 @@ const onMarkerClick = async (source: AnnotationLine) => {
   diaryCards.value = useMapDiaryCards(annotations);
 };
 
-const annotations = await useFetchAnnotations('context', 'aHR0cDovL3d3dy53aWtpZGF0YS5vcmcvZW50aXR5L1E3Mjc='); // Amsterdam
-diaryCards.value = useMapDiaryCards(annotations);
+/**
+ * Lifecycle methods
+ */
+onMounted(async () => {
+  // Get id from route
+  const route = useRoute();
+  selectedMarkerId.value = route.query.id as string;
+  const annotations = await useFetchAnnotations('context', 'aHR0cDovL3d3dy53aWtpZGF0YS5vcmcvZW50aXR5L1E3Mjc='); // Amsterdam
+  diaryCards.value = useMapDiaryCards(annotations);
+});
 </script>
 
 <style lang="scss" scoped>

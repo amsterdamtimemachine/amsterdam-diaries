@@ -5,17 +5,39 @@
     <span class="type">locatie: </span>
     <NuxtLink
       class="link"
-      to="/amsterdam"
-      >bekijk locaties in Amsterdam</NuxtLink
-    >
+      :to="to">
+      {{ name }}
+    </NuxtLink>
+    <template
+      v-if="description"
+      #content>
+      {{ description }}
+    </template>
   </DiaryAnnotationDetailsBase>
 </template>
 
 <script setup lang="ts">
-// Note: Even though it's not used, adding it for consistency
-defineProps<{
+import type { RouteLocationRaw } from '#vue-router';
+
+const props = defineProps<{
   line: AnnotationLine;
 }>();
+
+const name = computed<string>(() => {
+  return props.line.name || props.line.reference || props.line.value || '';
+});
+
+const description = computed<string>(() => {
+  return props.line.description || '';
+});
+
+const to = computed<RouteLocationRaw>(() => {
+  const obj: RouteLocationRaw = { name: 'amsterdam' };
+  if (props.line.reference) {
+    obj.query = { id: btoa(props.line.reference) };
+  }
+  return obj;
+});
 </script>
 
 <style lang="scss" scoped>
