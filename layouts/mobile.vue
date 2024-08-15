@@ -14,9 +14,9 @@
       <h2 class="font-h2">Gemaakt voor grote schermen</h2>
       <div class="content font-body-l">
         <p>
-          Voor de ultieme beleving van Amsterdam Diaries, raden we je aan om deze op een groter scherm te bekijken. De
-          persoonlijke dagboeken en boeiende verhalen komen dan volledig to hun recht. Bezoek te website op een apparaat
-          met een groter scherm via:
+          Voor de ultieme beleving van Amsterdam Diaries Time Machine, raden we je aan om deze op een groter scherm te
+          bekijken. De persoonlijke dagboeken en boeiende verhalen komen dan volledig tot hun recht. Bezoek de website
+          op een apparaat met een groter scherm via:
         </p>
         <NuxtLink to="https://diaries.amsterdamtimemachine.nl/">https://diaries.amsterdamtimemachine.nl/</NuxtLink>
       </div>
