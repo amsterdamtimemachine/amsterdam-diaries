@@ -61,7 +61,7 @@ const detailsStyle = computed(() => {
 
     .right {
       display: flex;
-      gap: var(--space-3);
+      gap: var(--space-2);
       align-items: center;
       flex: 1;
       text-wrap: nowrap;
