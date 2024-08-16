@@ -15,6 +15,14 @@ const props = defineProps<{
 const img = ref<string>(props.src.startsWith('https://') ? props.src : useLocalImage(props.src));
 const invalidImage = ref<boolean>(false);
 
+// Add watcher to update image source when src prop changes
+watch(
+  () => props.src,
+  newSrc => {
+    img.value = newSrc.startsWith('https://') ? newSrc : useLocalImage(newSrc);
+  },
+);
+
 const handleImageError = () => {
   if (props.default) {
     img.value = props.default!.startsWith('https://') ? props.default : useLocalImage(props.default!);

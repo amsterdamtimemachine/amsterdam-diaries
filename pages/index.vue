@@ -4,14 +4,23 @@
       <div
         class="info"
         :class="{ 'sm-hide': showAuthors }">
-        <h1 class="font-h2">Amsterdam</h1>
-        <TypingText
-          :duration="4"
-          class="font-body-l"
-          text="Hoe zag het dagelijks leven in Amsterdam eruit in de Tweede Wereldoorlog? Hoe beleefden Amsterdammers hun
+        <NuxtLink
+          class="logo"
+          to="/">
+          <Image
+            src="logos/atm-diaries.svg"
+            alt="Amsterdam Diaries Time Machine" />
+        </NuxtLink>
+        <div class="text-info">
+          <h1 class="font-h2">Amsterdam</h1>
+          <TypingText
+            :duration="4"
+            class="font-body-l"
+            text="Hoe zag het dagelijks leven in Amsterdam eruit in de Tweede Wereldoorlog? Hoe beleefden Amsterdammers hun
           stad? De Amsterdam Diaries Time Machine brengt het verleden tot leven met dagboekfragmenten van Amsterdamse
           vrouwen tijdens WOII. Navigeer door hun dagboeken. Lees over hun familie en vrienden, plaatsen en gebouwen in
           de stad." />
+        </div>
       </div>
       <div>
         <LinkArrow
@@ -58,12 +67,18 @@ const { authors } = storeToRefs(useAuthorStore());
   gap: var(--space-5);
   grid-area: content;
   justify-content: space-between;
-  padding: var(--space-35) var(--space-12) var(--space-11) var(--space-12);
+  padding: var(--space-12);
+  padding-top: var(--space-10);
   overflow: hidden; // Needed so no scrollbar appears when link is translated off screen
   background: var(--linen);
 }
 
 .info {
+  @include flex-column;
+  gap: var(--space-10);
+}
+
+.text-info {
   @include flex-column;
   gap: var(--space-5);
 }
@@ -79,6 +94,10 @@ const { authors } = storeToRefs(useAuthorStore());
 }
 
 @include sm-screen-down {
+  .logo {
+    display: none;
+  }
+
   .fixed-full-screen {
     grid-template-columns: 1fr;
     grid-template-rows: 2fr 3fr;

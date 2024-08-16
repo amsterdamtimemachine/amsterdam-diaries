@@ -1,37 +1,39 @@
 <template>
   <div class="page-container">
-    <DiaryProfile />
+    <DiaryReadInfo
+      :page="page"
+      :page-number="pageNr"
+      :total-pages="totalPages" />
+    <DiaryProfile class="diary-profile" />
+    <DiaryPage
+      class="diary-page"
+      v-if="page"
+      :id="page.id"
+      :page="page"
+      :page-number="pageNr"
+      :total-pages="totalPages" />
+    <LoadingSpinner v-if="!page" />
     <div
-      class="wrapper"
-      v-for="(page, idx) in pages"
-      :key="page.id">
-      <DiaryPage
-        :id="page.id"
-        :page="page"
-        :page-number="idx + 1"
-        :total-pages="totalPages" />
-      <div class="photos">
-        <Image
-          class="photo"
-          :src="useServerImage(`diary-bg/${((idx * 2) % PHOTO_AMOUNT) + 1}.jpg`)"
-          :alt="`foto-${idx * 2 + 1}`" />
-        <Image
-          class="photo right"
-          :src="useServerImage(`diary-bg/${((idx * 2) % PHOTO_AMOUNT) + 2}.jpg`)"
-          :alt="`foto-${idx * 2 + 2}`" />
-      </div>
-    </div>
-    <div
-      v-intersect="0.01"
-      @intersect="loadNextPage"
-      v-if="allowLoadingMore">
-      <LoadingSpinner class="spinner" />
+      v-if="page"
+      class="photos">
+      <Image
+        class="photo right"
+        :src="useServerImage(`diary-bg/${(((pageNr - 1) * 2) % PHOTO_AMOUNT) + 1}.jpg`)"
+        alt="foto-1" />
+      <Image
+        class="photo"
+        :src="useServerImage(`diary-bg/${(((pageNr - 1) * 2) % PHOTO_AMOUNT) + 2}.jpg`)"
+        alt="foto-2" />
     </div>
   </div>
+  <DiaryPagination
+    :current-page="pageNr"
+    @next-page="loadPage(pageNr + 1)"
+    @previous-page="loadPage(pageNr - 1)" />
 </template>
 
 <script setup lang="ts">
-onMounted(() => loadNextPage());
+onMounted(() => loadPage(1));
 // TODO: Add way to also load previous pages (navigating from other pages to specific page)
 import type { DiaryPage } from '#build/components';
 
@@ -44,9 +46,8 @@ const authorSlug = useRoute().params.authorName as string;
 /**
  * State & props
  */
-const pages = ref<Page[]>([]);
-const allowLoadingMore = ref<boolean>(true);
-
+const page = ref<Page>();
+const pageNr = ref<number>(1);
 const PHOTO_AMOUNT = 10;
 
 /**
@@ -60,22 +61,12 @@ const totalPages = computed<number>(() => {
 /**
  * Methods
  */
-
-/**
- * LoadNextPage callback
- * - Check which page wasn't loaded yet
- * - Turn off the spinner
- * - Fetch the next page and add to Array
- */
-const loadNextPage = async () => {
-  const lastId = pages.value[pages.value.length - 1]?.id;
-  if (allowLoadingMore.value) {
-    allowLoadingMore.value = false;
-    const page = await authorStore.fetchNextPage(authorSlug, lastId);
-    if (page) {
-      pages.value.push(page);
-      allowLoadingMore.value = true;
-    }
+const loadPage = async (pageNumber: number) => {
+  page.value = undefined;
+  pageNr.value = pageNumber;
+  const newPage = await authorStore.fetchPage(authorSlug, pageNumber);
+  if (newPage) {
+    page.value = newPage;
   }
 };
 </script>
@@ -85,35 +76,38 @@ const loadNextPage = async () => {
   @include flex-column;
   align-items: center;
   gap: var(--space-14);
-}
+  min-height: calc(100vh - var(--space-32));
+  overflow: hidden;
+  margin-bottom: 0;
 
-.spinner {
-  margin-block: calc(var(--space-11) * -1) var(--space-8);
-}
+  .diary-page {
+    margin-bottom: var(--space-18);
+    margin-top: var(--space-16);
+  }
 
-.wrapper {
-  @include flex-column;
-  position: relative;
-  align-items: center;
-  width: 100%;
+  .diary-profile {
+    margin-top: var(--space-16);
+  }
 }
 
 .photos {
   display: grid;
   grid-template-areas:
-    'l l l . .'
-    '. . r r r';
+    '. . . r r'
+    'l l . . .';
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: 1fr 1fr;
   position: absolute;
   z-index: -1;
   pointer-events: none;
   inset: 0;
+  padding: var(--space-32);
 
   .photo {
     grid-area: l;
     opacity: 0.6;
     align-self: center;
+    max-width: 100%;
 
     &.right {
       grid-area: r;
@@ -123,9 +117,12 @@ const loadNextPage = async () => {
 }
 
 @include sm-screen-down {
-  .page-container,
-  .wrapper {
+  .page-container {
     gap: var(--space-4);
+
+    .diary-page {
+      margin-block: 0;
+    }
   }
 
   .photos {
@@ -133,6 +130,7 @@ const loadNextPage = async () => {
     gap: var(--space-4);
     position: relative;
     overflow: hidden;
+    padding: 0;
 
     .photo {
       display: none;

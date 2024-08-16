@@ -14,6 +14,12 @@
   }
 }
 
+@mixin sm-screen-up {
+  @media screen and (min-width: 64rem) {
+    @content;
+  }
+}
+
 @mixin xs-screen-down {
   @media screen and (max-width: 48rem) {
     @content;

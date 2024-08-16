@@ -1,11 +1,5 @@
 <template>
   <BasePaper>
-    <ReadIndicator
-      :page-number="pageNumber"
-      :total-pages="totalPages" />
-    <ReadTimeIndicator
-      class="read-indicator"
-      :input="rawText" />
     <template
       v-for="(section, idx) in page.sections"
       :key="idx">
@@ -23,21 +17,7 @@
  */
 const props = defineProps<{
   page: Page;
-  pageNumber: number;
-  totalPages: number;
 }>();
-
-/**
- * Computed Properties
- */
-const rawText = computed<string>(() => {
-  return props.page.sections
-    .filter((s: Section) => s.type !== 'Visual')
-    .map((s: Section) => (s as TextSection).lines)
-    .flat()
-    .map(y => y.value)
-    .join(' ');
-});
 
 /**
  * Methods

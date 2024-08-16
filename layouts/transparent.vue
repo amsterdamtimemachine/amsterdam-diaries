@@ -9,4 +9,10 @@
 header {
   max-width: unset;
 }
+
+@include sm-screen-up {
+  header {
+    display: none;
+  }
+}
 </style>

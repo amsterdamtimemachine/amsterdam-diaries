@@ -52,18 +52,22 @@ const currentAuthor = computed<Author | undefined>(() => {
 
 @include sm-screen-down {
   .profile {
+    display: flex;
+    flex-direction: row-reverse;
     position: relative;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: 'left right';
     max-width: 100%; // Override max-width to align with the content width
+    justify-content: flex-end;
+    gap: var(--space-4);
+    align-items: center;
   }
 
   .right {
-    justify-self: flex-end;
     padding-bottom: 0;
+    padding-left: 0;
 
     .profile-image {
-      width: var(--space-32);
+      width: var(--space-15);
+      border-radius: var(--border-radius-2);
     }
   }
 }

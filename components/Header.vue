@@ -1,5 +1,5 @@
 <template>
-  <header :class="{ container: true, transparent, active: showMenu }">
+  <header :class="{ container: true, active: showMenu }">
     <NuxtLink
       class="logo"
       to="/">
@@ -42,12 +42,8 @@
 
 <script setup lang="ts">
 /**
- * State & Props
+ * State
  */
-defineProps<{
-  transparent?: boolean;
-}>();
-
 const showMenu = ref<boolean>(false);
 
 /**
@@ -80,21 +76,17 @@ header {
   grid-template-rows: var(--space-18); // 4.5rem;
   grid-template-columns: auto 1fr auto;
   grid-template-areas: 'logo menu button';
-  gap: var(--space-16);
   align-items: center;
   position: fixed;
-  margin-top: var(--space-8);
-  background-color: transparent;
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-6);
   z-index: 2000; // Above the map
   transition: var(--transition-3);
   pointer-events: none;
   top: 0;
+  background-color: var(--alabaster);
 
   &.active {
-    &:not(.transparent) {
-      background-color: var(--alabaster);
-    }
-
     .menu-section {
       opacity: 1;
       pointer-events: initial;
@@ -153,6 +145,17 @@ header {
   }
 }
 
+@include sm-screen-up {
+  .menu-button {
+    display: none;
+  }
+  .menu-section {
+    opacity: 1;
+    pointer-events: initial;
+    padding-left: var(--space-16);
+  }
+}
+
 @include sm-screen-down {
   header {
     grid-template-rows: var(--space-20) auto;
@@ -163,6 +166,7 @@ header {
     gap: 0;
     margin: 0;
     padding: var(--space-2) var(--space-4);
+    padding-bottom: var(--space-20);
     transition: var(--transition-3);
     height: var(--space-20);
     overflow: hidden;

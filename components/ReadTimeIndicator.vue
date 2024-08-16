@@ -1,14 +1,21 @@
 <template>
   <span
-    class="font-body-m"
     v-if="duration"
-    >Leestijd: {{ duration }}</span
-  >
+    class="font-body-m">
+    <span
+      v-if="totalPages"
+      class="total-pages"
+      >{{ totalPages }} pagina's -
+    </span>
+    <span>leestijd: </span>
+    <span>{{ duration }}</span>
+  </span>
 </template>
 
 <script setup lang="ts">
 const props = defineProps<{
   input?: string;
+  totalPages: number;
 }>();
 
 const duration = computed(() => {
@@ -31,6 +38,11 @@ const duration = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+@include sm-screen-up {
+  .total-pages {
+    display: none;
+  }
+}
 span {
   color: var(--lavender-gray);
 }

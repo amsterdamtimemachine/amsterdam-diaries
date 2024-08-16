@@ -19,6 +19,32 @@ export const useAuthorStore = defineStore('Author', () => {
     authors.value = result.authors;
   };
 
+  const fetchPage = async (slug: string, pageNumber: number): Promise<Page | undefined> => {
+    const author = findAuthorBySlug(slug);
+    if (!author) {
+      return;
+    }
+
+    // If there aren't any pages, load in al references
+    if (!author.pages?.length) {
+      const result = await $fetch(`/api/diaries/${author.id}`);
+      author.pages = ((result?.diaries || []) as Book[])
+        .map((diary: Book) => diary.pages)
+        .flat()
+        .sort((a: Page, b: Page) => a.dateCreated.localeCompare(b.dateCreated));
+      author.totalPages = author.pages.length;
+    }
+
+    // Use the pageNumber to find the page
+    const page = author.pages![pageNumber - 1];
+
+    if (!page.sections?.length) {
+      const result: any = await $fetch(`/api/entries/${page.id}`);
+      page.sections = result.sections;
+    }
+    return page;
+  };
+
   const fetchNextPage = async (slug: string, lastId?: string): Promise<Page | undefined> => {
     const author = findAuthorBySlug(slug);
     if (!author) {
@@ -55,6 +81,7 @@ export const useAuthorStore = defineStore('Author', () => {
     authors,
     findAuthorBySlug,
     fetchAuthors,
+    fetchPage,
     fetchNextPage,
   };
 });
