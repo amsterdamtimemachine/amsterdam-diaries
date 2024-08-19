@@ -21,22 +21,28 @@ class Database {
     });
   }
 
-  public static getInstance(): Database {
-    if (!Database.instance) {
-      Database.instance = new Database();
-    }
-    return Database.instance;
-  }
-
-  public async query<T extends QueryResultRow>(text: string, params?: any[]): Promise<QueryResult<T>> {
+  private async query<T extends QueryResultRow>(text: string, params?: any[]): Promise<QueryResult<T>> {
     const client: PoolClient = await this.pool.connect();
     try {
-      console.log(`[Query] - ${text} - ${params}`);
+      console.log(`[Database] - Query: ${text}`);
+      if (params?.length) {
+        console.log(`[Database] - Params: ${params}`);
+      }
       const res: QueryResult<T> = await client.query<T>(text, params);
       return res;
     } finally {
       client.release();
     }
+  }
+
+  /**
+   * Public Methods
+   */
+  public static getInstance(): Database {
+    if (!Database.instance) {
+      Database.instance = new Database();
+    }
+    return Database.instance;
   }
 
   public create({ name, fields }: { name: string, fields: Field[] }) {
@@ -49,10 +55,10 @@ class Database {
         return definition;
       });
       const query = `CREATE TABLE IF NOT EXISTS ${name} (${definition.join(', ')});`;
-      this.pool.query(query);
+      this.query(query);
       return true;
     } catch (err) {
-      console.error('Error creating table', err);
+      console.error('[Database] - Error:', err);
       return false;
     }
   }
@@ -66,10 +72,10 @@ class Database {
         VALUES (${values.map((v, i) => `$${i + 1}`).join(', ')})
         ON CONFLICT(id)
         DO UPDATE SET ${fields.map((f) => `${f} = EXCLUDED.${f}`).join(', ')};`;
-      this.pool.query(query, values);
+      this.query(query, values);
       return true;
     } catch (err) {
-      console.error('Error executing query', err);
+      console.error('[Database] - Error:', err);
       return false;
     }
   }

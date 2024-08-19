@@ -9,7 +9,6 @@ const conceptUrl = "concepts.jsonld"
 const db = Database.getInstance();
 await db.create(definitionConcepts);
 
-
 // Run the importers
 const data = await importConcepts(`${baseUrl}/${conceptUrl}`);
 db.insertMultiple('concepts', data);
