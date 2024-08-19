@@ -2,19 +2,19 @@ import jsonld from 'jsonld';
 
 // TODO: Ask Leon about type and @type
 type item = {
-  '@type': string,
-  id: string,
-  name: string
-}
+  '@type': string;
+  id: string;
+  name: string;
+};
 
 const frame = {
-  "@context": {
-    "id": "@id",
-    "name": "http://www.w3.org/2000/01/rdf-schema#label"
+  '@context': {
+    id: '@id',
+    name: 'http://www.w3.org/2000/01/rdf-schema#label',
   },
-  "type": "Concept",
-  "id": {},
-  "name": {},
+  type: 'Concept',
+  id: {},
+  name: {},
 };
 
 const definitionConcepts = {
@@ -23,13 +23,13 @@ const definitionConcepts = {
     {
       name: 'id',
       type: 'text',
-      primary: true
+      primary: true,
     },
     {
       name: 'name',
-      type: 'text'
-    }
-  ]
+      type: 'text',
+    },
+  ],
 };
 
 const importConcepts = async (importUrl: string) => {
@@ -39,12 +39,9 @@ const importConcepts = async (importUrl: string) => {
   return ((framed['@graph'] ?? []) as item[]).map((item: item) => {
     return {
       id: item.id,
-      name: item.name
-    }
+      name: item.name,
+    };
   });
 };
 
-export {
-  definitionConcepts,
-  importConcepts
-}
+export { definitionConcepts, importConcepts };

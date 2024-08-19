@@ -1,11 +1,11 @@
-import pg from 'pg'
+import pg from 'pg';
 import type { PoolClient, QueryResult, QueryResultRow } from 'pg';
 
 type Field = {
-  name: string,
-  type: string,
-  primary?: boolean
-}
+  name: string;
+  type: string;
+  primary?: boolean;
+};
 
 class Database {
   private static instance: Database;
@@ -45,7 +45,7 @@ class Database {
     return Database.instance;
   }
 
-  public create({ name, fields }: { name: string, fields: Field[] }) {
+  public create({ name, fields }: { name: string; fields: Field[] }) {
     try {
       const definition = fields.map(field => {
         let definition = `${field.name} ${field.type}`;
@@ -71,7 +71,7 @@ class Database {
         INSERT INTO ${tableName} (${fields.join(', ')})
         VALUES (${values.map((v, i) => `$${i + 1}`).join(', ')})
         ON CONFLICT(id)
-        DO UPDATE SET ${fields.map((f) => `${f} = EXCLUDED.${f}`).join(', ')};`;
+        DO UPDATE SET ${fields.map(f => `${f} = EXCLUDED.${f}`).join(', ')};`;
       this.query(query, values);
       return true;
     } catch (err) {
@@ -81,9 +81,11 @@ class Database {
   }
 
   public async insertMultiple(tableName: string, rows: any[]) {
-    Promise.all(rows.map((row) => {
-      return this.insert(tableName, row);
-    }));
+    Promise.all(
+      rows.map(row => {
+        return this.insert(tableName, row);
+      }),
+    );
   }
 
   public async close(): Promise<void> {
