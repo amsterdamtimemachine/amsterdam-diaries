@@ -1,5 +1,6 @@
 import jsonld from 'jsonld';
 
+// TODO: Ask Leon about type and @type
 type item = {
   '@type': string,
   id: string,
@@ -16,6 +17,21 @@ const frame = {
   "name": {},
 };
 
+const definitionConcepts = {
+  name: 'concepts',
+  fields: [
+    {
+      name: 'id',
+      type: 'text',
+      primary: true
+    },
+    {
+      name: 'name',
+      type: 'text'
+    }
+  ]
+};
+
 const importConcepts = async (importUrl: string) => {
   const result = await fetch(importUrl);
   const json = await result.json();
@@ -29,5 +45,6 @@ const importConcepts = async (importUrl: string) => {
 };
 
 export {
+  definitionConcepts,
   importConcepts
 }
