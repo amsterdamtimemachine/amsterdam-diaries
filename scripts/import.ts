@@ -3,5 +3,10 @@
 
 import { importConcepts } from "./concepts";
 
+
+// concept url
+const baseUrl = "https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/dev/rdf";
+const conceptUrl = "concepts.jsonld"
+
 // Run the importers
-importConcepts();
+importConcepts(`${baseUrl}/${conceptUrl}`);

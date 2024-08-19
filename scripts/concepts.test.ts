@@ -1,12 +1,14 @@
 import { it, describe, expect } from 'vitest';
-
-// https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/dev/rdf/concepts.jsonld
-
-const input = await fetch('http://localhost:3000/testdata/concepts.jsonld').then(res => res.text())
+import { importConcepts } from './concepts';
 
 describe('concepts', async () => {
   it ('Can parse', async () => {
-    console.warn('input', input);
-    expect(true).toBe(false);
+    const result = await importConcepts('http://localhost:3000/testdata/concepts.jsonld');
+    expect(result).toEqual([
+      {
+        id: "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/concepts/atm_food",
+        name: "Etenswaren"
+      }
+    ]);
   });
 });
