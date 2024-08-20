@@ -89,7 +89,7 @@ const placeFrame = {
 
 // Definitions
 const definitionPeople = {
-  name: 'people',
+  name: 'person',
   fields: [
     {
       name: 'id',
@@ -187,9 +187,4 @@ const importResources = async (
   return resources;
 };
 
-export {
-  definitionPeople,
-  definitionOrganizations,
-  definitionPlaces,
-  importResources
-};
+export { definitionPeople, definitionOrganizations, definitionPlaces, importResources };

@@ -16,9 +16,9 @@ await db.create(definitionPlaces);
 
 // Run the importers
 const concepts = await importConcepts(`${baseUrl}/${conceptUrl}`);
-await db.insertMultiple('concepts', concepts);
+await db.insertMultiple('concept', concepts);
 
 const resources = await importResources(`${baseUrl}/${resourcesUrl}`);
-await db.insertMultiple('people', resources.people);
-await db.insertMultiple('organizations', resources.organizations);
-await db.insertMultiple('places', resources.places);
+await db.insertMultiple('person', resources.people);
+await db.insertMultiple('organization', resources.organizations);
+await db.insertMultiple('place', resources.places);
