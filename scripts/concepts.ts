@@ -18,7 +18,7 @@ const frame = {
 };
 
 const definitionConcepts = {
-  name: 'concepts',
+  name: 'concept',
   fields: [
     {
       name: 'id',

@@ -107,7 +107,7 @@ const definitionPeople = {
   ],
 };
 const definitionOrganizations = {
-  name: 'organizations',
+  name: 'organization',
   fields: [
     {
       name: 'id',
@@ -132,9 +132,9 @@ const definitionOrganizations = {
     },
   ],
 };
-const definitionPlaces: typeof definitionOrganizations & { name: 'places' } = {
+const definitionPlaces: typeof definitionOrganizations & { name: 'place' } = {
   ...definitionOrganizations,
-  name: 'places',
+  name: 'place',
 };
 
 const importResources = async (
@@ -187,4 +187,9 @@ const importResources = async (
   return resources;
 };
 
-export { definitionPeople, definitionOrganizations, definitionPlaces, importResources };
+export {
+  definitionPeople,
+  definitionOrganizations,
+  definitionPlaces,
+  importResources
+};
