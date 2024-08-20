@@ -5,6 +5,7 @@ type Field = {
   name: string;
   type: string;
   primary?: boolean;
+  foreign?: string;
 };
 
 class Database {
@@ -51,6 +52,9 @@ class Database {
         let definition = `${field.name} ${field.type}`;
         if (field.primary) {
           definition += ' PRIMARY KEY';
+        }
+        if (field.foreign) {
+          definition += ` REFERENCES ${field.foreign}(id)`;
         }
         return definition;
       });
