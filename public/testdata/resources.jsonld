@@ -1,0 +1,63 @@
+[
+  {
+    "@context": {
+      "@vocab": "https://schema.org/",
+      "latitude": {
+        "@type": "http://www.w3.org/2001/XMLSchema#double",
+        "@id": "https://schema.org/latitude"
+      },
+      "longitude": {
+        "@type": "http://www.w3.org/2001/XMLSchema#double",
+        "@id": "https://schema.org/longitude"
+      }
+    },
+    "@id": "http://www.wikidata.org/entity/Q10041",
+    "@type": "Place",
+    "name": "Soest",
+    "description": "gemeente in de provincie Utrecht, Nederland",
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 52.183333,
+      "longitude": 5.283333
+    }
+  },
+  {
+    "@context": {
+      "@vocab": "https://schema.org/",
+      "latitude": {
+        "@type": "http://www.w3.org/2001/XMLSchema#double",
+        "@id": "https://schema.org/latitude"
+      },
+      "longitude": {
+        "@type": "http://www.w3.org/2001/XMLSchema#double",
+        "@id": "https://schema.org/longitude"
+      }
+    },
+    "@id": "http://www.wikidata.org/entity/Q104369",
+    "@type": "Person",
+    "name": "Ernst Laqueur",
+    "description": "Nederlands hoogleraar Farmacologie"
+  },
+  {
+    "@context": {
+      "@vocab": "https://schema.org/",
+      "latitude": {
+        "@type": "http://www.w3.org/2001/XMLSchema#double",
+        "@id": "https://schema.org/latitude"
+      },
+      "longitude": {
+        "@type": "http://www.w3.org/2001/XMLSchema#double",
+        "@id": "https://schema.org/longitude"
+      }
+    },
+    "@id": "http://www.wikidata.org/entity/Q172579",
+    "@type": "Organization",
+    "name": "Koninkrijk Italië",
+    "description": "1861–1946",
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 41.9,
+      "longitude": 12.5
+    }
+  }
+]
