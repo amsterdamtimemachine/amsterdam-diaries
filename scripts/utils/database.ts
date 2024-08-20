@@ -11,6 +11,7 @@ type Field = {
 class Database {
   private static instance: Database;
   private pool: pg.Pool;
+  private debug = false;
 
   private constructor() {
     this.pool = new pg.Pool({
@@ -25,14 +26,40 @@ class Database {
   private async query<T extends QueryResultRow>(text: string, params?: any[]): Promise<QueryResult<T>> {
     const client: PoolClient = await this.pool.connect();
     try {
-      console.log(`[Database] - Query: ${text}`);
-      if (params?.length) {
-        console.log(`[Database] - Params: ${params}`);
+      if (this.debug) {
+        console.log(`[Database] - Query: ${text}`);
+        if (params?.length) {
+          console.log(`[Database] - Params: ${params}`);
+        }
       }
       const res: QueryResult<T> = await client.query<T>(text, params);
       return res;
     } finally {
       client.release();
+    }
+  }
+
+  private async _insert(tableName: string, rowData: any[]) {
+    try {
+      const fields = Object.keys(rowData[0]);
+      const values = rowData.reduce((acc, row) => {
+        return acc.concat(Object.values(row));
+      }, []);
+      const insertValues = rowData.map((row: any, index: number) => {
+        const offset = index * fields.length;
+        return `(${fields.map((f, i) => `$${offset + i + 1}`).join(', ')})`;
+      }).join(', ');
+      const conflictValues = fields.filter(f => f !== 'id').map(f => `${f} = EXCLUDED.${f}`).join(', ');
+      const query = `
+        INSERT INTO ${tableName} (${fields.join(', ')})
+        VALUES ${insertValues}
+        ON CONFLICT(id)
+        DO UPDATE SET ${conflictValues};`;
+      await this.query(query, values);
+      return true;
+    } catch (err) {
+      console.error('[Database] - Error:', err);
+      return false;
     }
   }
 
@@ -46,7 +73,7 @@ class Database {
     return Database.instance;
   }
 
-  public create({ name, fields }: { name: string; fields: Field[] }) {
+  public async create({ name, fields }: { name: string; fields: Field[] }) {
     try {
       const definition = fields.map(field => {
         let definition = `${field.name} ${field.type}`;
@@ -59,7 +86,7 @@ class Database {
         return definition;
       });
       const query = `CREATE TABLE IF NOT EXISTS ${name} (${definition.join(', ')});`;
-      this.query(query);
+      await this.query(query);
       return true;
     } catch (err) {
       console.error('[Database] - Error:', err);
@@ -67,29 +94,31 @@ class Database {
     }
   }
 
-  public async insert(tableName: string, rowData: any) {
+  public async insert(tableName: string, data: any) {
     try {
-      const fields = Object.keys(rowData);
-      const values = Object.values(rowData);
-      const query = `
-        INSERT INTO ${tableName} (${fields.join(', ')})
-        VALUES (${values.map((v, i) => `$${i + 1}`).join(', ')})
-        ON CONFLICT(id)
-        DO UPDATE SET ${fields.map(f => `${f} = EXCLUDED.${f}`).join(', ')};`;
-      this.query(query, values);
-      return true;
+      // Check if we have multiple rows to insert
+      const isMultiple = Array.isArray(data);
+      // Force data to be a row array
+      const rowData = isMultiple ? data : [data];
+
+      // Do batches of 50 rows
+      for (let i = 0; i < rowData.length; i += 50) {
+        await this._insert(tableName, rowData.slice(i, i + 50));
+      }
     } catch (err) {
       console.error('[Database] - Error:', err);
       return false;
     }
   }
 
-  public async insertMultiple(tableName: string, rows: any[]) {
-    Promise.all(
-      rows.map(row => {
-        return this.insert(tableName, row);
-      }),
-    );
+  // Test purposes
+  public async clean (): Promise<void> {
+    await this.query('DROP TABLE IF EXISTS concept');
+    await this.query('DROP TABLE IF EXISTS person');
+    await this.query('DROP TABLE IF EXISTS organization');
+    await this.query('DROP TABLE IF EXISTS place');
+    await this.query('DROP TABLE IF EXISTS annotation');
+    await this.query('DROP TABLE IF EXISTS author');
   }
 
   public async close(): Promise<void> {

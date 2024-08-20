@@ -1,0 +1,132 @@
+[
+    {
+        "@context": "http://www.w3.org/ns/anno.jsonld",
+        "id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/4fd0f282-8b33-4fc1-a310-5449f152b15b",
+        "type": "Annotation",
+        "body": [
+            {
+                "type": "SpecificResource",
+                "source": {
+                    "id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/entities/organization",
+                    "type": "skos:Concept",
+                    "label": "Organization"
+                },
+                "purpose": "classifying"
+            },
+            {
+                "type": "SpecificResource",
+                "source": {
+                    "id": "http://www.wikidata.org/entity/Q160552",
+                    "type": "https://schema.org/Organization"
+                },
+                "purpose": "identifying"
+            }
+        ],
+        "target": [
+            {
+                "type": "SpecificResource",
+                "source": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0111_berdi_4245_pdf_p111/r_3059-tr_1_tl_37-body",
+                "selector": [
+                    {
+                        "type": "TextQuoteSelector",
+                        "exact": "groene"
+                    },
+                    {
+                        "type": "TextPositionSelector",
+                        "start": 77,
+                        "end": 83
+                    }
+                ]
+            },
+            {
+                "type": "SpecificResource",
+                "source": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0111_berdi_4245_pdf_p111/r_3059-tr_1_tl_38-body",
+                "selector": [
+                    {
+                        "type": "TextQuoteSelector",
+                        "exact": "politie"
+                    },
+                    {
+                        "type": "TextPositionSelector",
+                        "start": 0,
+                        "end": 7
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "@context": "http://www.w3.org/ns/anno.jsonld",
+        "id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/ec5c5a91-f324-481a-9d2b-aee173c25d1e",
+        "type": "Annotation",
+        "body": [
+            {
+                "type": "SpecificResource",
+                "source": {
+                    "id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/entities/date",
+                    "type": "skos:Concept",
+                    "label": "Date"
+                },
+                "purpose": "classifying"
+            },
+            {
+                "type": "TextualBody",
+                "value": {
+                    "@type": "http://www.w3.org/2001/XMLSchema#date",
+                    "@value": "1941-02-21"
+                },
+                "purpose": "identifying"
+            }
+        ],
+        "target": [
+            {
+                "type": "SpecificResource",
+                "source": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-IIAV002_IAV001000041-large_02/r_525-r_525_tl_8-body",
+                "selector": [
+                    {
+                        "type": "TextQuoteSelector",
+                        "exact": "vrijdag j. l."
+                    },
+                    {
+                        "type": "TextPositionSelector",
+                        "start": 15,
+                        "end": 28
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "@context": "http://www.w3.org/ns/anno.jsonld",
+        "id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/a14ee93d-cebc-4790-9adc-7d321318ce70",
+        "type": "Annotation",
+        "body": [
+            {
+                "type": "SpecificResource",
+                "source": {
+                    "id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/concepts/atm_food",
+                    "type": "Concept",
+                    "label": "Etenswaren"
+                },
+                "purpose": "classifying"
+            }
+        ],
+        "target": [
+            {
+                "type": "SpecificResource",
+                "source": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-IIAV002_IAV001000041-large_02/r_525-r_525_tl_14-body",
+                "selector": [
+                    {
+                        "type": "TextQuoteSelector",
+                        "exact": "lekkers"
+                    },
+                    {
+                        "type": "TextPositionSelector",
+                        "start": 0,
+                        "end": 7
+                    }
+                ]
+            }
+        ]
+    }
+]
