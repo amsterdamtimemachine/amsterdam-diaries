@@ -113,12 +113,13 @@ class Database {
 
   // Test purposes
   public async clean (): Promise<void> {
-    await this.query('DROP TABLE IF EXISTS concept');
-    await this.query('DROP TABLE IF EXISTS person');
-    await this.query('DROP TABLE IF EXISTS organization');
-    await this.query('DROP TABLE IF EXISTS place');
-    await this.query('DROP TABLE IF EXISTS annotation');
-    await this.query('DROP TABLE IF EXISTS author');
+    const tables = ['paragraph', 'entry', 'book', 'author', 'annotation', 'place', 'organization', 'person', 'concept'];
+    for (const table of tables) {
+      if (this.debug) {
+        console.warn(`[Database] - Dropping table: ${table}`);
+      }
+      await this.query(`DROP TABLE IF EXISTS ${table}`);
+    }
   }
 
   public async close(): Promise<void> {

@@ -31,9 +31,13 @@ const frame = {
   id: {},
   name: {},
   birthDate: {},
-  birthPlace: {},
+  birthPlace: {
+    name: {}
+  },
   deathDate: {},
-  deathPlace: {},
+  deathPlace: {
+    name: {}
+  },
   image: {
     id: {},
     contentUrl: {},
@@ -95,7 +99,15 @@ const importAuthors = async (importUrl: string) => {
   const result = await fetch(importUrl);
   const json = await result.json();
   const framed = await jsonld.frame(json, frame, { explicit: true, omitGraph: false });
-  return ((framed['@graph'] ?? []) as item[]).map(item => {
+  const places = {} as Record<string, any>;
+
+  const authors = ((framed['@graph'] ?? []) as item[]).map(item => {
+    if (item.birthPlace) {
+      places[item.birthPlace.id] = item.birthPlace;
+    }
+    if (item.deathPlace) {
+      places[item.birthPlace.id] = item.deathPlace;
+    }
     return {
       id: item.id,
       name: item.name,
@@ -109,6 +121,11 @@ const importAuthors = async (importUrl: string) => {
       thumbnailUrl: item.image?.thumbnailUrl,
     };
   });
+
+  return {
+    authors,
+    places: Object.values(places),
+  }
 };
 
 export { definitionAuthors, importAuthors };
