@@ -5,6 +5,7 @@ import { importAuthors, definitionAuthors } from './authors';
 import { importBooks, definitionBooks } from './books';
 import { definitionEntries } from './entries';
 import Database from './utils/database';
+import { definitionParagraphs } from './paragraph';
 
 // concept url
 const baseUrl = 'https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/dev/rdf';
@@ -22,6 +23,7 @@ await db.create(definitionAnnotations);
 await db.create(definitionAuthors);
 await db.create(definitionBooks);
 await db.create(definitionEntries);
+await db.create(definitionParagraphs);
 
 // Run the importers
 const concepts = await importConcepts(`${baseUrl}/concepts.jsonld`);
