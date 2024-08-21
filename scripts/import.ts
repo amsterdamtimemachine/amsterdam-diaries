@@ -2,6 +2,8 @@ import { definitionAnnotations, importAnnotations } from './annotations';
 import { importConcepts, definitionConcepts } from './concepts';
 import { importResources, definitionPeople, definitionOrganizations, definitionPlaces } from './resources';
 import { importAuthors, definitionAuthors } from './authors';
+import { importBooks, definitionBooks } from './books';
+import { definitionEntries } from './entries';
 import Database from './utils/database';
 
 // concept url
@@ -18,6 +20,8 @@ await db.create(definitionOrganizations);
 await db.create(definitionPlaces);
 await db.create(definitionAnnotations);
 await db.create(definitionAuthors);
+await db.create(definitionBooks);
+await db.create(definitionEntries);
 
 // Run the importers
 const concepts = await importConcepts(`${baseUrl}/concepts.jsonld`);
@@ -33,3 +37,7 @@ await db.insert('annotation', annotations);
 
 const authors = await importAuthors(`${baseUrl}/metadata.jsonld`);
 await db.insert('author', authors);
+
+const booksAndEntries = await importBooks(`${baseUrl}/metadata.jsonld`);
+await db.insert('book', booksAndEntries.books);
+await db.insert('entry', booksAndEntries.entries);

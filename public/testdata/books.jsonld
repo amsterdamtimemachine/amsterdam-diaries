@@ -1,0 +1,156 @@
+[
+  {
+    "@context": {
+      "@vocab": "https://schema.org/",
+      "sameAs": {
+        "@type": "@id"
+      },
+      "url": {
+        "@type": "@id"
+      },
+      "image": {
+        "@id": "https://schema.org/image",
+        "@type": "@id",
+        "@container": "@list"
+      },
+      "hasPart": {
+        "@id": "https://schema.org/hasPart",
+        "@type": "@id",
+        "@container": "@list"
+      }
+    },
+    "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/diaries/4",
+    "@type": "Book",
+    "author": {
+      "@id": "http://www.wikidata.org/entity/Q65965451",
+      "@type": "Person",
+      "name": "Neeltje (Toby) Vos"
+    },
+    "about": {
+      "@id": "http://www.wikidata.org/entity/Q65965451",
+      "@type": "Person",
+      "name": "Neeltje (Toby) Vos"
+    },
+    "name": "Dagboek Toby Vos, deel 1",
+    "isPartOf": {
+      "@id": "https://collectie.atria.nl/bibliotheek/?refine[Categories][]=Egodocument%2FEgodocument",
+      "@type": [
+        "Collection",
+        "ArchiveComponent"
+      ],
+      "name": "Egodocument/Egodocument",
+      "holdingArchive": {
+        "@id": "https://atria.nl",
+        "@type": "ArchiveOrganization",
+        "name": "Atria"
+      }
+    },
+    "hasPart": [
+      {
+        "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/49",
+        "@type": "Manuscript"
+      },
+      {
+        "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/50",
+        "@type": "Manuscript"
+      },
+      {
+        "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/51",
+        "@type": "Manuscript"
+      },
+      {
+        "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/52",
+        "@type": "Manuscript"
+      },
+      {
+        "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/53",
+        "@type": "Manuscript"
+      },
+      {
+        "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/54",
+        "@type": "Manuscript"
+      },
+      {
+        "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/55",
+        "@type": "Manuscript"
+      },
+      {
+        "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/56",
+        "@type": "Manuscript"
+      },
+      {
+        "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/57",
+        "@type": "Manuscript"
+      },
+      {
+        "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/58",
+        "@type": "Manuscript"
+      },
+      {
+        "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/59",
+        "@type": "Manuscript"
+      },
+      {
+        "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/60",
+        "@type": "Manuscript"
+      },
+      {
+        "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/61",
+        "@type": "Manuscript"
+      },
+      {
+        "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/62",
+        "@type": "Manuscript"
+      },
+      {
+        "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/63",
+        "@type": "Manuscript"
+      },
+      {
+        "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/64",
+        "@type": "Manuscript"
+      },
+      {
+        "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/65",
+        "@type": "Manuscript"
+      }
+    ],
+    "description": "Dagboek van Toby Vos, geschreven te Amsterdam, 26-27 jaar, betreffende de oorlog en haar buren, 1944-1945. Tijdens de oorlog was Toby als koerierster actief in het verzet (Paroolgroep). Het dagboek is geillustreerd met tekeningen.",
+    "temporalCoverage": "1944/1945",
+    "dateCreated": "1944-06",
+    "identifier": 4,
+    "url": "https://resolver.kb.nl/resolve?urn=urn:gvn:EVDO01:IIAV002_IAV001000030",
+    "image": [
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_01.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_02.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_03.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_04.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_05.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_06.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_07.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_08.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_09.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_10.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_11.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_12.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_13.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_14.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_15.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_16.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_17.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_18.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_19.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_20.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_21.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_22.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_23.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_24.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_25.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_26.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_27.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_28.jpg",
+      "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_29.jpg"
+    ],
+    "sameAs": "https://hdl.handle.net/11653/ego1000142"
+  }
+]
