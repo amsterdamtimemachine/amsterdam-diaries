@@ -1,24 +1,5 @@
 import jsonld from 'jsonld';
 
-type item = {
-  id: string;
-  name: string;
-  birthDate: string;
-  birthPlace: {
-    id: string;
-  };
-  deathDate: string;
-  deathPlace: {
-    id: string;
-  };
-  description: string;
-  image: {
-    id: string;
-    contentUrl: string;
-    thumbnailUrl: string;
-  };
-};
-
 const frame = {
   '@context': {
     '@vocab': 'https://schema.org/',
@@ -27,24 +8,34 @@ const frame = {
     name: 'name',
     description: 'description',
   },
-  '@type': 'Person',
-  id: {},
-  name: {},
-  birthDate: {},
-  birthPlace: {
-    name: {}
-  },
-  deathDate: {},
-  deathPlace: {
-    name: {}
-  },
-  image: {
-    id: {},
-    contentUrl: {},
-    thumbnailUrl: {},
-  },
-  description: {},
+  '@type': 'Person'
 };
+
+const flattenContext = {
+  "id": "@id",
+  "type": "@type",
+  "name": "https://schema.org/name",
+  "Person": "https://schema.org/Person",
+  "Place": "https://schema.org/Place",
+  "description": "https://schema.org/description",
+  "birthDate": "https://schema.org/birthDate",
+  "birthPlaceId": {
+    "@id": "https://schema.org/birthPlace",
+    "@type": "@id"
+  },
+  "deathDate": "https://schema.org/deathDate",
+  "deathPlaceId": {
+    "@id": "https://schema.org/deathPlace",
+    "@type": "@id"
+  },
+  "imageId": {
+    "@id": "https://schema.org/image",
+    "@type": "@id"
+  },
+  "contentUrl": "https://schema.org/contentUrl",
+  "thumbnailUrl": "https://schema.org/thumbnailUrl",
+  "imageType": "https://schema.org/type"
+}
 
 const definitionAuthors = {
   name: 'author',
@@ -81,51 +72,62 @@ const definitionAuthors = {
       type: 'text',
     },
     {
-      name: 'imageUrl',
+      name: 'imageId',
       type: 'text',
-    },
-    {
-      name: 'contentUrl',
-      type: 'text',
-    },
-    {
-      name: 'thumbnailUrl',
-      type: 'text',
-    },
+      foreign: 'image',
+    }
   ],
 };
 
 const importAuthors = async (importUrl: string) => {
   const result = await fetch(importUrl);
   const json = await result.json();
-  const framed = await jsonld.frame(json, frame, { explicit: true, omitGraph: false });
-  const places = {} as Record<string, any>;
+  const framed = await jsonld.frame(json, frame);
+  const flatten = await jsonld.flatten(framed, flattenContext);
+  const items = Array.isArray(flatten['@graph']) ? flatten['@graph'] : [];
+  const response: Record<string, any[]> = {
+    authors: [],
+    places: [],
+    images: []
+  };
 
-  const authors = ((framed['@graph'] ?? []) as item[]).map(item => {
-    if (item.birthPlace) {
-      places[item.birthPlace.id] = item.birthPlace;
+  items.forEach(item => {
+    if (item.imageType) {
+      item.type = item.imageType;
     }
-    if (item.deathPlace) {
-      places[item.birthPlace.id] = item.deathPlace;
+
+    switch(item.type) {
+      case 'Person':
+        response.authors.push({
+            id: item.id,
+            birthDate: item.birthDate,
+            birthPlaceId: item.birthPlaceId,
+            deathDate: item.deathDate,
+            deathPlaceId: item.deathPlaceId,
+            description: item.description,
+            imageId: item.imageId,
+            name: item.name
+          });
+        break;
+      case 'Place':
+        response.places.push({
+            id: item.id,
+            name: item.name
+          });
+        break;
+      case 'ImageObject':
+        response.images.push({
+          id: item.id,
+          contentUrl: item.contentUrl,
+          thumbnailUrl: item.thumbnailUrl
+        });
+        break;
+      default:
+        throw new Error('Unknown data found while parsing Authors');
     }
-    return {
-      id: item.id,
-      name: item.name,
-      birthDate: item.birthDate,
-      birthPlaceId: item.birthPlace?.id,
-      deathDate: item.deathDate,
-      deathPlaceId: item.deathPlace?.id,
-      description: item.description,
-      imageUrl: item.image?.id,
-      contentUrl: item.image?.contentUrl,
-      thumbnailUrl: item.image?.thumbnailUrl,
-    };
   });
 
-  return {
-    authors,
-    places: Object.values(places),
-  }
+  return response;
 };
 
 export { definitionAuthors, importAuthors };

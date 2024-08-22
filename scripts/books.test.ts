@@ -11,8 +11,7 @@ describe('books', async () => {
           authorId: 'http://www.wikidata.org/entity/Q65965451',
           aboutId: 'http://www.wikidata.org/entity/Q65965451',
           name: 'Dagboek Toby Vos, deel 1',
-          description:
-            'Dagboek van Toby Vos, geschreven te Amsterdam, 26-27 jaar, betreffende de oorlog en haar buren, 1944-1945. Tijdens de oorlog was Toby als koerierster actief in het verzet (Paroolgroep). Het dagboek is geillustreerd met tekeningen.',
+          description: 'Dagboek van Toby Vos, geschreven te Amsterdam, 26-27 jaar, betreffende de oorlog en haar buren, 1944-1945. Tijdens de oorlog was Toby als koerierster actief in het verzet (Paroolgroep). Het dagboek is geillustreerd met tekeningen.',
           temporalCoverage: '1944/1945',
           dateCreated: '1944-06',
         },

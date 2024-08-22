@@ -6,6 +6,7 @@ import { importBooks, definitionBooks } from './books';
 import { definitionEntries } from './entries';
 import { definitionParagraphs } from './paragraph';
 import Database from './utils/database';
+import { definitionImages } from './images';
 
 // concept url
 const baseUrl = 'https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/dev/rdf';
@@ -15,6 +16,7 @@ const db = Database.getInstance();
 await db.clean();
 
 // Setup the database
+await db.create(definitionImages);
 await db.create(definitionConcepts);
 await db.create(definitionPeople);
 await db.create(definitionOrganizations);
@@ -38,6 +40,7 @@ const annotations = await importAnnotations(`${baseUrl}/entity_annotations.jsonl
 await db.insert('annotation', annotations);
 
 const authors = await importAuthors(`${baseUrl}/metadata.jsonld`);
+await db.insert('image', authors.images);
 await db.insert('place', authors.places);
 await db.insert('author', authors.authors);
 

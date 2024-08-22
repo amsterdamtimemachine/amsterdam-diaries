@@ -113,10 +113,10 @@ class Database {
 
   // Test purposes
   public async clean (): Promise<void> {
-    const tables = ['paragraph', 'entry', 'book', 'author', 'annotation', 'place', 'organization', 'person', 'concept'];
+    const tables = ['paragraph', 'entry', 'book', 'author', 'annotation', 'place', 'organization', 'person', 'concept', 'image'];
     for (const table of tables) {
       if (this.debug) {
-        console.warn(`[Database] - Dropping table: ${table}`);
+        console.log(`[Database] - Dropping table: ${table}`);
       }
       await this.query(`DROP TABLE IF EXISTS ${table}`);
     }
