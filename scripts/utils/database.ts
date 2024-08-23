@@ -45,11 +45,16 @@ class Database {
       const values = rowData.reduce((acc, row) => {
         return acc.concat(Object.values(row));
       }, []);
-      const insertValues = rowData.map((row: any, index: number) => {
-        const offset = index * fields.length;
-        return `(${fields.map((f, i) => `$${offset + i + 1}`).join(', ')})`;
-      }).join(', ');
-      const conflictValues = fields.filter(f => f !== 'id').map(f => `${f} = EXCLUDED.${f}`).join(', ');
+      const insertValues = rowData
+        .map((row: any, index: number) => {
+          const offset = index * fields.length;
+          return `(${fields.map((f, i) => `$${offset + i + 1}`).join(', ')})`;
+        })
+        .join(', ');
+      const conflictValues = fields
+        .filter(f => f !== 'id')
+        .map(f => `${f} = EXCLUDED.${f}`)
+        .join(', ');
       const query = `
         INSERT INTO ${tableName} (${fields.join(', ')})
         VALUES ${insertValues}
@@ -112,8 +117,21 @@ class Database {
   }
 
   // Test purposes
-  public async clean (): Promise<void> {
-    const tables = ['paragraph', 'entry', 'book', 'author', 'annotation', 'place', 'organization', 'person', 'concept', 'image'];
+  // TODO: Move this out of there
+  public async clean(): Promise<void> {
+    const tables = [
+      'line',
+      'paragraph',
+      'entry',
+      'book',
+      'author',
+      'annotation',
+      'place',
+      'organization',
+      'person',
+      'concept',
+      'image',
+    ];
     for (const table of tables) {
       if (this.debug) {
         console.log(`[Database] - Dropping table: ${table}`);

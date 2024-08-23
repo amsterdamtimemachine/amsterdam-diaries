@@ -1,5 +1,5 @@
-const definitionParagraphs = {
-  name: 'paragraph',
+const definitionLines = {
+  name: 'line',
   fields: [
     {
       name: 'id',
@@ -9,13 +9,17 @@ const definitionParagraphs = {
     {
       name: 'parentId',
       type: 'text',
-      foreign: 'entry',
+      foreign: 'paragraph',
     },
     {
       name: 'position',
       type: 'integer',
     },
+    {
+      name: 'value',
+      type: 'text',
+    },
   ],
 };
 
-export { definitionParagraphs };
+export { definitionLines };
