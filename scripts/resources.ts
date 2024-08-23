@@ -1,19 +1,28 @@
 import jsonld from 'jsonld';
+import generateUniqueSlug from './utils/generateUniqueSlug';
 
 // Types
 type person = {
   id: string;
   name: string;
+  slug: string;
   description?: string;
 };
 type organization = {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string;
+  latitude?: number;
+  longitude?: number;
+};
+type place = {
   id: string;
   name: string;
   description?: string;
   latitude?: number;
   longitude?: number;
 };
-type place = organization;
 type fOrganization = organization & {
   geo: {
     latitude: number;
@@ -101,6 +110,10 @@ const definitionPeople = {
       type: 'text',
     },
     {
+      name: 'slug',
+      type: 'text',
+    },
+    {
       name: 'description',
       type: 'text',
     },
@@ -108,6 +121,36 @@ const definitionPeople = {
 };
 const definitionOrganizations = {
   name: 'organization',
+  fields: [
+    {
+      name: 'id',
+      type: 'text',
+      primary: true,
+    },
+    {
+      name: 'name',
+      type: 'text',
+    },
+    {
+      name: 'slug',
+      type: 'text',
+    },
+    {
+      name: 'description',
+      type: 'text',
+    },
+    {
+      name: 'latitude',
+      type: 'real',
+    },
+    {
+      name: 'longitude',
+      type: 'real',
+    },
+  ],
+};
+const definitionPlaces = {
+  name: 'place',
   fields: [
     {
       name: 'id',
@@ -132,10 +175,6 @@ const definitionOrganizations = {
     },
   ],
 };
-const definitionPlaces: typeof definitionOrganizations & { name: 'place' } = {
-  ...definitionOrganizations,
-  name: 'place',
-};
 
 const importResources = async (
   importUrl: string,
@@ -158,22 +197,34 @@ const importResources = async (
     return (framedData['@graph'] ?? []) as any[];
   };
 
-  resources.people = (await frameJson(personFrame)).map((item: person) => {
-    return {
+  resources.people = (await frameJson(personFrame)).reduce((acc: person[], item: person) => {
+    acc.push({
       id: item.id,
       name: item.name,
+      slug: item.name
+        ? generateUniqueSlug(
+            item.name,
+            acc.map(eItem => eItem.slug),
+          )
+        : '',
       description: item.description,
-    };
-  });
-  resources.organizations = (await frameJson(organizationFrame)).map((item: fOrganization) => {
-    return {
+    });
+    return acc;
+  }, []);
+  resources.organizations = (await frameJson(organizationFrame)).reduce((acc: organization[], item: fOrganization) => {
+    acc.push({
       id: item.id,
       name: item.name,
+      slug: generateUniqueSlug(
+        item.name,
+        acc.map(eItem => eItem.slug),
+      ),
       description: item.description,
       latitude: item.geo?.latitude,
       longitude: item.geo?.longitude,
-    };
-  });
+    });
+    return acc;
+  }, []);
   resources.places = (await frameJson(placeFrame)).map((item: fPlace) => {
     return {
       id: item.id,

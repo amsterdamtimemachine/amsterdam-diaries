@@ -1,10 +1,12 @@
 import jsonld from 'jsonld';
+import generateUniqueSlug from './utils/generateUniqueSlug';
 
 // TODO: Ask Leon about type and @type
 type item = {
-  '@type': string;
+  '@type'?: string;
   id: string;
   name: string;
+  slug: string;
 };
 
 const frame = {
@@ -29,6 +31,10 @@ const definitionConcepts = {
       name: 'name',
       type: 'text',
     },
+    {
+      name: 'slug',
+      type: 'text',
+    },
   ],
 };
 
@@ -36,12 +42,17 @@ const importConcepts = async (importUrl: string) => {
   const result = await fetch(importUrl);
   const json = await result.json();
   const framed = await jsonld.frame(json, frame, { explicit: true, omitGraph: false });
-  return ((framed['@graph'] ?? []) as item[]).map((item: item) => {
-    return {
+  return ((framed['@graph'] ?? []) as item[]).reduce((acc: item[], item: item) => {
+    acc.push({
       id: item.id,
       name: item.name,
-    };
-  });
+      slug: generateUniqueSlug(
+        item.name,
+        acc.map(eItem => eItem.slug),
+      ),
+    });
+    return acc;
+  }, []);
 };
 
 export { definitionConcepts, importConcepts };

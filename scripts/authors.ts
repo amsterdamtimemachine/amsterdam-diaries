@@ -1,4 +1,5 @@
 import jsonld from 'jsonld';
+import generateUniqueSlug from './utils/generateUniqueSlug';
 
 const frame = {
   '@context': {
@@ -8,34 +9,34 @@ const frame = {
     name: 'name',
     description: 'description',
   },
-  '@type': 'Person'
+  '@type': 'Person',
 };
 
 const flattenContext = {
-  "id": "@id",
-  "type": "@type",
-  "name": "https://schema.org/name",
-  "Person": "https://schema.org/Person",
-  "Place": "https://schema.org/Place",
-  "description": "https://schema.org/description",
-  "birthDate": "https://schema.org/birthDate",
-  "birthPlaceId": {
-    "@id": "https://schema.org/birthPlace",
-    "@type": "@id"
+  id: '@id',
+  type: '@type',
+  name: 'https://schema.org/name',
+  Person: 'https://schema.org/Person',
+  Place: 'https://schema.org/Place',
+  description: 'https://schema.org/description',
+  birthDate: 'https://schema.org/birthDate',
+  birthPlaceId: {
+    '@id': 'https://schema.org/birthPlace',
+    '@type': '@id',
   },
-  "deathDate": "https://schema.org/deathDate",
-  "deathPlaceId": {
-    "@id": "https://schema.org/deathPlace",
-    "@type": "@id"
+  deathDate: 'https://schema.org/deathDate',
+  deathPlaceId: {
+    '@id': 'https://schema.org/deathPlace',
+    '@type': '@id',
   },
-  "imageId": {
-    "@id": "https://schema.org/image",
-    "@type": "@id"
+  imageId: {
+    '@id': 'https://schema.org/image',
+    '@type': '@id',
   },
-  "contentUrl": "https://schema.org/contentUrl",
-  "thumbnailUrl": "https://schema.org/thumbnailUrl",
-  "imageType": "https://schema.org/type"
-}
+  contentUrl: 'https://schema.org/contentUrl',
+  thumbnailUrl: 'https://schema.org/thumbnailUrl',
+  imageType: 'https://schema.org/type',
+};
 
 const definitionAuthors = {
   name: 'author',
@@ -47,6 +48,10 @@ const definitionAuthors = {
     },
     {
       name: 'name',
+      type: 'text',
+    },
+    {
+      name: 'slug',
       type: 'text',
     },
     {
@@ -75,7 +80,7 @@ const definitionAuthors = {
       name: 'imageId',
       type: 'text',
       foreign: 'image',
-    }
+    },
   ],
 };
 
@@ -88,7 +93,7 @@ const importAuthors = async (importUrl: string) => {
   const response: Record<string, any[]> = {
     authors: [],
     places: [],
-    images: []
+    images: [],
   };
 
   items.forEach(item => {
@@ -96,36 +101,48 @@ const importAuthors = async (importUrl: string) => {
       item.type = item.imageType;
     }
 
-    switch(item.type) {
+    switch (item.type) {
       case 'Person':
         response.authors.push({
-            id: item.id,
-            birthDate: item.birthDate,
-            birthPlaceId: item.birthPlaceId,
-            deathDate: item.deathDate,
-            deathPlaceId: item.deathPlaceId,
-            description: item.description,
-            imageId: item.imageId,
-            name: item.name
-          });
+          id: item.id,
+          birthDate: item.birthDate,
+          birthPlaceId: item.birthPlaceId,
+          deathDate: item.deathDate,
+          deathPlaceId: item.deathPlaceId,
+          description: item.description,
+          imageId: item.imageId,
+          name: item.name,
+        });
         break;
       case 'Place':
         response.places.push({
-            id: item.id,
-            name: item.name
-          });
+          id: item.id,
+          name: item.name,
+        });
         break;
       case 'ImageObject':
         response.images.push({
           id: item.id,
           contentUrl: item.contentUrl,
-          thumbnailUrl: item.thumbnailUrl
+          thumbnailUrl: item.thumbnailUrl,
         });
         break;
       default:
         throw new Error('Unknown data found while parsing Authors');
     }
   });
+
+  // Add unqiue slugs to response.authors
+  response.authors = response.authors.reduce((acc: any[], item: any) => {
+    acc.push({
+      ...item,
+      slug: generateUniqueSlug(
+        item.name,
+        acc.map(eItem => eItem.slug),
+      ),
+    });
+    return acc;
+  }, []);
 
   return response;
 };
