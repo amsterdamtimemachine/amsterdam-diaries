@@ -64,6 +64,17 @@ const importEntries = async (importUrl: string) => {
   const framed = await jsonld.frame(json, frame, { explicit: true, omitGraph: false });
   const items = Array.isArray(framed['@graph']) ? framed['@graph'] : [];
 
+  /**
+   * Temporary solution till data is fixed
+   */
+  const tempTargets = json
+    .filter((data: any) => data.body?.[0]['@type'] === 'Manuscript')
+    .reduce((acc: any, data: any) => {
+      const entryId = data.body?.[0]['@id'];
+      acc[entryId] = data.target;
+      return acc;
+    }, {});
+
   return items.reduce(
     (acc: any, { targets, id, dateCreated, bookId, name }: any) => {
       const entry = {
@@ -72,6 +83,13 @@ const importEntries = async (importUrl: string) => {
         dateCreated,
         bookId: bookId.id,
       };
+
+      // Temporary solution till data is fixed
+      // If targets is empty, use the annotations
+      if (Array.isArray(targets) && targets.length === 0) {
+        targets = tempTargets[id];
+      }
+
       const parsedTargets = (targets ?? []).map((target: string, index: number) => {
         return {
           id: target,

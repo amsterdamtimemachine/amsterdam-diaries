@@ -61,10 +61,11 @@ class Database {
         ON CONFLICT(id)
         DO UPDATE SET ${conflictValues};`;
       await this.query(query, values);
-      return true;
     } catch (err) {
       console.error('[Database] - Error:', err);
-      return false;
+      console.error(`TableName: ${tableName}`);
+      console.error(`RowData: ${rowData}`);
+      throw new Error('Something went wrong');
     }
   }
 
@@ -92,10 +93,11 @@ class Database {
       });
       const query = `CREATE TABLE IF NOT EXISTS ${name} (${definition.join(', ')});`;
       await this.query(query);
-      return true;
     } catch (err) {
       console.error('[Database] - Error:', err);
-      return false;
+      console.error(`Name: ${name}`);
+      console.error(`Fields: ${fields}`);
+      throw new Error('Something went wrong');
     }
   }
 
@@ -112,7 +114,9 @@ class Database {
       }
     } catch (err) {
       console.error('[Database] - Error:', err);
-      return false;
+      console.error(`TableName: ${tableName}`);
+      console.error(`Data: ${data}`);
+      throw new Error('Something went wrong');
     }
   }
 

@@ -6,7 +6,7 @@ const url = 'http://localhost:3000/testdata/entries.jsonld';
 describe('Entries', async () => {
   it('should pass validation', async () => {
     const result = await (await fetch(url)).json();
-    const manuscripts = result.filter(data => data.body?.[0]['@type'] === 'Manuscript');
+    const manuscripts = result.filter((data: any) => data.body?.[0]['@type'] === 'Manuscript');
     manuscripts.forEach((manuscript: any) => {
       // Check top level
       expect(Object.keys(manuscript)).toEqual(['@context', 'id', 'motivation', 'type', 'body', 'target']);
@@ -53,37 +53,37 @@ describe('Entries', async () => {
       paragraphs: [
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_429',
-          parentId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
+          entryId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
           position: 1,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_438',
-          parentId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
+          entryId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
           position: 2,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_484',
-          parentId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
+          entryId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
           position: 3,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_475',
-          parentId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
+          entryId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
           position: 4,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493',
-          parentId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
+          entryId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
           position: 5,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_502',
-          parentId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
+          entryId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
           position: 6,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_511',
-          parentId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
+          entryId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
           position: 7,
         },
       ],
