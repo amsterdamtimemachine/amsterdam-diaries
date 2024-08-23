@@ -7,7 +7,7 @@ const definitionParagraphs = {
       primary: true,
     },
     {
-      name: 'parentId',
+      name: 'entryId',
       type: 'text',
       foreign: 'entry',
     },

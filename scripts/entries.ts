@@ -75,7 +75,7 @@ const importEntries = async (importUrl: string) => {
       const parsedTargets = (targets ?? []).map((target: string, index: number) => {
         return {
           id: target,
-          parentId: id,
+          entryId: id,
           position: index + 1,
         };
       });
