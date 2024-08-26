@@ -91,10 +91,6 @@ const fetchComponent = (type: string) => {
   align-items: center;
   line-height: 1.3;
 
-  &.blackening {
-    background: var(--black);
-  }
-
   &.place {
     background: color-mix(in srgb, var(--green) 20%, transparent);
   }
