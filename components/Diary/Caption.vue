@@ -29,10 +29,4 @@ p {
   padding-left: var(--space-3);
   color: var(--taupe);
 }
-
-span {
-  &:not(:last-child) {
-    margin-right: var(--space-1);
-  }
-}
 </style>
