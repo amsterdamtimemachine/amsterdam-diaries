@@ -33,6 +33,9 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: 'diary',
+});
 onMounted(() => loadPage(1));
 // TODO: Add way to also load previous pages (navigating from other pages to specific page)
 import type { DiaryPage } from '#build/components';
