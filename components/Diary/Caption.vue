@@ -22,8 +22,8 @@ defineProps<{
 <style lang="scss" scoped>
 p {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
   gap: var(--space-1);
   border-left: var(--space-0) solid var(--taupe);
   padding-left: var(--space-3);
