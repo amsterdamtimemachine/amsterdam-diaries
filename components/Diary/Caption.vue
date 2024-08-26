@@ -22,8 +22,8 @@ defineEmits(['annotationClick', 'annotationHovering']);
 <style lang="scss" scoped>
 p {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
   gap: var(--spacing-2);
   border-left: var(--spacing-1) solid var(--image-caption);
   padding-left: var(--spacing-4);
