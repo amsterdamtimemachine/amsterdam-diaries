@@ -94,6 +94,7 @@ const parseBody = (body: (Classification | ExternalResource | TextualResource)[]
     (result: any, body: Classification | ExternalResource | TextualResource) => {
       switch (body.purpose) {
         case 'classifying':
+          result.externalId = body.source.id;
           result.type = body.source.label;
           break;
         case 'identifying':
