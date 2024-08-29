@@ -22,4 +22,16 @@ const definitionLines = {
   ],
 };
 
-export { definitionLines };
+const importLines = async (importUrl: string) => {
+  const result = await fetch(importUrl);
+  const json = await result.json();
+  const lines = json.filter((data: any) => data.textGranularity === 'line');
+  return lines.map((line: any) => {
+    return {
+      id: line.id,
+      value: line.body[0].value,
+    };
+  });
+};
+
+export { definitionLines, importLines };

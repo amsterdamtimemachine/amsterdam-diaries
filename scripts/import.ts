@@ -7,7 +7,7 @@ import { definitionEntries, importEntries } from './entries';
 import { definitionParagraphs, importParagraphs } from './paragraphs';
 import Database from './utils/database';
 import { definitionImages } from './images';
-import { definitionLines } from './lines';
+import { definitionLines, importLines } from './lines';
 
 // concept url
 const baseUrl = 'https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/dev/rdf';
@@ -58,3 +58,6 @@ const paragraphsAndLines = await importParagraphs(`${baseUrl}/textual_annotation
 await db.insert('image', paragraphsAndLines.images);
 await db.insert('paragraph', paragraphsAndLines.paragraphs);
 await db.insert('line', paragraphsAndLines.lines);
+
+const lines = await importLines(`${baseUrl}/textual_annotations.jsonld`);
+await db.insert('line', lines);
