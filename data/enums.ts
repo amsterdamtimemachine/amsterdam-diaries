@@ -77,3 +77,44 @@ export const AuthorDiaryOverviewGradients: Record<string, string> = {
   'gerda-oestreicher-laqueur': 'gradient-2',
   'neeltje-toby-vos': 'gradient-1',
 } as const;
+
+export const ResourceInfo: Record<string, ResourceInfo> = {
+  organisaties: {
+    title: 'Alle organisaties',
+    description: 'Ontdek de diverse perspectieven over specifieke organisaties die terugkomen in diverse dagboeken.',
+    defaultImage: 'default-organization.png',
+    readMore: 'Bekijk meer over {X}',
+    overviewLabel: 'organisaties',
+  },
+  themas: {
+    title: "Alle thema's",
+    description: `Thema's worden beïnvloed door diverse perspectieven en grote gebeurtenissen.
+  Schrijvers, als weerspiegeling van hun tijd, verwerken deze invloeden in hun werk, waardoor unieke en veelzijdige
+  verhalen ontstaan.`,
+    defaultImage: 'default-theme.png',
+    readMore: 'Bekijk dit thema',
+    overviewLabel: "thema's",
+  },
+  personen: {
+    title: 'Alle personen',
+    description: 'Ontdek personen die worden genoemd in diverse dagboeken.',
+    defaultImage: 'default-person.png',
+    readMore: 'Lees meer over {X}',
+    overviewLabel: 'personen',
+  },
+  dagboekschrijfsters: {
+    title: 'Alle dagboekschrijfsters',
+    description:
+      'Ontdek de diverse perspectieven die dagboeken ons bieden en laat je inspireren door de persoonlijke verhalen van anderen.',
+    defaultImage: 'default-profile.png',
+    readMore: 'Lees meer over {X}',
+    overviewLabel: 'schrijfsters',
+  },
+} as const;
+
+export const ValidResources: Record<string, string> = {
+  themas: 'concept',
+  organisaties: 'organization',
+  personen: 'person',
+  dagboekschrijfsters: 'author',
+} as const;

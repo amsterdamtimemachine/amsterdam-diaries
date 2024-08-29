@@ -24,5 +24,8 @@ logs
 .env.*
 !.env.example
 
+# Local test files
+public/testdata
+
 # Docker files
 Dockerfile

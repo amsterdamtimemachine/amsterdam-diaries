@@ -3,7 +3,7 @@
     <div class="content">
       <div
         class="info"
-        :class="{ 'sm-hide': showAuthors }">
+        :class="{ 'sm-hide': showNav }">
         <NuxtLink
           class="logo"
           to="/">
@@ -24,21 +24,40 @@
       </div>
       <div>
         <LinkArrow
-          v-if="!showAuthors"
+          v-if="!showNav"
           class="link"
-          @click="showAuthors = !showAuthors"
+          @click="showNav = !showNav"
           link-text="Ontdek het verhaal van de stad" />
         <Transition name="fade">
-          <Tags
-            v-if="showAuthors"
-            class="tags"
-            title="Selecteer een auteur:"
-            :tags="
-              authors.map(a => ({
-                title: Array.isArray(a.name) ? a.name.pop() : a.name,
-                link: `/dagboekschrijfsters/${a.slug}`,
-              }))
-            " />
+          <div v-if="showNav">
+            <div class="font-body-l">Selecteer:</div>
+            <div class="nav-links">
+              <LinkArrow
+                class="nav-link"
+                link-text="Amsterdam"
+                link="/amsterdam" />
+              <LinkArrow
+                class="nav-link"
+                link-text="Dagboekschrijfsters"
+                link="/dagboekschrijfsters" />
+              <LinkArrow
+                class="nav-link"
+                link-text="Thema's"
+                link="/themas" />
+              <LinkArrow
+                class="nav-link"
+                link-text="Organisaties"
+                link="/organisaties" />
+              <LinkArrow
+                class="nav-link"
+                link-text="Personen"
+                link="/personen" />
+              <LinkArrow
+                class="nav-link"
+                link-text="Over ATM"
+                link="/about" />
+            </div>
+          </div>
         </Transition>
       </div>
     </div>
@@ -50,8 +69,7 @@
 definePageMeta({
   layout: 'transparent',
 });
-const showAuthors = ref<boolean>(false);
-const { authors } = storeToRefs(useAuthorStore());
+const showNav = ref<boolean>(false);
 </script>
 
 <style lang="scss" scoped>
@@ -87,6 +105,18 @@ const { authors } = storeToRefs(useAuthorStore());
   width: fit-content;
 }
 
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  margin-top: var(--space-2);
+
+  .nav-link {
+    background: var(--white);
+    padding: var(--space-3) var(--space-5);
+  }
+}
+
 .background {
   grid-area: background;
   background: url('@/assets/images/home-bg.jpg') no-repeat bottom;
@@ -108,6 +138,13 @@ const { authors } = storeToRefs(useAuthorStore());
   .content {
     padding: var(--space-6) var(--space-4);
     overflow: initial;
+  }
+  .nav-links {
+    gap: var(--space-2);
+
+    .nav-link {
+      padding: var(--space-3) var(--space-5);
+    }
   }
 }
 </style>

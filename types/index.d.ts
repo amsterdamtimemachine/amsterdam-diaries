@@ -51,6 +51,22 @@ declare global {
     sections: Section[];
   };
 
+  type Resource = {
+    id: string;
+    name: string;
+    slug: string;
+    description?: string;
+    imageid?: string;
+  };
+
+  type ResourceInfo = {
+    title: string;
+    description: string;
+    defaultImage: string;
+    readMore: string;
+    overviewLabel: string;
+  };
+
   type Section = TextSection | VisualSection;
 
   type TextSection = {

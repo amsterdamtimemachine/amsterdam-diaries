@@ -36,8 +36,7 @@ watch(() => props.cards, restartAnimation);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: var(--space-11);
-  max-width: var(--theme-diaries-max-width);
+  gap: var(--space-6);
   animation: var(--animation-fade-in-up);
 }
 
