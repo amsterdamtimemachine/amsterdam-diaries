@@ -1,54 +1,54 @@
 type Classification = {
-  type: 'SpecificResource'
+  type: 'SpecificResource';
   source: {
-    id: string,
-    type: string,
-    label: string,
-  },
-  purpose: 'classifying',
-}
+    id: string;
+    type: string;
+    label: string;
+  };
+  purpose: 'classifying';
+};
 
 type ExternalResource = {
-  type: 'SpecificResource'
+  type: 'SpecificResource';
   source: {
-    id: string,
-    type: string
-  },
-  purpose: 'identifying',
-}
+    id: string;
+    type: string;
+  };
+  purpose: 'identifying';
+};
 
 type TextualResource = {
-  type: 'TextualBody',
+  type: 'TextualBody';
   value: {
-    '@type': string,
-    '@value': string
-  },
-  purpose: 'identifying'
-}
+    '@type': string;
+    '@value': string;
+  };
+  purpose: 'identifying';
+};
 
 type TextQuoteSelector = {
-  type: 'TextQuoteSelector',
-  exact: string
+  type: 'TextQuoteSelector';
+  exact: string;
 };
 
 type TextPositionSelector = {
-  type: 'TextPositionSelector',
-  start: number,
-  end: number
+  type: 'TextPositionSelector';
+  start: number;
+  end: number;
 };
 
 type Target = {
-  type: 'SpecificResource',
-  source: string,
-  selector: (TextQuoteSelector | TextPositionSelector)[]
-}
+  type: 'SpecificResource';
+  source: string;
+  selector: (TextQuoteSelector | TextPositionSelector)[];
+};
 
 type Annotation = {
-  type: 'Annotation',
-  id: string,
-  body: (Classification | ExternalResource | TextualResource)[],
-  target: Target[]
-}
+  type: 'Annotation';
+  id: string;
+  body: (Classification | ExternalResource | TextualResource)[];
+  target: Target[];
+};
 
 const definitionAnnotations = {
   name: 'annotation',
@@ -56,79 +56,82 @@ const definitionAnnotations = {
     {
       name: 'id',
       type: 'text',
-      primary: true
+      primary: true,
     },
     {
       name: 'type',
-      type: 'text'
+      type: 'text',
     },
     {
       name: 'externalId',
-      type: 'text'
+      type: 'text',
     },
     {
       name: 'sourceId',
-      type: 'text'
+      type: 'text',
     },
     {
       name: 'exactText',
-      type: 'text'
+      type: 'text',
     },
     {
       name: 'startPosition',
-      type: 'integer'
+      type: 'integer',
     },
     {
       name: 'endPosition',
-      type: 'integer'
+      type: 'integer',
     },
     {
       name: 'value',
-      type: 'text'
-    }
-  ]
+      type: 'text',
+    },
+  ],
 };
 
-const parseBody = (body: (Classification|ExternalResource|TextualResource)[]) => {
-  return body.reduce((result: any, body: Classification|ExternalResource|TextualResource) => {
-    switch (body.purpose) {
-      case 'classifying':
-        result.type = body.source.label;
-        break;
-      case 'identifying':
-        switch (body.type) {
-          case 'SpecificResource':
-            result.externalId = body.source.id;
-            break;
-          case 'TextualBody':
-            result.value = body.value['@value'];
-            break;
-        }
-        break;
-    }
-    return result;
-
-  }, {
-    type: '',
-    externalId: '',
-    value: ''
-  });
+const parseBody = (body: (Classification | ExternalResource | TextualResource)[]) => {
+  return body.reduce(
+    (result: any, body: Classification | ExternalResource | TextualResource) => {
+      switch (body.purpose) {
+        case 'classifying':
+          result.type = body.source.label;
+          break;
+        case 'identifying':
+          switch (body.type) {
+            case 'SpecificResource':
+              result.externalId = body.source.id;
+              break;
+            case 'TextualBody':
+              result.value = body.value['@value'];
+              break;
+          }
+          break;
+      }
+      return result;
+    },
+    {
+      type: '',
+      externalId: '',
+      value: '',
+    },
+  );
 };
 
 const parseTarget = (targets: Target[]) => {
   return targets.map((target: Target) => {
+    // TODO: Talk to Leon about target being the line not the body
     const result: any = {
-      sourceId: target.source
-    }
-    target.selector.forEach((selector: TextQuoteSelector|TextPositionSelector) => {
-      switch(selector.type) {
+      sourceId: target.source.replace(/-body$/, ''),
+    };
+    target.selector.forEach((selector: TextQuoteSelector | TextPositionSelector) => {
+      switch (selector.type) {
         case 'TextQuoteSelector':
           result.exactText = selector.exact;
           break;
         case 'TextPositionSelector':
           result.startPosition = selector.start;
           result.endPosition = selector.end;
-        break;
+          break;
       }
     });
     return result;
@@ -146,7 +149,7 @@ const importAnnotations = async (importUrl: string) => {
       result[id + index] = {
         id: id + index,
         ...body,
-        ...target
+        ...target,
       };
     });
     return result;
@@ -154,7 +157,4 @@ const importAnnotations = async (importUrl: string) => {
   return Object.values(annotations);
 };
 
-export {
-  definitionAnnotations,
-  importAnnotations
-}
+export { definitionAnnotations, importAnnotations };

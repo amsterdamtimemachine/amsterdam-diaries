@@ -86,7 +86,7 @@ const importEntries = async (importUrl: string) => {
 
       // Temporary solution till data is fixed
       // If targets is empty, use the annotations
-      if (Array.isArray(targets) && targets.length === 0) {
+      if (!targets || (Array.isArray(targets) && targets.length === 0)) {
         targets = tempTargets[id];
       }
 
