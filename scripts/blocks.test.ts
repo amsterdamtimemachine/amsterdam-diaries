@@ -1,14 +1,14 @@
 import { it, describe, expect } from 'vitest';
-import { importParagraphs } from './paragraphs';
+import { importBlocks } from './blocks';
 
-const url = 'http://localhost:3000/testdata/paragraphs.jsonld';
+const url = 'http://localhost:3000/testdata/blocks.jsonld';
 
-describe('Paragraphs', async () => {
+describe('Blocks', async () => {
   it('should pass validation', async () => {
     const result = await (await fetch(url)).json();
     const allowedKeys = ['@context', 'id', 'type', 'textGranularity', 'items', 'body', 'target'];
     const blocks = result.filter((data: any) => {
-      return data.textGranularity === 'block' && data.body?.[0]?.source?.label === 'Paragraph';
+      return data.textGranularity === 'block';
     });
 
     // Top level check
@@ -34,7 +34,7 @@ describe('Paragraphs', async () => {
   });
 
   it('should parse correctly', async () => {
-    const result = await importParagraphs(url);
+    const result = await importBlocks(url);
     expect(result).toEqual({
       images: [
         {
@@ -44,117 +44,145 @@ describe('Paragraphs', async () => {
           thumbnailUrl:
             'https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_03.jpg/full/,250/0/default.jpg',
         },
+        {
+          contentUrl:
+            'https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_17.jpg/full/max/0/default.jpg',
+          id: 'https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_17.jpg',
+          thumbnailUrl:
+            'https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_17.jpg/full/,250/0/default.jpg',
+        },
       ],
-      paragraphs: [
+      blocks: [
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077',
+          type: 'Paragraph',
           dimensions: 'xywh=785,777,685,410',
           imageId:
             'https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_03.jpg',
+        },
+        {
+          id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r',
+          type: 'Visual',
+          imageId:
+            'https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_03.jpg',
+          dimensions: 'xywh=749,12,729,618',
+        },
+        {
+          id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0017_urn-gvn-EVDO01-IIAV002_IAV001000030-large_17/r_987',
+          type: 'Heading',
+          imageId:
+            'https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_17.jpg',
+          dimensions: 'xywh=787,622,218,31',
         },
       ],
       lines: [
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077-tr_1_tl_9',
-          paragraphId:
+          blockId:
             'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077',
           position: 1,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077-tr_1_tl_10',
-          paragraphId:
+          blockId:
             'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077',
           position: 2,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077-tr_1_tl_11',
-          paragraphId:
+          blockId:
             'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077',
           position: 3,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077-tr_1_tl_12',
-          paragraphId:
+          blockId:
             'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077',
           position: 4,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077-tr_1_tl_13',
-          paragraphId:
+          blockId:
             'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077',
           position: 5,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077-tr_1_tl_14',
-          paragraphId:
+          blockId:
             'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077',
           position: 6,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077-tr_1_tl_15',
-          paragraphId:
+          blockId:
             'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077',
           position: 7,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077-tr_1_tl_16',
-          paragraphId:
+          blockId:
             'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077',
           position: 8,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077-tr_1_tl_17',
-          paragraphId:
+          blockId:
             'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077',
           position: 9,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077-tr_1_tl_18',
-          paragraphId:
+          blockId:
             'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077',
           position: 10,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077-tr_1_tl_19',
-          paragraphId:
+          blockId:
             'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077',
           position: 11,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077-tr_1_tl_20',
-          paragraphId:
+          blockId:
             'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077',
           position: 12,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077-tr_1_tl_21',
-          paragraphId:
+          blockId:
             'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077',
           position: 13,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077-line_1690982669202_88',
-          paragraphId:
+          blockId:
             'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077',
           position: 14,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077-tr_1_tl_24',
-          paragraphId:
+          blockId:
             'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077',
           position: 15,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077-line_1690982677443_93',
-          paragraphId:
+          blockId:
             'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077',
           position: 16,
         },
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077-l_381',
-          paragraphId:
+          blockId:
             'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r_1077',
           position: 17,
+        },
+        {
+          id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0017_urn-gvn-EVDO01-IIAV002_IAV001000030-large_17/r_987-tr_1_tl_26',
+          blockId:
+            'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0017_urn-gvn-EVDO01-IIAV002_IAV001000030-large_17/r_987',
+          position: 1,
         },
       ],
     });

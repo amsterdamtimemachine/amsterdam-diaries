@@ -7,9 +7,9 @@ const definitionLines = {
       primary: true,
     },
     {
-      name: 'paragraphId',
+      name: 'blockId',
       type: 'text',
-      foreign: 'paragraph',
+      foreign: 'block',
     },
     {
       name: 'position',

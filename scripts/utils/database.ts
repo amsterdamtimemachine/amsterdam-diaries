@@ -123,19 +123,7 @@ class Database {
   // Test purposes
   // TODO: Move this out of there
   public async clean(): Promise<void> {
-    const tables = [
-      'line',
-      'paragraph',
-      'entry',
-      'book',
-      'author',
-      'annotation',
-      'place',
-      'organization',
-      'person',
-      'concept',
-      'image',
-    ];
+    const tables = ['line', 'block', 'entry', 'book', 'author', 'annotation', 'resource', 'concept', 'image'];
     for (const table of tables) {
       if (this.debug) {
         console.log(`[Database] - Dropping table: ${table}`);

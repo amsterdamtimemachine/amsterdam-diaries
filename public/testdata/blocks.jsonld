@@ -61,5 +61,99 @@
         }
       ]
     }
+  },
+  {
+    "@context": [
+      "http://www.w3.org/ns/anno.jsonld",
+      "http://iiif.io/api/extension/text-granularity/context.json"
+    ],
+    "id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r",
+    "type": "Annotation",
+    "textGranularity": "block",
+    "items": [
+      "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r-empty"
+    ],
+    "body": [
+      {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/regions/visual",
+          "type": "skos:Concept",
+          "label": "Visual",
+          "skos:broader": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/regions/region"
+        },
+        "purpose": "tagging"
+      }
+    ],
+    "target": {
+      "id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000030-large_03/r-target",
+      "type": "SpecificResource",
+      "source": {
+        "@id": "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_03.jpg",
+        "type": "ImageObject",
+        "name": "urn-gvn-EVDO01-IIAV002_IAV001000030-large_03.jpg",
+        "contentUrl": "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_03.jpg/full/max/0/default.jpg",
+        "thumbnailUrl": "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_03.jpg/full/,250/0/default.jpg"
+      },
+      "selector": [
+        {
+          "type": "FragmentSelector",
+          "value": "xywh=749,12,729,618",
+          "conformsTo": "http://www.w3.org/TR/media-frags/"
+        },
+        {
+          "type": "SvgSelector",
+          "value": "<svg xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"1478,630 749,630 749,12 1478,12 1478,630\"/></svg>",
+          "conformsTo": "http://www.w3.org/TR/SVG/"
+        }
+      ]
+    }
+  },
+  {
+    "@context": [
+      "http://www.w3.org/ns/anno.jsonld",
+      "http://iiif.io/api/extension/text-granularity/context.json"
+    ],
+    "id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0017_urn-gvn-EVDO01-IIAV002_IAV001000030-large_17/r_987",
+    "type": "Annotation",
+    "textGranularity": "block",
+    "items": [
+      "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0017_urn-gvn-EVDO01-IIAV002_IAV001000030-large_17/r_987-tr_1_tl_26"
+    ],
+    "body": [
+      {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/regions/heading",
+          "type": "skos:Concept",
+          "label": "Heading",
+          "skos:broader": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/regions/region"
+        },
+        "purpose": "tagging"
+      }
+    ],
+    "target": {
+      "id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0017_urn-gvn-EVDO01-IIAV002_IAV001000030-large_17/r_987-target",
+      "type": "SpecificResource",
+      "source": {
+        "@id": "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_17.jpg",
+        "type": "ImageObject",
+        "name": "urn-gvn-EVDO01-IIAV002_IAV001000030-large_17.jpg",
+        "contentUrl": "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_17.jpg/full/max/0/default.jpg",
+        "thumbnailUrl": "https://images.diaries.amsterdamtimemachine.nl/iiif/urn-gvn-EVDO01-IIAV002_IAV001000030-large_17.jpg/full/,250/0/default.jpg"
+      },
+      "selector": [
+        {
+          "type": "FragmentSelector",
+          "value": "xywh=787,622,218,31",
+          "conformsTo": "http://www.w3.org/TR/media-frags/"
+        },
+        {
+          "type": "SvgSelector",
+          "value": "<svg xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"822,622 1005,623 1005,653 787,653 787,622 822,622\"/></svg>",
+          "conformsTo": "http://www.w3.org/TR/SVG/"
+        }
+      ]
+    }
   }
 ]

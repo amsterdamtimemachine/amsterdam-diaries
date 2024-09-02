@@ -16,11 +16,7 @@ const frame: Frame = {
       '@id': 'https://schema.org/isPartOf',
       '@type': '@id',
     },
-    targets: {
-      '@id': 'http://www.w3.org/ns/oa#hasTarget',
-      '@type': '@id',
-      '@container': '@list',
-    },
+    targets: 'https://schema.org/hasPart',
   },
   '@type': 'Manuscript',
   id: {},
@@ -64,17 +60,6 @@ const importEntries = async (importUrl: string) => {
   const framed = await jsonld.frame(json, frame, { explicit: true, omitGraph: false });
   const items = Array.isArray(framed['@graph']) ? framed['@graph'] : [];
 
-  /**
-   * Temporary solution till data is fixed
-   */
-  const tempTargets = json
-    .filter((data: any) => data.body?.[0]['@type'] === 'Manuscript')
-    .reduce((acc: any, data: any) => {
-      const entryId = data.body?.[0]['@id'];
-      acc[entryId] = data.target;
-      return acc;
-    }, {});
-
   return items.reduce(
     (acc: any, { targets, id, dateCreated, bookId, name }: any) => {
       const entry = {
@@ -84,13 +69,7 @@ const importEntries = async (importUrl: string) => {
         bookId: bookId.id,
       };
 
-      // Temporary solution till data is fixed
-      // If targets is empty, use the annotations
-      if (!targets || (Array.isArray(targets) && targets.length === 0)) {
-        targets = tempTargets[id];
-      }
-
-      const parsedTargets = (targets ?? []).map((target: string, index: number) => {
+      const parsedTargets = (Array.isArray(targets) ? targets : [targets]).map((target: string, index: number) => {
         return {
           id: target,
           entryId: id,
@@ -99,12 +78,12 @@ const importEntries = async (importUrl: string) => {
       });
       // Update the accumulator and return it
       acc.entries.push(entry);
-      acc.paragraphs.push(...parsedTargets);
+      acc.blocks.push(...parsedTargets);
       return acc;
     },
     {
       entries: [],
-      paragraphs: [],
+      blocks: [],
     },
   );
 };

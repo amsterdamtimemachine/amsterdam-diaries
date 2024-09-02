@@ -22,7 +22,7 @@ describe('Entries', async () => {
       // Check book definition
       // Since some keys are optional, check if the keys we have are expected
       const bookDefinition = manuscript.body[0];
-      const allowedBookKeys = ['@context', '@id', '@type', 'isPartOf', 'text', 'name', 'dateCreated', 'target'];
+      const allowedBookKeys = ['@context', '@id', '@type', 'isPartOf', 'text', 'name', 'dateCreated', 'hasPart'];
       expect(Object.keys(bookDefinition).every(key => allowedBookKeys.includes(key))).toBe(true);
 
       // Check the text
@@ -50,7 +50,7 @@ describe('Entries', async () => {
           dateCreated: '1940',
         },
       ],
-      paragraphs: [
+      blocks: [
         {
           id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_429',
           entryId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',

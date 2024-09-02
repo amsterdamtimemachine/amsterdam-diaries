@@ -1,83 +1,83 @@
 [
-    {
-        "@context": [
-            "http://www.w3.org/ns/anno.jsonld",
-            {
-                "target": {
-                    "@id": "oa:hasTarget",
-                    "@type": "@id",
-                    "@container": "@list"
-                }
-            }
+  {
+    "@context": [
+      "http://www.w3.org/ns/anno.jsonld",
+      {
+        "target": {
+          "@id": "oa:hasTarget",
+          "@type": "@id",
+          "@container": "@list"
+        }
+      }
+    ],
+    "id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66-annotation",
+    "motivation": "classifying",
+    "type": "Annotation",
+    "body": [
+      {
+        "@context": {
+          "@vocab": "https://schema.org/",
+          "text": {
+            "@id": "https://schema.org/text",
+            "@type": "@id",
+            "@container": "@list"
+          },
+          "name": "https://schema.org/name"
+        },
+        "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66",
+        "@type": "Manuscript",
+        "isPartOf": {
+          "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/diaries/1",
+          "@type": "Book"
+        },
+        "text": [
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_438-r_438_tl_1",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_484-r_484_tl_1",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_1",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_2",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_3",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_4",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_5",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_6",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_7",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_8",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_9",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_10",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_11",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_12",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_13",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_14",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_15",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_16",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_17",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_18",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_502-r_502_tl_1",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_511-r_511_tl_1"
         ],
-        "id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66-annotation",
-        "motivation": "classifying",
-        "type": "Annotation",
-        "body": [
-            {
-                "@context": {
-                    "@vocab": "https://schema.org/",
-                    "text": {
-                        "@id": "https://schema.org/text",
-                        "@type": "@id",
-                        "@container": "@list"
-                    },
-                    "name": "https://schema.org/name"
-                },
-                "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66",
-                "@type": "Manuscript",
-                "isPartOf": {
-                    "@id": "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/diaries/1",
-                    "@type": "Book"
-                },
-                "text": [
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_438-r_438_tl_1",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_484-r_484_tl_1",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_1",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_2",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_3",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_4",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_5",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_6",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_7",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_8",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_9",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_10",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_11",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_12",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_13",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_14",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_15",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_16",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_17",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493-r_493_tl_18",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_502-r_502_tl_1",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_511-r_511_tl_1"
-                ],
-                "name": "Een Woord Tot de Jongeren",
-                "dateCreated": {
-                    "@type": "http://www.w3.org/2001/XMLSchema#date",
-                    "@value": "1940"
-                },
-                "target": [
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_429",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_438",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_484",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_475",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_502",
-                    "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_511"
-                ]
-            }
-        ],
-        "target": [
-            "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_429",
-            "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_438",
-            "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_484",
-            "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_475",
-            "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493",
-            "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_502",
-            "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_511"
+        "name": "Een Woord Tot de Jongeren",
+        "dateCreated": {
+          "@type": "http://www.w3.org/2001/XMLSchema#date",
+          "@value": "1940"
+        },
+        "hasPart": [
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_429",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_438",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_484",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_475",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_502",
+          "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_511"
         ]
-    }
+      }
+    ],
+    "target": [
+      "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_429",
+      "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_438",
+      "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_484",
+      "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_475",
+      "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493",
+      "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_502",
+      "https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_511"
+    ]
+  }
 ]

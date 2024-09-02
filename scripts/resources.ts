@@ -2,50 +2,30 @@ import jsonld from 'jsonld';
 import generateUniqueSlug from './utils/generateUniqueSlug';
 
 // Types
-type person = {
+type FramedResource = {
   id: string;
-  name: string;
-  slug: string;
-  description?: string;
-};
-type organization = {
-  id: string;
-  name: string;
-  slug: string;
-  description?: string;
-  latitude?: number;
-  longitude?: number;
-};
-type place = {
-  id: string;
+  type: 'Place' | 'Organization' | 'Person' | 'GeoCoordinates';
   name: string;
   description?: string;
-  latitude?: number;
-  longitude?: number;
-};
-type fOrganization = organization & {
-  geo: {
+  geo?: {
+    id: 'string';
+    type: 'GeoCoordinates';
     latitude: number;
     longitude: number;
   };
 };
-type fPlace = fOrganization;
 
-// Frames
-const personFrame = {
-  '@context': {
-    '@vocab': 'https://schema.org/',
-    id: '@id',
-    type: '@type',
-    name: 'name',
-    description: 'description',
-  },
-  '@type': 'Person',
-  id: {},
-  name: {},
-  description: {},
+type Resource = {
+  id: string;
+  type: 'Place' | 'Organization' | 'Person';
+  name: string;
+  slug: string;
+  description?: string;
+  latitude?: number;
+  longitude?: number;
 };
-const organizationFrame = {
+
+const frame = {
   '@context': {
     '@vocab': 'https://schema.org/',
     id: '@id',
@@ -61,32 +41,6 @@ const organizationFrame = {
       '@id': 'https://schema.org/longitude',
     },
   },
-  '@type': 'Organization',
-  id: {},
-  name: {},
-  description: {},
-  geo: {
-    latitude: {},
-    longitude: {},
-  },
-};
-const placeFrame = {
-  '@context': {
-    '@vocab': 'https://schema.org/',
-    id: '@id',
-    type: '@type',
-    name: 'name',
-    description: 'description',
-    latitude: {
-      '@type': 'http://www.w3.org/2001/XMLSchema#double',
-      '@id': 'https://schema.org/latitude',
-    },
-    longitude: {
-      '@type': 'http://www.w3.org/2001/XMLSchema#double',
-      '@id': 'https://schema.org/longitude',
-    },
-  },
-  '@type': 'Place',
   id: {},
   name: {},
   description: {},
@@ -96,9 +50,8 @@ const placeFrame = {
   },
 };
 
-// Definitions
-const definitionPeople = {
-  name: 'person',
+const definitionResources = {
+  name: 'resource',
   fields: [
     {
       name: 'id',
@@ -106,26 +59,8 @@ const definitionPeople = {
       primary: true,
     },
     {
-      name: 'name',
+      name: 'type',
       type: 'text',
-    },
-    {
-      name: 'slug',
-      type: 'text',
-    },
-    {
-      name: 'description',
-      type: 'text',
-    },
-  ],
-};
-const definitionOrganizations = {
-  name: 'organization',
-  fields: [
-    {
-      name: 'id',
-      type: 'text',
-      primary: true,
     },
     {
       name: 'name',
@@ -149,93 +84,42 @@ const definitionOrganizations = {
     },
   ],
 };
-const definitionPlaces = {
-  name: 'place',
-  fields: [
-    {
-      name: 'id',
-      type: 'text',
-      primary: true,
-    },
-    {
-      name: 'name',
-      type: 'text',
-    },
-    {
-      name: 'description',
-      type: 'text',
-    },
-    {
-      name: 'latitude',
-      type: 'real',
-    },
-    {
-      name: 'longitude',
-      type: 'real',
-    },
-  ],
-};
 
-const importResources = async (
-  importUrl: string,
-): Promise<{
-  people: person[];
-  organizations: organization[];
-  places: place[];
-}> => {
+const importResources = async (importUrl: string): Promise<Resource[]> => {
   const result = await fetch(importUrl);
   const json = await result.json();
+  const framed = await jsonld.frame(json, frame, { omitGraph: false });
 
-  const resources = {
-    people: [] as person[],
-    organizations: [] as organization[],
-    places: [] as place[],
-  };
+  return ((framed['@graph'] ?? []) as FramedResource[]).reduce((acc: Resource[], item: FramedResource) => {
+    // Skip GeoCoordinates
+    if (item.type === 'GeoCoordinates') {
+      return acc;
+    }
 
-  const frameJson = async (frame: any): Promise<any[]> => {
-    const framedData = await jsonld.frame(json, frame, { explicit: true, omitGraph: false });
-    return (framedData['@graph'] ?? []) as any[];
-  };
+    // If the resource doesn't have a name, log a warning and skip it
+    if (!item.name) {
+      console.warn('Invalid Resource: ', item);
+      return acc;
+    }
 
-  resources.people = (await frameJson(personFrame)).reduce((acc: person[], item: person) => {
+    // Generate the slug and using the existing slugs to make it unique
+    const slug = generateUniqueSlug(
+      item.name,
+      acc.map(eItem => eItem.slug),
+    );
+
+    // Add the item to the collections
     acc.push({
       id: item.id,
+      type: item.type,
       name: item.name,
-      slug: item.name
-        ? generateUniqueSlug(
-            item.name,
-            acc.map(eItem => eItem.slug),
-          )
-        : '',
-      description: item.description,
-    });
-    return acc;
-  }, []);
-  resources.organizations = (await frameJson(organizationFrame)).reduce((acc: organization[], item: fOrganization) => {
-    acc.push({
-      id: item.id,
-      name: item.name,
-      slug: generateUniqueSlug(
-        item.name,
-        acc.map(eItem => eItem.slug),
-      ),
+      slug,
       description: item.description,
       latitude: item.geo?.latitude,
       longitude: item.geo?.longitude,
     });
     return acc;
   }, []);
-  resources.places = (await frameJson(placeFrame)).map((item: fPlace) => {
-    return {
-      id: item.id,
-      name: item.name,
-      description: item.description,
-      latitude: item.geo?.latitude,
-      longitude: item.geo?.longitude,
-    };
-  });
-
-  return resources;
 };
 
-export { definitionPeople, definitionOrganizations, definitionPlaces, importResources };
+export { definitionResources, importResources };
