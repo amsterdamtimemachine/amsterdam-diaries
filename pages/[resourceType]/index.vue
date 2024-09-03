@@ -21,7 +21,7 @@
           :key="item.id"
           :title="item.name || ''"
           :description="item.description"
-          :image="item.imageid"
+          :image="item.image"
           :link="`/${resourceType}/${item.slug}`"
           :linkText="linkText(item.name || '')"
           :lines="lines"

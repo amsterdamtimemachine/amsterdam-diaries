@@ -6,8 +6,8 @@
       'overview-horizontal': resourceType === 'personen',
     }">
     <Image
-      :class="{ image: true, 'image-contain': !resource.imageid }"
-      :src="resource.imageid || defaultImage"
+      :class="{ image: true, 'image-contain': !resource.image }"
+      :src="resource.image || defaultImage"
       :default="defaultImage"
       :alt="capitalizedTitle" />
     <PageIntro

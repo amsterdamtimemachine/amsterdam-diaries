@@ -56,7 +56,7 @@ declare global {
     name: string;
     slug: string;
     description?: string;
-    imageid?: string;
+    image?: string;
   };
 
   type ResourceInfo = {

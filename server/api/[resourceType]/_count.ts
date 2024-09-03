@@ -1,6 +1,6 @@
 import { getClient } from '#imports';
-import useCapitalize from '~/composables/useCapitalize';
 import { ValidResources } from '~/data/enums';
+import { Queries } from '~/data/queries';
 
 export default defineEventHandler(async event => {
   const client = getClient();
@@ -8,6 +8,6 @@ export default defineEventHandler(async event => {
   if (!Object.values(ValidResources).includes(resourceType)) {
     return [];
   }
-  const resources = await client.query(`SELECT COUNT(*) FROM Resource WHERE type=$1`, [useCapitalize(resourceType)]);
+  const resources = await client.query(Queries[`${resourceType}Count`]);
   return resources.rows[0].count;
 });

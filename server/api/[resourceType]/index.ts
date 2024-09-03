@@ -1,19 +1,22 @@
 import { getClient } from '#imports';
-import useCapitalize from '~/composables/useCapitalize';
 import { ValidResources } from '~/data/enums';
+import { Parsers, Queries } from '~/data/queries';
 
 export default defineEventHandler(async event => {
   const client = getClient();
   const resourceType = getRouterParam(event, 'resourceType') as string;
   const resourceLimit = getQuery(event).limit as string;
   const offset = getQuery(event).offset as string;
-
   if (!Object.values(ValidResources).includes(resourceType)) {
     return [];
   }
+
+  const text = Queries[`${resourceType}List`];
   const query = {
-    text: `SELECT * FROM Resource WHERE type=$1 ORDER BY name LIMIT $2 OFFSET $3`,
-    values: [useCapitalize(resourceType), resourceLimit, offset],
+    text,
+    values: [resourceLimit, offset],
   };
-  return (await client.query(query)).rows;
+  const rows = (await client.query(query)).rows;
+  const parser = Parsers[`${resourceType}List`] || Parsers.list;
+  return parser(rows);
 });
