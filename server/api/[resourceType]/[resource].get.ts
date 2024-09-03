@@ -1,4 +1,5 @@
 import { getClient } from '#imports';
+import useCapitalize from '~/composables/useCapitalize';
 import { ValidResources } from '~/data/enums';
 
 export default defineEventHandler(async event => {
@@ -8,6 +9,9 @@ export default defineEventHandler(async event => {
     return null;
   }
   const slug = getRouterParam(event, 'resource') as string;
-  const resource = await client.query(`SELECT * FROM ${resourceType} WHERE slug = $1`, [slug]);
-  return resource.rows[0];
+  const query = {
+    text: `SELECT * FROM Resource WHERE type=$1 AND slug=$2`,
+    values: [useCapitalize(resourceType), slug],
+  };
+  return (await client.query(query)).rows[0];
 });
