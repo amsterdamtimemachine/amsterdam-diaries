@@ -94,6 +94,7 @@ const generateAnnotationLine = (text: string, data: any) => {
   };
 
   // Filter out null values from the object
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return Object.fromEntries(Object.entries(obj).filter(([_, value]) => value !== null));
 };
 

@@ -33,32 +33,33 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * Meta data
+ */
 definePageMeta({
   layout: 'diary',
 });
-onMounted(() => loadPage(1));
-// TODO: Add way to also load previous pages (navigating from other pages to specific page)
-import type { DiaryPage } from '#build/components';
 
 /**
  * Store deps
  */
 const authorStore = useAuthorStore();
 const authorSlug = useRoute().params.authorName as string;
+const pageId = useRoute().query.page as string;
 
 /**
  * State & props
  */
+const author = ref<Author>();
 const page = ref<Page>();
-const pageNr = ref<number>(1);
+const pageNr = ref<number>(pageId ? parseInt(pageId) : 1);
 const PHOTO_AMOUNT = 10;
 
 /**
  * Computed Properties
  */
 const totalPages = computed<number>(() => {
-  const author = authorStore.findAuthorBySlug(authorSlug);
-  return author?.totalPages || 0;
+  return author.value?.totalPages || 0;
 });
 
 /**
@@ -72,6 +73,18 @@ const loadPage = async (pageNumber: number) => {
     page.value = newPage;
   }
 };
+
+/**
+ * Lifecycle methods
+ */
+onMounted(async () => {
+  // Fetch the authors
+  await authorStore.fetchAuthors(authorSlug);
+  // Load the author
+  author.value = authorStore.findAuthorBySlug(authorSlug);
+  // Load the page based on the uri
+  loadPage(pageNr.value);
+});
 </script>
 
 <style lang="scss" scoped>

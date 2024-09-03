@@ -61,7 +61,7 @@ const definitionAuthors = {
     {
       name: 'birthPlaceId',
       type: 'text',
-      foreign: 'place',
+      foreign: 'resource',
     },
     {
       name: 'deathDate',
@@ -70,7 +70,7 @@ const definitionAuthors = {
     {
       name: 'deathPlaceId',
       type: 'text',
-      foreign: 'place',
+      foreign: 'resource',
     },
     {
       name: 'description',
@@ -92,7 +92,7 @@ const importAuthors = async (importUrl: string) => {
   const items = Array.isArray(flatten['@graph']) ? flatten['@graph'] : [];
   const response: Record<string, any[]> = {
     authors: [],
-    places: [],
+    resources: [],
     images: [],
   };
 
@@ -115,8 +115,9 @@ const importAuthors = async (importUrl: string) => {
         });
         break;
       case 'Place':
-        response.places.push({
+        response.resources.push({
           id: item.id,
+          type: 'Place',
           name: item.name,
         });
         break;

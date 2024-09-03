@@ -39,7 +39,7 @@ await db.insert('annotation', annotations);
 
 const authors = await importAuthors(`${baseUrl}/metadata.jsonld`);
 await db.insert('image', authors.images);
-await db.insert('place', authors.places);
+await db.insert('resource', authors.resources);
 await db.insert('author', authors.authors);
 
 const books = await importBooks(`${baseUrl}/metadata.jsonld`);

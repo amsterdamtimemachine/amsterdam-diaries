@@ -63,14 +63,16 @@ describe('Authors', async () => {
             'https://images.diaries.amsterdamtimemachine.nl/iiif/profile-overview/els-polak/profile/1.jpg/full/max/0/default.jpg/full/96,/0/default.jpg',
         },
       ],
-      places: [
+      resources: [
         {
           id: 'http://www.wikidata.org/entity/Q14492',
           name: 'Balikpapan',
+          type: 'Place',
         },
         {
           id: 'http://www.wikidata.org/entity/Q60',
           name: 'New York',
+          type: 'Place',
         },
       ],
     });

@@ -14,8 +14,8 @@ export const useAuthorStore = defineStore('Author', () => {
   /**
    * Methods
    */
-  const fetchAuthors = async () => {
-    const result: any = await $fetch('/api/authors');
+  const fetchAuthors = async (slug?: string) => {
+    const result: any = await $fetch(`/api/authors${slug ? `?slug=${slug}` : ''}`);
     authors.value = result.authors;
   };
 
