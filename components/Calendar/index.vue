@@ -47,14 +47,17 @@ const attributes = computed<any>(() => [
 /**
  * Methods
  */
+const setActiveDay = (el: Element) => {
+  if (!el.classList.contains('active')) {
+    calendar.value.containerRef.querySelectorAll('.active').forEach((el: Element) => el.classList.remove('active'));
+    el.classList.add('active');
+  }
+};
 const dayClick = (calendarEvent: any, pointerEvent: any) => {
   if (calendarEvent.attributes?.length && pointerEvent.target?.parentElement) {
     // Set active state on clicked day (not optimal, but best solution for now)
     const parent = pointerEvent.target.parentElement;
-    if (!parent.classList.contains('active')) {
-      document.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
-      parent.classList.add('active');
-    }
+    setActiveDay(parent);
     const date: Date = calendarEvent.date;
     emit(
       'setSnippets',
@@ -107,6 +110,23 @@ const setCalenderYear = async (year: number) => {
   await nextTick();
   calendar.value.move({ month, year });
 };
+/**
+ * Lifecycle Hooks
+ */
+onMounted(async () => {
+  await nextTick();
+  const firstDate = props.dates.find(d => d.value.getFullYear() === props.year);
+  if (firstDate) {
+    const dateClass = firstDate.value.toISOString().split('T')[0];
+    // Days in VCalendar are rendered with a class with name id-<date>
+    const dateElement = calendar.value.containerRef.querySelector(`.id-${dateClass}`);
+    if (dateElement) {
+      setActiveDay(dateElement);
+      emit('setSnippets', firstDate);
+    }
+  }
+});
+
 /**
  * Watchers
  */

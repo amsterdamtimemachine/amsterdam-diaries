@@ -26,7 +26,7 @@
       <div
         v-if="snippets.length"
         class="snippet-header">
-        {{ snippets.length }} dagboek items
+        {{ snippets.length }} dagboek item{{ snippets.length > 1 ? 's' : '' }}
       </div>
       <DiaryCards
         class="cards"
