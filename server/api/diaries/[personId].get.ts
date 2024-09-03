@@ -1,30 +1,29 @@
-const fetchAndParsePages = async (diaryId: string) => {
-  const pages = await useFetchGraph('entriesOfDiary', diaryId);
-  const result = [];
-  for (let idx = 0; idx < pages.length; ++idx) {
-    const page = pages[idx];
-    result.push({
-      ...page,
-      id: useSimplifyId(page.id as string),
-    });
-  }
-  return result;
+const fetchDiaries = async (id: string) => {
+  const client = getClient();
+  const query = {
+    text: `SELECT id,
+                  name,
+                  description,
+                  temporalCoverage
+           FROM book
+           WHERE authorid = $1`,
+    values: [id],
+  };
+  return (await client.query(query)).rows;
 };
 
-const fetchAndParseDiaries = async (id: string) => {
-  const diaries = await useFetchGraph('diariesOfAuthor', id);
-  const result = [];
-
-  for (let idx = 0; idx < diaries.length; ++idx) {
-    const diary = diaries[idx];
-    result.push({
-      ...diary,
-      id: useSimplifyId(diary.id as string),
-      pages: await fetchAndParsePages(diary.id as string),
-    });
-  }
-
-  return result;
+const fetchEntries = async (id: string) => {
+  const client = getClient();
+  const query = {
+    text: `SELECT id,
+                  name,
+                  position,
+                  dateCreated
+           FROM entry
+           WHERE bookid = $1`,
+    values: [id],
+  };
+  return (await client.query(query)).rows;
 };
 
 export default defineEventHandler(async event => {
@@ -33,8 +32,23 @@ export default defineEventHandler(async event => {
   const id = `${config.app.entityBaseUri}${personId}`;
 
   try {
-    const diaries = await fetchAndParseDiaries(id);
-    return { diaries };
+    const data = await fetchDiaries(id);
+    const diaries = [];
+    for (let idx = 0; idx < data.length; ++idx) {
+      const pages = (await fetchEntries(data[idx].id)).sort((a, b) => a.position - b.position);
+      diaries.push({
+        id: useSimplifyId(data[idx].id),
+        type: 'Book',
+        temporalCoverage: data[idx].temporalcoverage,
+        pages: pages.map(page => ({
+          id: useSimplifyId(page.id),
+          type: 'Manuscript',
+          dateCreated: page.datecreated,
+        })),
+      });
+    }
+
+    return { diaries, my: 'error' };
   } catch (e) {
     console.error('Error: ', e);
     setResponseStatus(event, 400);

@@ -28,15 +28,15 @@ export const useAuthorStore = defineStore('Author', () => {
     // If there aren't any pages, load in al references
     if (!author.pages?.length) {
       const result = await $fetch(`/api/diaries/${author.id}`);
-      author.pages = ((result?.diaries || []) as Book[])
-        .map((diary: Book) => diary.pages)
-        .flat()
-        .sort((a: Page, b: Page) => a.dateCreated.localeCompare(b.dateCreated));
+      author.pages = ((result?.diaries || []) as Book[]).map((diary: Book) => diary.pages).flat();
       author.totalPages = author.pages.length;
     }
 
     // Use the pageNumber to find the page
     const page = author.pages![pageNumber - 1];
+    if (!page) {
+      return;
+    }
 
     if (!page.sections?.length) {
       const result: any = await $fetch(`/api/entries/${page.id}`);

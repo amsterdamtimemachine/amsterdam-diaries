@@ -28,8 +28,8 @@
   </div>
   <DiaryPagination
     :current-page="pageNr"
-    @next-page="loadPage(pageNr + 1)"
-    @previous-page="loadPage(pageNr - 1)" />
+    @next-page="navigateTo(`/dagboeken/${authorSlug}?page=${pageNr + 1}`)"
+    @previous-page="navigateTo(`/dagboeken/${authorSlug}?page=${pageNr - 1}`)" />
 </template>
 
 <script setup lang="ts">
@@ -73,6 +73,13 @@ const loadPage = async (pageNumber: number) => {
     page.value = newPage;
   }
 };
+
+watch(
+  () => useRoute().query.page,
+  newPageId => {
+    loadPage(parseInt(newPageId as string));
+  },
+);
 
 /**
  * Lifecycle methods
