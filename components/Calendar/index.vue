@@ -222,7 +222,7 @@ watch(
 
       &:has(.vc-day-layer) {
         &:hover,
-        &:focus-within {
+        &.active {
           .vc-day-content {
             padding: var(--space-5);
           }

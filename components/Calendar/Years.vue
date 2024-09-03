@@ -66,7 +66,7 @@ onMounted(async () => {
       const middleYear = yearBtns[Math.floor(yearBtns.length / 2)];
       const offset = 100;
       if (onMobile()) {
-        yearsList.value.scrollLeft = middleYear.offsetLeft + offset - yearsList.value.clientWidth / 2;
+        yearsList.value.scrollLeft = middleYear.offsetLeft - offset / 4 - yearsList.value.clientWidth / 2;
       } else {
         yearsList.value.scrollTop = middleYear.offsetTop - offset - yearsList.value.clientHeight / 2;
       }
