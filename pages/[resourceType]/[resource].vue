@@ -30,7 +30,7 @@ if (!path) {
 const resource = ref(await $fetch(`/api/${path}/${slug}`)) as Ref<Resource>;
 const capitalizedTitle = computed(() => (resource.value.name ? useCapitalize(resource.value.name) : ''));
 const { defaultImage } = ResourceInfo[resourceType as string];
-const snippets = ref(await $fetch(`/api/snippets?externalId=${resource.value.id}`));
+const snippets = ref(await $fetch(`/api/snippets?id=${resource.value.id}&field=externalId`));
 </script>
 
 <style lang="scss" scoped>

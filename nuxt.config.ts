@@ -1,7 +1,14 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['ress/ress.css', 'assets/scss/main.scss'],
-  modules: ['@pinia/nuxt', '@nuxtjs/google-fonts', '@vueuse/nuxt', '@nuxtjs/robots', '@hypernym/nuxt-gsap'],
+  modules: [
+    '@pinia/nuxt',
+    '@nuxtjs/google-fonts',
+    '@vueuse/nuxt',
+    '@nuxtjs/robots',
+    '@hypernym/nuxt-gsap',
+    '@samk-dev/nuxt-vcalendar',
+  ],
   gsap: {
     composables: true,
     extraPlugins: {

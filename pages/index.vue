@@ -50,6 +50,10 @@
                 link="/organisaties" />
               <LinkArrow
                 class="nav-link"
+                link-text="Kalender"
+                link="/kalender" />
+              <LinkArrow
+                class="nav-link"
                 link-text="Personen"
                 link="/personen" />
               <LinkArrow

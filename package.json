@@ -28,7 +28,6 @@
     "nuxt": "^3.11.1",
     "pg": "^8.12.0",
     "pinch-zoom-js": "^2.3.5",
-    "pg": "^8.12.0",
     "pinia": "^2.1.7",
     "ress": "^5.0.2",
     "xml2js": "^0.6.2"
@@ -38,6 +37,7 @@
     "@iconify/vue": "^4.1.1",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@nuxtjs/google-fonts": "^3.2.0",
+    "@samk-dev/nuxt-vcalendar": "^1.0.4",
     "@types/geojson": "^7946.0.14",
     "@types/jsonld": "^1.5.13",
     "@types/leaflet": "^1.9.11",

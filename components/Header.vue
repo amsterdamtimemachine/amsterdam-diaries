@@ -35,6 +35,11 @@
       </NuxtLink>
       <NuxtLink
         @click="hideMenu"
+        to="/kalender">
+        Kalender
+      </NuxtLink>
+      <NuxtLink
+        @click="hideMenu"
         to="/about">
         Over ATM
       </NuxtLink>

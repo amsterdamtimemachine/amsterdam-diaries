@@ -2,7 +2,7 @@ import { getClient } from '#imports';
 
 export default defineEventHandler(async event => {
   const client = getClient();
-  const { externalId, limit } = getQuery(event);
+  const { id, field, limit } = getQuery(event);
 
   const resources = (
     await client.query(`
@@ -10,6 +10,7 @@ export default defineEventHandler(async event => {
       l1.id,
       l1.position,
       l1.value,
+      a.id,
       a.exactText,
       a.startposition,
       a.endposition,
@@ -29,7 +30,7 @@ export default defineEventHandler(async event => {
     JOIN entry e ON p.entryId = e.id
     JOIN book b ON e.bookId = b.id
     JOIN author au ON b.authorId = au.id
-    WHERE a.identifyingid = '${externalId}'
+    WHERE a.${field} = '${id}'
     LIMIT ${limit || 4}`)
   ).rows.map(row => {
     const exactText = row.exacttext;
