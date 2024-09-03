@@ -33,7 +33,6 @@ const rawText = computed<string>(() => {
 <style lang="scss" scoped>
 .read-info {
   position: fixed;
-  width: 100%;
   background: var(--alabaster);
   z-index: 1;
 }
