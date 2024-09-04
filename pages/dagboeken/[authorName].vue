@@ -3,15 +3,17 @@
     <DiaryReadInfo
       :page="page"
       :page-number="pageNr"
-      :total-pages="totalPages" />
-    <DiaryProfile class="diary-profile" />
+      :total-pages="pages.length" />
+    <DiaryProfile
+      :author="author"
+      class="diary-profile" />
     <DiaryPage
       class="diary-page"
       v-if="page"
       :id="page.id"
       :page="page"
       :page-number="pageNr"
-      :total-pages="totalPages" />
+      :total-pages="pages.length" />
     <LoadingSpinner v-if="!page" />
     <div
       v-if="page"
@@ -28,6 +30,7 @@
   </div>
   <DiaryPagination
     :current-page="pageNr"
+    :pages="pages"
     @next-page="navigateTo(`/dagboeken/${authorSlug}?page=${pageNr + 1}`)"
     @previous-page="navigateTo(`/dagboeken/${authorSlug}?page=${pageNr - 1}`)" />
 </template>
@@ -40,27 +43,22 @@ definePageMeta({
   layout: 'diary',
 });
 
+const slug = useRoute().params.authorName as string;
+const author = (await $fetch(`/api/author/${slug}`)) as unknown as Author;
+const { diaries } = (await $fetch(`/api/diaries/${author.id}`)) as unknown as { diaries: Book[] };
+const pages = diaries.map((diary: Book) => diary.pages).flat();
 /**
  * Store deps
  */
-const authorStore = useAuthorStore();
 const authorSlug = useRoute().params.authorName as string;
 const pageId = useRoute().query.page as string;
 
 /**
  * State & props
  */
-const author = ref<Author>();
 const page = ref<Page>();
 const pageNr = ref<number>(pageId ? parseInt(pageId) : 1);
 const PHOTO_AMOUNT = 10;
-
-/**
- * Computed Properties
- */
-const totalPages = computed<number>(() => {
-  return author.value?.totalPages || 0;
-});
 
 /**
  * Methods
@@ -68,8 +66,9 @@ const totalPages = computed<number>(() => {
 const loadPage = async (pageNumber: number) => {
   page.value = undefined;
   pageNr.value = pageNumber;
-  const newPage = await authorStore.fetchPage(authorSlug, pageNumber);
+  const newPage = pages[pageNumber - 1];
   if (newPage) {
+    newPage.sections = (await $fetch(`/api/entries/${newPage.id}`)).sections;
     page.value = newPage;
   }
 };
@@ -85,11 +84,6 @@ watch(
  * Lifecycle methods
  */
 onMounted(async () => {
-  // Fetch the authors
-  await authorStore.fetchAuthors(authorSlug);
-  // Load the author
-  author.value = authorStore.findAuthorBySlug(authorSlug);
-  // Load the page based on the uri
   loadPage(pageNr.value);
 });
 </script>

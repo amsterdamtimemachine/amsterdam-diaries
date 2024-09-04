@@ -1,25 +1,24 @@
 <template>
   <div
-    v-if="currentAuthor"
+    v-if="author"
     class="profile container">
     <div class="left">
-      <span class="font-h2">{{ currentAuthor.name }}</span>
+      <span class="font-h2">{{ author.name }}</span>
     </div>
     <div class="right">
       <Image
         class="profile-image"
-        :src="`${useServerImage(`profile-overview/${currentAuthor.slug}/profile/1.jpg`)}`"
+        :src="`${useServerImage(`profile-overview/${author.slug}/profile/1.jpg`)}`"
         default="default-profile.png"
-        :alt="currentAuthor.slug" />
+        :alt="author.slug" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const currentAuthor = computed<Author | undefined>(() => {
-  const authorSlug = useRoute().params.authorName as string;
-  return useAuthorStore().findAuthorBySlug(authorSlug);
-});
+defineProps<{
+  author: Author;
+}>();
 </script>
 
 <style lang="scss" scoped>

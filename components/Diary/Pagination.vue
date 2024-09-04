@@ -7,8 +7,8 @@
       @click="previousPage" />
     <span
       class="middle"
-      v-if="currentAuthor?.totalPages"
-      >{{ currentPage }}/{{ currentAuthor?.totalPages }}</span
+      v-if="pages.length"
+      >{{ currentPage }}/{{ pages.length }}</span
     >
     <LinkArrow
       class="arrow"
@@ -21,12 +21,8 @@
 <script setup lang="ts">
 const props = defineProps<{
   currentPage: number;
+  pages: Page[];
 }>();
-
-const currentAuthor = computed<Author | undefined>(() => {
-  const authorSlug = useRoute().params.authorName as string;
-  return useAuthorStore().findAuthorBySlug(authorSlug);
-});
 
 const previousPageLabel = computed<string>(() => {
   if (props.currentPage === 1) return '';
@@ -34,12 +30,12 @@ const previousPageLabel = computed<string>(() => {
 });
 
 const nextPageLabel = computed<string>(() => {
-  if (props.currentPage === currentAuthor.value?.totalPages) return '';
+  if (props.currentPage === props.pages.length) return '';
   return `pag. ${props.currentPage + 1}`;
 });
 
 const nextPage = () => {
-  if (props.currentPage === currentAuthor.value?.totalPages) return;
+  if (props.currentPage === props.pages.length) return;
   emit('nextPage');
 };
 

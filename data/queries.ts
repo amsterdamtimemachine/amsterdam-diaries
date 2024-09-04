@@ -123,6 +123,33 @@ export const Parsers: Record<string, (row: any) => any> = {
       };
     });
   },
+  author: (rows: any[]) => {
+    const author = rows[0];
+    return {
+      id: useSimplifyId(author.id),
+      type: 'Person',
+      birthDate: author.birthdate,
+      birthPlace: {
+        id: author.birthplaceid,
+        type: 'Place',
+        name: author.birthplace,
+        latitude: author.birthlat,
+        longitude: author.birthlon,
+      },
+      deathDate: author.deathdate,
+      deathPlace: {
+        id: author.deathplaceid,
+        type: 'Place',
+        name: author.deathplace,
+        latitude: author.deathlat,
+        longitude: author.deathlon,
+      },
+      description: author.description,
+      name: author.name,
+      slug: author.slug,
+      image: author.imageid,
+    };
+  },
   diaries: () => {},
   diary: () => {},
   first: (rows: any[]) => rows[0],
