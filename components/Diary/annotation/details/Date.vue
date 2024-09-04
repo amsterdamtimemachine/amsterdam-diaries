@@ -15,7 +15,7 @@ const props = defineProps<{
 }>();
 
 const dateRef = computed(() => {
-  const dateString = props.line.reference || props.line.value || '';
+  const dateString = props.line.correction || props.line.value || '';
 
   if (!useIsValidDateString(dateString)) {
     return dateString;

@@ -30,7 +30,7 @@ const props = defineProps<{
 }>();
 
 const name = computed<string>(() => {
-  return props.line.name || props.line.reference || props.line.value || '';
+  return props.line.name || props.line.value || '';
 });
 
 const description = computed<string>(() => {
@@ -39,8 +39,8 @@ const description = computed<string>(() => {
 
 const to = computed<RouteLocationRaw>(() => {
   const obj: RouteLocationRaw = { name: 'amsterdam' };
-  if (props.line.reference) {
-    obj.query = { id: btoa(props.line.reference) };
+  if (props.line.identifyingId) {
+    obj.query = { id: btoa(props.line.identifyingId) };
   }
   return obj;
 });
@@ -51,7 +51,7 @@ const hasLocation = computed<boolean>(() => {
     return false;
   }
   const maxBounds = useRuntimeConfig().app.maxBounds;
-  return useIsCoordinateWithinBounds(parseFloat(props.line.latitude!), parseFloat(props.line.longitude!), maxBounds);
+  return useIsCoordinateWithinBounds(props.line.latitude!, props.line.longitude!, maxBounds);
 });
 </script>
 

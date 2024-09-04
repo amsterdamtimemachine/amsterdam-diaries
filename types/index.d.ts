@@ -91,10 +91,13 @@ declare global {
     subType: string;
     name?: string;
     description?: string;
-    reference: string;
     value: string;
-    latitude?: string;
-    longitude?: string;
+    identifyingId?: string;
+    classifyingId: string;
+    correction?: string;
+    slug?: string;
+    latitude?: number;
+    longitude?: number;
   };
 
   type ImageOptions = {
@@ -278,5 +281,14 @@ declare global {
     type: 'TextPositionSelector';
     start: number;
     end: number;
+  };
+
+  /***************************************************************************/
+  /*                                 NEW                                     */
+  /***************************************************************************/
+
+  type DateEntry = {
+    id: string;
+    value: Date;
   };
 }

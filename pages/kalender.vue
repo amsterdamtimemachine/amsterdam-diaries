@@ -36,8 +36,8 @@
 </template>
 
 <script setup lang="ts">
-const dates = ref<{ id: string; value: Date }[]>(
-  (await $fetch('/api/dates')).map((d: { id: string; value: string }) => ({
+const dates = ref<DateEntry[]>(
+  ((await $fetch('/api/dates')) as DateEntry[]).map((d: DateEntry) => ({
     id: d.id,
     value: new Date(d.value),
   })),

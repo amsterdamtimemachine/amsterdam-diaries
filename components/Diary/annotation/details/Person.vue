@@ -20,7 +20,7 @@ const props = defineProps<{
 }>();
 
 const name = computed<string>(() => {
-  return props.line.name || props.line.reference || props.line.value || '';
+  return props.line.name || props.line.value || '';
 });
 
 const description = computed<string>(() => {

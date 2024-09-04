@@ -1,5 +1,3 @@
-import { getClient } from '#imports';
-
 export default defineEventHandler(async event => {
   const client = getClient();
   const { id, field, limit } = getQuery(event);
