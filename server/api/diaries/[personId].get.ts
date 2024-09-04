@@ -26,6 +26,8 @@ const fetchEntries = async (id: string) => {
   return (await client.query(query)).rows;
 };
 
+// TODO: Revisit this end-point at some point
+// We might be able to simplify the data structure
 export default defineEventHandler(async event => {
   const config = useRuntimeConfig();
   const personId = getRouterParam(event, 'personId');

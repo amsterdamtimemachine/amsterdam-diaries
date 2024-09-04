@@ -8,7 +8,7 @@
       class="map"
       marker-variant="light-pink"
       @marker-click="onMarkerClick"
-      :selected-marker-id="selectedMarkerId" />
+      :initial-marker-id="initialMarkerId" />
 
     <h2 class="diaries-header font-h2">{{ diariesHeaderText }}</h2>
     <DiaryCards :cards="diaryCards" />
@@ -20,6 +20,8 @@
  * State & Props
  */
 const locationsName = ref('Amsterdam');
+const defaultInitialMarkerId = 'http://www.wikidata.org/entity/Q727';
+
 const diaryCards = ref<DiaryCard[]>([]);
 const introTitle = ref<string>('Wat beleefden de dagboekschrijfsters in Amsterdam?');
 const introDescription = ref<string>(
@@ -27,7 +29,9 @@ const introDescription = ref<string>(
    door. Bekijk op deze kaart waar in Amsterdam het dagelijks leven van de dagboekschrijfsters zich afspeelde en
    wat ze erover in hun dagboeken noteerden.`,
 );
-const selectedMarkerId = ref<string>('');
+
+// Fetch the initial marker from the query parameter or use the default marker
+const initialMarkerId = ref<string>((useRoute().query.id as string) ?? btoa(defaultInitialMarkerId));
 
 /**
  * Computed Properties
@@ -43,20 +47,8 @@ const diariesHeaderText = computed(() =>
  */
 const onMarkerClick = async (source: AnnotationLine) => {
   locationsName.value = source?.name || '';
-  const annotations = await useFetchAnnotations('context', source.id);
-  diaryCards.value = useMapDiaryCards(annotations);
+  diaryCards.value = await $fetch(`/api/snippets?id=${atob(source.id)}&field=identifyingid`);
 };
-
-/**
- * Lifecycle methods
- */
-onMounted(async () => {
-  // Get id from route
-  const route = useRoute();
-  selectedMarkerId.value = route.query.id as string;
-  const annotations = await useFetchAnnotations('context', 'aHR0cDovL3d3dy53aWtpZGF0YS5vcmcvZW50aXR5L1E3Mjc='); // Amsterdam
-  diaryCards.value = useMapDiaryCards(annotations);
-});
 </script>
 
 <style lang="scss" scoped>

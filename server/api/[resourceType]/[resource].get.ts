@@ -1,4 +1,3 @@
-import { getClient } from '#imports';
 import { ValidResources } from '~/data/enums';
 import { Queries, Parsers } from '~/data/queries';
 

@@ -15,7 +15,7 @@ const props = withDefaults(
     maxBounds?: [number, number][];
     markers?: { lat: number; lng: number }[];
     markerVariant?: 'yellow' | 'light-pink';
-    selectedMarkerId?: string;
+    initialMarkerId?: string;
   }>(),
   {
     markerVariant: 'yellow',
@@ -84,12 +84,9 @@ onMounted(async () => {
       .on('click', onMarkerClick)
       .addTo(map);
 
-    if (marker.id === props.selectedMarkerId) {
-      useFetchAnnotations('context', marker.id).then(annotations => {
-        if (annotations?.[0].value === atob(marker.id)) {
-          curMarker.openPopup();
-          emit('markerClick', marker);
-        }
+    if (marker.id === props.initialMarkerId) {
+      curMarker.fire('click', {
+        latlng: curMarker.getLatLng(),
       });
     }
   });

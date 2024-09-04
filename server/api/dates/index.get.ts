@@ -1,5 +1,3 @@
-import { getClient } from '#imports';
-
 export default defineEventHandler(async () => {
   const client = getClient();
   const dates = await client.query(
