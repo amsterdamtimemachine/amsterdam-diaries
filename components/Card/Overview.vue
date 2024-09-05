@@ -55,11 +55,11 @@ const descriptionStyling = computed(() => {
   background: var(--linen);
   box-shadow: var(--shadow-1);
   min-height: var(--space-78);
+  max-width: 50%;
 }
 
 .body {
   @include flex-column;
-  display: flex;
   gap: var(--space-5);
   padding: var(--space-7);
 }
@@ -98,5 +98,11 @@ const descriptionStyling = computed(() => {
   }
   background: var(--white);
   padding: var(--space-5) var(--space-7);
+}
+
+@include sm-screen-down {
+  .card-overview {
+    max-width: 100%;
+  }
 }
 </style>
