@@ -1,5 +1,5 @@
 export const Queries: Record<string, string> = {
-  authorList: `SELECT a.id,
+  authorList: `SELECT DISTINCT(a.id),
                   a.name,
                   a.description,
                   a.birthdate,
@@ -17,6 +17,7 @@ export const Queries: Record<string, string> = {
                   r2.latitude as deathlat,
                   r2.longitude as deathlon
            FROM author a
+           INNER JOIN book b ON a.id = b.aboutid
            LEFT JOIN resource r1 ON a.birthplaceid = r1.id
            LEFT JOIN resource r2 ON a.deathplaceid = r2.id
            ORDER BY name LIMIT $1 OFFSET $2`,
@@ -88,7 +89,7 @@ export const Queries: Record<string, string> = {
   person: `SELECT * FROM resource WHERE type='Person' AND slug=$1`,
   conceptList: `SELECT * FROM concept ORDER BY name LIMIT $1 OFFSET $2`,
   concept: `SELECT * FROM concept WHERE slug=$1`,
-  authorCount: `SELECT COUNT(*) FROM author`,
+  authorCount: `SELECT COUNT(DISTINCT(a.id)) FROM author a INNER JOIN book b ON a.id = b.aboutid`,
   organizationCount: `SELECT COUNT(*) FROM resource WHERE type='Organization'`,
   personCount: `SELECT COUNT(*) FROM resource WHERE type='Person'`,
   conceptCount: `SELECT COUNT(*) FROM concept`,

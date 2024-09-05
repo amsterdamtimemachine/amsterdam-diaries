@@ -6,7 +6,7 @@ const fetchDiaries = async (id: string) => {
                   description,
                   temporalCoverage
            FROM book
-           WHERE authorid = $1`,
+           WHERE aboutid = $1`,
     values: [id],
   };
   return (await client.query(query)).rows;
@@ -26,8 +26,6 @@ const fetchEntries = async (id: string) => {
   return (await client.query(query)).rows;
 };
 
-// TODO: Revisit this end-point at some point
-// We might be able to simplify the data structure
 export default defineEventHandler(async event => {
   const config = useRuntimeConfig();
   const personId = getRouterParam(event, 'personId');
@@ -50,7 +48,7 @@ export default defineEventHandler(async event => {
       });
     }
 
-    return { diaries, my: 'error' };
+    return { diaries };
   } catch (e) {
     console.error('Error: ', e);
     setResponseStatus(event, 400);

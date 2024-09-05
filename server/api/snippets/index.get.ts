@@ -19,7 +19,8 @@ export default defineEventHandler(async event => {
       b.name AS book_name,
       b.temporalcoverage,
       au.name AS author_name,
-      au.slug AS author_slug
+      au.slug AS author_slug,
+      e.position AS page_number
     FROM line l1
     JOIN annotation a ON l1.id = a.sourceId
     LEFT JOIN Line l2 ON l1.position = l2.position + 1 AND l1.blockid = l2.blockid
@@ -41,7 +42,7 @@ export default defineEventHandler(async event => {
       headerTitle: row.book_name,
       headerSubtitle: row.temporalcoverage || '',
       content: snippet,
-      link: `/dagboeken/${row.author_slug}`,
+      link: `/dagboeken/${row.author_slug}?page=${row.page_number}`,
       linkText: `Lees dagboek van ${row.author_name.split(' ')[0]}`,
     } as DiaryCard;
   });

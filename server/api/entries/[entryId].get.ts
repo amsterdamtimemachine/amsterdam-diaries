@@ -227,7 +227,7 @@ export default defineEventHandler(async event => {
   const entryId = getRouterParam(event, 'entryId') as string;
   const blocks = await fetchBlocks(entryId);
   const lines = await fetchLineData(entryId);
-  const annotations = await fetchAnnotations(lines);
+  const annotations = lines.length ? await fetchAnnotations(lines) : [];
   const sectionIdx = generateSections(blocks, lines, annotations);
   const sections = [];
   for (const idx in sectionIdx) {
