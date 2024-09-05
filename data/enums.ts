@@ -82,7 +82,7 @@ export const ResourceInfo: Record<string, ResourceInfo> = {
   organisaties: {
     title: 'Alle organisaties',
     description: 'Ontdek de diverse perspectieven over specifieke organisaties die terugkomen in diverse dagboeken.',
-    defaultImage: 'default-organization.png',
+    defaultImage: 'default-organization.svg',
     readMore: 'Bekijk meer over {X}',
     overviewLabel: 'organisaties',
   },
@@ -91,14 +91,14 @@ export const ResourceInfo: Record<string, ResourceInfo> = {
     description: `Thema's worden beïnvloed door diverse perspectieven en grote gebeurtenissen.
   Schrijvers, als weerspiegeling van hun tijd, verwerken deze invloeden in hun werk, waardoor unieke en veelzijdige
   verhalen ontstaan.`,
-    defaultImage: 'default-theme.png',
+    defaultImage: 'default-theme.svg',
     readMore: 'Bekijk dit thema',
     overviewLabel: "thema's",
   },
   personen: {
     title: 'Alle personen',
     description: 'Ontdek personen die worden genoemd in diverse dagboeken.',
-    defaultImage: 'default-person.png',
+    defaultImage: 'default-person.svg',
     readMore: 'Lees meer over {X}',
     overviewLabel: 'personen',
   },
@@ -106,7 +106,7 @@ export const ResourceInfo: Record<string, ResourceInfo> = {
     title: 'Alle dagboekschrijfsters',
     description:
       'Ontdek de diverse perspectieven die dagboeken ons bieden en laat je inspireren door de persoonlijke verhalen van anderen.',
-    defaultImage: 'default-profile.png',
+    defaultImage: 'default-author.svg',
     readMore: 'Lees meer over {X}',
     overviewLabel: 'schrijfsters',
   },

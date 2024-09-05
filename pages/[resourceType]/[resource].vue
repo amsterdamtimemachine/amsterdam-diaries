@@ -2,11 +2,13 @@
   <div
     :class="{
       'overview-detail': true,
-      'page-container': true,
+      'page-container-2': true,
       'overview-horizontal': resourceType === 'personen',
+      'no-image': !resource.image,
     }">
     <Image
-      :class="{ image: true, 'image-contain': !resource.image }"
+      v-if="resource.image"
+      class="image"
       :src="resource.image || defaultImage"
       :default="defaultImage"
       :alt="capitalizedTitle" />
@@ -60,12 +62,21 @@ const snippets = ref(await $fetch(`/api/snippets?id=${resource.value.id}&field=i
 
 @include sm-screen-up {
   .overview-horizontal {
-    padding-top: var(--space-26);
     grid-template-rows: auto 1fr;
     grid-template-columns: var(--space-105) 1fr;
     justify-items: initial;
     row-gap: var(--space-20);
     column-gap: var(--space-40);
+
+    &.no-image {
+      grid-template-columns: 1fr;
+
+      .intro {
+        max-width: var(--space-160);
+        margin-inline: auto;
+        text-align: center;
+      }
+    }
 
     .page-intro {
       text-align: initial;

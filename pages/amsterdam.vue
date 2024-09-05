@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container">
+  <div class="amsterdam page-container-2">
     <PageIntro
       :title="introTitle"
       :description="introDescription"
@@ -52,7 +52,7 @@ const onMarkerClick = async (source: AnnotationLine) => {
 </script>
 
 <style lang="scss" scoped>
-.page-container {
+.amsterdam {
   @include flex-column;
   align-items: center;
   gap: var(--space-8);
@@ -68,7 +68,7 @@ const onMarkerClick = async (source: AnnotationLine) => {
 }
 
 @include sm-screen-down {
-  .page-container {
+  .amsterdam {
     gap: var(--space-4);
   }
   .diaries-header {

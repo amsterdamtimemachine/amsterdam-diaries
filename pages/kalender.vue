@@ -1,5 +1,5 @@
 <template>
-  <div class="calendar-view page-container">
+  <div class="calendar-view page-container-2">
     <template v-if="dateText">
       <div class="title font-h2">{{ dateText }}</div>
       <div class="description">

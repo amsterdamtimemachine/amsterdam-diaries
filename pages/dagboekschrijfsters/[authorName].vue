@@ -8,7 +8,7 @@
           <Image
             class="profile-image"
             :src="`${useServerImage(`profile-overview/${author.slug}/profile/1.jpg`, { size: '96,' })}`"
-            default="default-profile.png"
+            default="default-author.svg"
             :alt="author.slug" />
           <h1 class="font-h2">
             {{ author.name }}

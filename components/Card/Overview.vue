@@ -70,6 +70,7 @@ const descriptionStyling = computed(() => {
   gap: var(--space-6);
 
   .image {
+    flex: none;
     width: var(--space-20);
     height: var(--space-19);
     object-fit: cover;

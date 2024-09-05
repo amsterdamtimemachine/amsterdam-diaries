@@ -9,7 +9,7 @@
       <Image
         class="profile-image"
         :src="`${useServerImage(`profile-overview/${author.slug}/profile/1.jpg`)}`"
-        default="default-profile.png"
+        default="default-author.svg"
         :alt="author.slug" />
     </div>
   </div>

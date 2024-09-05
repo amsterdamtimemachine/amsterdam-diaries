@@ -1,5 +1,5 @@
 <template>
-  <div class="overview page-container">
+  <div class="overview page-container-2">
     <PageIntro
       class="page-intro"
       :title="title"

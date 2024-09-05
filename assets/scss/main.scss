@@ -38,6 +38,8 @@
     --space-#{$i}: #{$value};
   }
 
+  --space-50: 12.5rem;
+  --space-58: 14.5rem;
   --space-64: 16rem;
   --space-78: 19.5rem;
   --space-80: 20rem;
@@ -193,7 +195,13 @@ body {
   @extend .container;
   position: relative;
   margin: var(--space-32) var(--space-12) var(--space-18) var(--space-12);
-  min-height: calc(100vh - var(--space-32) - var(--space-18)); // TODO: Replace this
+  min-height: calc(100vh - var(--space-50));
+}
+
+.page-container-2 {
+  @extend .page-container;
+  margin: var(--space-40) var(--space-12) var(--space-18) var(--space-12);
+  min-height: calc(100vh - var(--space-58));
 }
 
 .fixed-full-screen {
@@ -226,7 +234,8 @@ body {
     max-width: calc(100% - var(--space-8));
   }
 
-  .page-container {
+  .page-container,
+  .page-container-2 {
     @extend .container;
     margin: var(--space-22) var(--space-4) var(--space-8) var(--space-4);
     min-height: calc(100vh - var(--space-30)); // 22 + 8
