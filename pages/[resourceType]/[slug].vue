@@ -24,15 +24,14 @@
 </template>
 
 <script setup lang="ts">
-const { resourceType, resource: slug } = useRoute().params;
-const path = ValidResources[resourceType as string];
-if (!path) {
+const { resourceType, slug } = useRoute().params;
+const { defaultImage } = ResourceInfo[resourceType as string] ?? {};
+if (!defaultImage) {
   throw new Error(`Invalid resource type: ${resourceType}`);
 }
-const resource = ref(await $fetch(`/api/${path}/${slug}`)) as Ref<Resource>;
+const resource = ref(await $fetch(`/api/${resourceType as string}/${slug}`)) as Ref<Resource>;
 const capitalizedTitle = computed(() => (resource.value.name ? useCapitalize(resource.value.name) : ''));
-const { defaultImage } = ResourceInfo[resourceType as string];
-const snippets = ref(await $fetch(`/api/snippets?id=${resource.value.id}&field=identifyingid`));
+const snippets = ref(await $fetch(`/api/snippets?type=${resourceType}&id=${resource.value.id}`));
 </script>
 
 <style lang="scss" scoped>

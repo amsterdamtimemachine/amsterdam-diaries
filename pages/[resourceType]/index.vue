@@ -47,11 +47,10 @@ const total = ref(0);
 const offset = ref(0);
 const LIMIT = 50;
 const resourceType = useRoute().params.resourceType as string;
-const path = ValidResources[resourceType];
-if (!path) {
+const { title, description, readMore, overviewLabel } = ResourceInfo[resourceType] ?? {};
+if (!title) {
   throw new Error(`Invalid resource type: ${resourceType}`);
 }
-const { title, description, readMore, overviewLabel } = ResourceInfo[resourceType];
 
 /**
  * Computed properties
@@ -65,7 +64,7 @@ const linkText = (name: string) => {
  * Methods
  */
 const loadNext = async () => {
-  const newItems = ref(await $fetch(`/api/${path}?limit=${LIMIT}&offset=${offset.value}`)) as Ref<Resource[]>;
+  const newItems = ref(await $fetch(`/api/${resourceType}?limit=${LIMIT}&offset=${offset.value}`)) as Ref<Resource[]>;
   if (newItems.value.length === 0) {
     allowLoadingMore.value = false;
   }
@@ -79,7 +78,7 @@ const loadNext = async () => {
 };
 
 onMounted(async () => {
-  total.value = await $fetch(`/api/${path}/_count`);
+  total.value = await $fetch(`/api/${resourceType}/_count`);
 });
 </script>
 

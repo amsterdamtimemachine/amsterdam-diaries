@@ -44,7 +44,7 @@ definePageMeta({
 });
 
 const slug = useRoute().params.authorName as string;
-const author = (await $fetch(`/api/author/${slug}`)) as unknown as Author;
+const author = (await $fetch(`/api/dagboekschrijfsters/${slug}`)) as unknown as Author;
 const { diaries } = (await $fetch(`/api/diaries/${author.id}`)) as unknown as { diaries: Book[] };
 const pages = diaries.map((diary: Book) => diary.pages).flat();
 /**

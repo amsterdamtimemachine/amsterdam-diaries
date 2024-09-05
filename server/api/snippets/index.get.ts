@@ -1,6 +1,12 @@
+import { ResourceInfo } from '~/data/enums';
+
 export default defineEventHandler(async event => {
   const client = getClient();
-  const { id, field, limit } = getQuery(event);
+  const { type, id, limit } = getQuery(event);
+  const { snippetField } = ResourceInfo[type as string] ?? {};
+  if (!snippetField) {
+    return [];
+  }
 
   const resources = (
     await client.query(`
@@ -28,8 +34,8 @@ export default defineEventHandler(async event => {
     JOIN block p ON l1.blockid = p.id
     JOIN entry e ON p.entryId = e.id
     JOIN book b ON e.bookId = b.id
-    JOIN author au ON b.authorId = au.id
-    WHERE a.${field} = '${id}'
+    JOIN author au ON b.aboutId = au.id
+    WHERE a.${snippetField} = '${id}'
     LIMIT ${limit || 4}`)
   ).rows.map(row => {
     const exactText = row.exacttext;

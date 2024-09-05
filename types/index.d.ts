@@ -65,6 +65,8 @@ declare global {
     defaultImage: string;
     readMore: string;
     overviewLabel: string;
+    table: string;
+    snippetField: string;
   };
 
   type Section = TextSection | VisualSection;

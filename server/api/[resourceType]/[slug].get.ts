@@ -1,19 +1,19 @@
-import { ValidResources } from '~/data/enums';
+import { ResourceInfo } from '~/data/enums';
 import { Queries, Parsers } from '~/data/queries';
 
 export default defineEventHandler(async event => {
   const client = getClient();
   const resourceType = getRouterParam(event, 'resourceType') as string;
-  if (!Object.values(ValidResources).includes(resourceType)) {
+  const slug = getRouterParam(event, 'slug') as string;
+  const { table } = ResourceInfo[resourceType] ?? {};
+  if (!table) {
     return null;
   }
-  const text = Queries[resourceType];
-  const slug = getRouterParam(event, 'resource') as string;
   const query = {
-    text,
+    text: Queries[table],
     values: [slug],
   };
   const rows = (await client.query(query)).rows;
-  const parser = Parsers[resourceType] || Parsers.first;
+  const parser = Parsers[table] || Parsers.first;
   return parser(rows);
 });

@@ -1,21 +1,20 @@
-import { ValidResources } from '~/data/enums';
+import { ResourceInfo } from '~/data/enums';
 import { Parsers, Queries } from '~/data/queries';
 
 export default defineEventHandler(async event => {
   const client = getClient();
   const resourceType = getRouterParam(event, 'resourceType') as string;
-  const resourceLimit = getQuery(event).limit as string;
+  const limit = getQuery(event).limit as string;
   const offset = getQuery(event).offset as string;
-  if (!Object.values(ValidResources).includes(resourceType)) {
+  const { table } = ResourceInfo[resourceType] ?? {};
+  if (!table) {
     return [];
   }
-
-  const text = Queries[`${resourceType}List`];
   const query = {
-    text,
-    values: [resourceLimit, offset],
+    text: Queries[`${table}List`],
+    values: [limit, offset],
   };
   const rows = (await client.query(query)).rows;
-  const parser = Parsers[`${resourceType}List`] || Parsers.list;
+  const parser = Parsers[`${table}List`] || Parsers.list;
   return parser(rows);
 });

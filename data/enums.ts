@@ -85,6 +85,8 @@ export const ResourceInfo: Record<string, ResourceInfo> = {
     defaultImage: 'default-organization.svg',
     readMore: 'Bekijk meer over {X}',
     overviewLabel: 'organisaties',
+    table: 'organization',
+    snippetField: 'identifyingid',
   },
   themas: {
     title: "Alle thema's",
@@ -94,6 +96,8 @@ export const ResourceInfo: Record<string, ResourceInfo> = {
     defaultImage: 'default-theme.svg',
     readMore: 'Bekijk dit thema',
     overviewLabel: "thema's",
+    table: 'concept',
+    snippetField: 'classifyingid',
   },
   personen: {
     title: 'Alle personen',
@@ -101,6 +105,8 @@ export const ResourceInfo: Record<string, ResourceInfo> = {
     defaultImage: 'default-person.svg',
     readMore: 'Lees meer over {X}',
     overviewLabel: 'personen',
+    table: 'person',
+    snippetField: 'identifyingid',
   },
   dagboekschrijfsters: {
     title: 'Alle dagboekschrijfsters',
@@ -109,12 +115,7 @@ export const ResourceInfo: Record<string, ResourceInfo> = {
     defaultImage: 'default-author.svg',
     readMore: 'Lees meer over {X}',
     overviewLabel: 'schrijfsters',
+    table: 'author',
+    snippetField: 'identifyingid',
   },
-} as const;
-
-export const ValidResources: Record<string, string> = {
-  themas: 'concept',
-  organisaties: 'organization',
-  personen: 'person',
-  dagboekschrijfsters: 'author',
 } as const;
