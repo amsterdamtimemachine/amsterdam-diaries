@@ -31,7 +31,7 @@ const definitionBlocks = {
   ],
 };
 
-const importBlocks = async (importUrl: string) => {
+const importBlocks = async (importUrl: string): Promise<Record<string, any[]>> => {
   const result = await fetch(importUrl);
   const json = await result.json();
   const blocks = json.filter((data: any) => {

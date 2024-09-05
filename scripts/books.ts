@@ -77,7 +77,7 @@ const definitionBooks = {
   ],
 };
 
-const importBooks = async (importUrl: string) => {
+const importBooks = async (importUrl: string): Promise<Record<string, any[]>> => {
   const response = await fetch(importUrl);
   const json = await response.json();
   const framed = await jsonld.frame(json, frame, { explicit: true, omitGraph: false });

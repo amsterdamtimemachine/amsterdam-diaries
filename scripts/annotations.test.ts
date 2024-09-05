@@ -1,15 +1,18 @@
 import { it, describe, expect } from 'vitest';
 import { importAnnotations } from './annotations';
+import expectedResults from './expectedResults/annotations';
+import { mockConcepts } from './utils/mocks';
+
+const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/entity_annotations.jsonld`;
 
 describe('Annotations', async () => {
-  let annotations: any;
+  it('Should validate correctly', async () => {
+    const result = await (await fetch(url)).json();
 
-  it('should pass validation', async () => {
-    const url = 'http://localhost:3000/testdata/entity_annotations.jsonld';
-    const result = await fetch(url);
-    annotations = await result.json();
+    // Check the unfiltered results (to illustrate that importAnnotations is filtering)
+    expect(result.length).toBe(64);
 
-    annotations.forEach((annotation: any) => {
+    result.forEach((annotation: any) => {
       // Validate the top level structure
       expect(Object.keys(annotation)).toEqual(['@context', 'id', 'type', 'body', 'target']);
 
@@ -76,63 +79,17 @@ describe('Annotations', async () => {
     });
   });
 
-  it('should parse correctly', async () => {
-    const mockConcepts = [
-      {
-        name: 'Etenswaren',
-      },
-    ];
-    const result = await importAnnotations('http://localhost:3000/testdata/entity_annotations.jsonld', mockConcepts);
-    expect(result.length).toBe(4);
-    expect(result).toStrictEqual([
-      {
-        id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/4fd0f282-8b33-4fc1-a310-5449f152b15b0',
-        type: 'Organization',
-        identifyingId: 'http://www.wikidata.org/entity/Q160552',
-        classifyingId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/entities/organization',
-        sourceId:
-          'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0111_berdi_4245_pdf_p111/r_3059-tr_1_tl_37',
-        exactText: 'groene',
-        startPosition: 77,
-        endPosition: 83,
-        correction: null,
-      },
-      {
-        id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/4fd0f282-8b33-4fc1-a310-5449f152b15b1',
-        type: 'Organization',
-        identifyingId: 'http://www.wikidata.org/entity/Q160552',
-        classifyingId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/entities/organization',
-        sourceId:
-          'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0111_berdi_4245_pdf_p111/r_3059-tr_1_tl_38',
-        exactText: 'politie',
-        startPosition: 0,
-        endPosition: 7,
-        correction: null,
-      },
-      {
-        id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/ec5c5a91-f324-481a-9d2b-aee173c25d1e0',
-        type: 'Date',
-        identifyingId: null,
-        classifyingId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/entities/date',
-        sourceId:
-          'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-IIAV002_IAV001000041-large_02/r_525-r_525_tl_8',
-        exactText: 'vrijdag j. l.',
-        startPosition: 15,
-        endPosition: 28,
-        correction: '1941-02-21',
-      },
-      {
-        id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/a14ee93d-cebc-4790-9adc-7d321318ce700',
-        type: 'Etenswaren',
-        identifyingId: null,
-        classifyingId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/concepts/atm_food',
-        sourceId:
-          'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-IIAV002_IAV001000041-large_02/r_525-r_525_tl_14',
-        exactText: 'lekkers',
-        startPosition: 0,
-        endPosition: 7,
-        correction: null,
-      },
-    ]);
+  describe('importAnnotations', async () => {
+    const result = await importAnnotations(url, mockConcepts);
+
+    it(`Should return an array of ${expectedResults.length} annotations`, async () => {
+      expect(result.length).toBe(expectedResults.length);
+    });
+
+    result.forEach((annotation, index) => {
+      it(`Should parse annotation #${index + 1} correctly`, async () => {
+        expect(annotation).toEqual(expectedResults[index]);
+      });
+    });
   });
 });

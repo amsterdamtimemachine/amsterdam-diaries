@@ -1,10 +1,11 @@
 import { it, describe, expect } from 'vitest';
 import { importLines } from './lines';
+import expectedResults from './expectedResults/lines';
 
-const url = 'http://localhost:3000/testdata/lines.jsonld';
+const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/textual_annotations.jsonld`;
 
 describe('Lines', async () => {
-  it('should pass validation', async () => {
+  it('Should validate correctly', async () => {
     const result = await (await fetch(url)).json();
     const allowedKeys = ['@context', 'id', 'type', 'textGranularity', 'body', 'target'];
     const blocks = result.filter((data: any) => data.textGranularity === 'line');
@@ -30,17 +31,17 @@ describe('Lines', async () => {
     });
   });
 
-  it('should parse correctly', async () => {
+  describe('importLines', async () => {
     const result = await importLines(url);
-    expect(result).toEqual([
-      {
-        id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000041-large_03/r-r_tl_2',
-        value: 'De gemeenste dingen',
-      },
-      {
-        id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0003_urn-gvn-EVDO01-IIAV002_IAV001000041-large_03/r-r_tl_1',
-        value: 'zeiden ze tegen',
-      },
-    ]);
+
+    it(`Should return an array of ${expectedResults.length} lines`, async () => {
+      expect(result.length).toBe(expectedResults.length);
+    });
+
+    result.forEach((line, index) => {
+      it(`Should parse line #${index + 1} correctly`, async () => {
+        expect(line).toEqual(expectedResults[index]);
+      });
+    });
   });
 });

@@ -1,12 +1,16 @@
 import { it, describe, expect } from 'vitest';
 import { importResources } from './resources';
+import expectedResults from './expectedResults/resources';
 
-const url = 'http://localhost:3000/testdata/resources.jsonld';
+const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/external_resources.jsonld`;
 
-describe('resources', async () => {
-  it('should pass validation', async () => {
+describe('Resources', async () => {
+  it('Should validate correctly', async () => {
     const result = await (await fetch(url)).json();
     const allowedKeys = ['@context', '@id', '@type', 'name', 'description', 'geo'];
+
+    // To illustrate that importResources will filter some items
+    expect(result.length).toBe(31);
 
     result.forEach((data: any) => {
       const topKeys = Object.keys(data);
@@ -18,36 +22,17 @@ describe('resources', async () => {
     });
   });
 
-  it('Can parse', async () => {
+  describe('importResources', async () => {
     const result = await importResources(url);
-    expect(result).toStrictEqual([
-      {
-        id: 'http://www.wikidata.org/entity/Q10041',
-        type: 'Place',
-        name: 'Soest',
-        slug: 'soest',
-        description: 'gemeente in de provincie Utrecht, Nederland',
-        latitude: 52.183333,
-        longitude: 5.283333,
-      },
-      {
-        id: 'http://www.wikidata.org/entity/Q104369',
-        type: 'Person',
-        name: 'Ernst Laqueur',
-        slug: 'ernst-laqueur',
-        description: 'Nederlands hoogleraar Farmacologie',
-        latitude: undefined,
-        longitude: undefined,
-      },
-      {
-        id: 'http://www.wikidata.org/entity/Q172579',
-        type: 'Organization',
-        name: 'Koninkrijk Italië',
-        slug: 'koninkrijk-italie',
-        description: '1861–1946',
-        latitude: 41.9,
-        longitude: 12.5,
-      },
-    ]);
+
+    it(`Should return an array of ${expectedResults.length} resources`, async () => {
+      expect(result.length).toBe(expectedResults.length);
+    });
+
+    result.forEach((resource, index) => {
+      it(`Should parse resource #${index + 1} correctly`, async () => {
+        expect(resource).toEqual(expectedResults[index]);
+      });
+    });
   });
 });

@@ -22,7 +22,7 @@ const definitionLines = {
   ],
 };
 
-const importLines = async (importUrl: string) => {
+const importLines = async (importUrl: string): Promise<any[]> => {
   const result = await fetch(importUrl);
   const json = await result.json();
   const lines = json.filter((data: any) => data.textGranularity === 'line');

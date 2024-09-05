@@ -54,7 +54,7 @@ const definitionEntries = {
   ],
 };
 
-const importEntries = async (importUrl: string) => {
+const importEntries = async (importUrl: string): Promise<Record<string, any[]>> => {
   const result = await fetch(importUrl);
   const json = await result.json();
   const framed = await jsonld.frame(json, frame, { explicit: true, omitGraph: false });

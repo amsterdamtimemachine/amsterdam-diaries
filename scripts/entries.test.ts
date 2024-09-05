@@ -1,10 +1,11 @@
 import { it, describe, expect } from 'vitest';
 import { importEntries } from './entries';
+import expectedResults from './expectedResults/entries';
 
-const url = 'http://localhost:3000/testdata/entries.jsonld';
+const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/metadata.jsonld`;
 
 describe('Entries', async () => {
-  it('should pass validation', async () => {
+  it('Should validate correctly', async () => {
     const result = await (await fetch(url)).json();
     const manuscripts = result.filter((data: any) => data.body?.[0]['@type'] === 'Manuscript');
     manuscripts.forEach((manuscript: any) => {
@@ -39,54 +40,21 @@ describe('Entries', async () => {
     });
   });
 
-  it('should parse correctly', async () => {
+  describe('importEntries', async () => {
     const result = await importEntries(url);
-    expect(result).toEqual({
-      entries: [
-        {
-          id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
-          bookId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/diaries/1',
-          name: 'Een Woord Tot de Jongeren',
-          dateCreated: '1940',
-        },
-      ],
-      blocks: [
-        {
-          id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_429',
-          entryId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
-          position: 1,
-        },
-        {
-          id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_438',
-          entryId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
-          position: 2,
-        },
-        {
-          id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_484',
-          entryId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
-          position: 3,
-        },
-        {
-          id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_475',
-          entryId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
-          position: 4,
-        },
-        {
-          id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_493',
-          entryId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
-          position: 5,
-        },
-        {
-          id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_502',
-          entryId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
-          position: 6,
-        },
-        {
-          id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0002_urn-gvn-EVDO01-VMA01_KBN007000011-large_002/r_511',
-          entryId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/66',
-          position: 7,
-        },
-      ],
-    });
+
+    for (const key in result) {
+      const expectedResult = expectedResults[key as keyof typeof expectedResults];
+
+      it(`Should return ${expectedResult.length} ${key}`, async () => {
+        expect(result[key].length).toBe(expectedResult.length);
+      });
+
+      result[key].forEach((item, index) => {
+        it(`Should parse ${key} #${index + 1} correctly`, async () => {
+          expect(item).toEqual(expectedResult[index]);
+        });
+      });
+    }
   });
 });
