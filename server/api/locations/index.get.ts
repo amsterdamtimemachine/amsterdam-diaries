@@ -1,7 +1,7 @@
 const fetchLocations = async () => {
   const client = getClient();
   const query = {
-    text: `SELECT r.id,
+    text: `SELECT DISTINCT(r.id),
                   r.name,
                   r.description,
                   r.latitude,

@@ -39,7 +39,7 @@ const props = withDefaults(
     lines: 2,
   },
 );
-const { defaultImage } = ResourceInfo[props.resourceType];
+const { defaultImage } = (ResourceInfo[props.resourceType] ?? {}) as ResourceInfo;
 const capitalizedTitle = computed(() => (props.title ? useCapitalize(props.title) : ''));
 const descriptionStyling = computed(() => {
   return {

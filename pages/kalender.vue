@@ -2,15 +2,12 @@
   <div class="calendar-view page-container-2">
     <template v-if="dateText">
       <div class="title font-h2">{{ dateText }}</div>
-      <div class="description">
-        Dagboekpassages geschreven op {{ dateText }}. Klik op andere geselecteerde data om te ontdekken wat er op een
-        specifieke moment gebeurde in Amsterdam.
-      </div>
+      <div class="description">{{ selectedDescription.replace('__DATETIME__', dateText) }}</div>
     </template>
     <div
       v-else
       class="description">
-      Klik op geselecteerde data om te ontdekken wat er op een specifieke moment gebeurde in Amsterdam.
+      {{ description }}
     </div>
     <CalendarYears
       class="years"
@@ -36,6 +33,10 @@
 </template>
 
 <script setup lang="ts">
+const { description, selectedDescription } = (ResourceInfo.datums ?? {}) as DateResourceInfo;
+if (!description) {
+  throw new Error(`Invalid resource type: datums`);
+}
 const dates = ref<DateEntry[]>(
   ((await $fetch('/api/dates')) as DateEntry[]).map((d: DateEntry) => ({
     id: d.id,
@@ -50,7 +51,7 @@ const dateText = ref<string>('');
 const snippets = ref<DiaryCard[]>([]);
 const setSnippets = async (date: { id: string; value: Date }) => {
   dateText.value = date.value.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
-  snippets.value = await $fetch(`/api/snippets?id=${date.id}&field=id`);
+  snippets.value = await $fetch(`/api/snippets?id=${btoa(date.id)}&type=datums`);
 };
 </script>
 

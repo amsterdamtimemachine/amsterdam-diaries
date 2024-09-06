@@ -78,7 +78,7 @@ export const AuthorDiaryOverviewGradients: Record<string, string> = {
   'neeltje-toby-vos': 'gradient-1',
 } as const;
 
-export const ResourceInfo: Record<string, ResourceInfo> = {
+export const ResourceInfo: Record<string, ResourceInfo | LocationResourceInfo | DateResourceInfo> = {
   organisaties: {
     title: 'Alle organisaties',
     description: 'Ontdek de diverse perspectieven over specifieke organisaties die terugkomen in diverse dagboeken.',
@@ -117,5 +117,22 @@ export const ResourceInfo: Record<string, ResourceInfo> = {
     overviewLabel: 'schrijfsters',
     table: 'author',
     snippetField: 'identifyingid',
+  },
+  locaties: {
+    title: 'Wat beleefden de dagboekschrijfsters in Amsterdam?',
+    description: `In de dagboeken was veel aandacht voor de beslommeringen van alle dag. Onvermijdelijk drong ook de oorlog daarin
+       door. Bekijk op deze kaart waar in Amsterdam het dagelijks leven van de dagboekschrijfsters zich afspeelde en
+       wat ze erover in hun dagboeken noteerden.`,
+    defaultLocation: 'http://www.wikidata.org/entity/Q727', // Amsterdam
+    defaultLabel: `Dagboekteksten uit`,
+    aboutLabel: `Dagboekteksten over`,
+    table: 'resource',
+    snippetField: 'identifyingid',
+  },
+  datums: {
+    selectedDescription: `Dagboekpassages geschreven op __DATETIME__. Klik op andere geselecteerde data om te ontdekken wat er op een specifieke moment gebeurde in Amsterdam.`,
+    description: `Klik op geselecteerde data om te ontdekken wat er op een specifieke moment gebeurde in Amsterdam.`,
+    table: 'resource',
+    snippetField: 'id',
   },
 } as const;

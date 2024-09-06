@@ -1,8 +1,8 @@
 <template>
   <div class="amsterdam page-container-2">
     <PageIntro
-      :title="introTitle"
-      :description="introDescription"
+      :title="title"
+      :description="description"
       :lines="7" />
     <Map
       class="map"
@@ -19,36 +19,43 @@
 /**
  * State & Props
  */
-const locationsName = ref('Amsterdam');
-const defaultInitialMarkerId = 'http://www.wikidata.org/entity/Q727';
-
+const currentLocation = ref<AnnotationLine>();
 const diaryCards = ref<DiaryCard[]>([]);
-const introTitle = ref<string>('Wat beleefden de dagboekschrijfsters in Amsterdam?');
-const introDescription = ref<string>(
-  `In de dagboeken was veel aandacht voor de beslommeringen van alle dag. Onvermijdelijk drong ook de oorlog daarin
-   door. Bekijk op deze kaart waar in Amsterdam het dagelijks leven van de dagboekschrijfsters zich afspeelde en
-   wat ze erover in hun dagboeken noteerden.`,
-);
-
+const { title, description, defaultLocation, defaultLabel, aboutLabel } =
+  (ResourceInfo.locaties as LocationResourceInfo) ?? {};
+if (!title) {
+  throw new Error(`Invalid resource type: locaties`);
+}
 // Fetch the initial marker from the query parameter or use the default marker
-const initialMarkerId = ref<string>((useRoute().query.id as string) ?? btoa(defaultInitialMarkerId));
+const initialMarkerId = ref<string>((useRoute().query.id as string) ?? btoa(defaultLocation as string));
 
 /**
  * Computed Properties
  */
-const diariesHeaderText = computed(() =>
-  locationsName.value === 'Amsterdam'
-    ? `Dagboekteksten uit ${locationsName.value}`
-    : `Dagboekteksten over ${locationsName.value}`,
-);
+const diariesHeaderText = computed(() => {
+  const location = unref(currentLocation);
+  if (!location) {
+    return '';
+  }
+  if (location.id === btoa(defaultLocation)) {
+    return `${defaultLabel} ${location.name}`;
+  }
+  return `${aboutLabel} ${location.name}`;
+});
 
 /**
  * Methods
  */
 const onMarkerClick = async (source: AnnotationLine) => {
-  locationsName.value = source?.name || '';
-  diaryCards.value = await $fetch(`/api/snippets?id=${atob(source.id)}&field=identifyingid`);
+  currentLocation.value = source;
 };
+
+/**
+ * Watchers
+ */
+watch(currentLocation, async newValue => {
+  diaryCards.value = await $fetch(`/api/snippets?id=${newValue?.id}&type=locaties`);
+});
 </script>
 
 <style lang="scss" scoped>

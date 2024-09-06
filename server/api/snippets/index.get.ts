@@ -35,7 +35,7 @@ export default defineEventHandler(async event => {
     JOIN entry e ON p.entryId = e.id
     JOIN book b ON e.bookId = b.id
     JOIN author au ON b.aboutId = au.id
-    WHERE a.${snippetField} = '${id}'
+    WHERE a.${snippetField} = '${atob(id as string)}'
     LIMIT ${limit || 4}`)
   ).rows.map(row => {
     const exactText = row.exacttext;

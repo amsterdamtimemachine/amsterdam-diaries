@@ -69,6 +69,23 @@ declare global {
     snippetField: string;
   };
 
+  type LocationResourceInfo = {
+    title: string;
+    description: string;
+    table: string;
+    snippetField: string;
+    defaultLocation: string;
+    defaultLabel: string;
+    aboutLabel: string;
+  };
+
+  type DateResourceInfo = {
+    description: string;
+    selectedDescription: string;
+    table: string;
+    snippetField: string;
+  };
+
   type Section = TextSection | VisualSection;
 
   type TextSection = {
