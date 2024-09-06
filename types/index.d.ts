@@ -91,6 +91,7 @@ declare global {
   type TextSection = {
     type: 'Heading' | 'Paragraph' | 'Caption'; // TODO: Not yet defining Marginalia
     lines: (TextLine | AnnotationLine)[];
+    uri: string;
   };
 
   type VisualSection = {

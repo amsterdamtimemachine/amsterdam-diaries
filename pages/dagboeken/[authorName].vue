@@ -7,13 +7,30 @@
     <DiaryProfile
       :author="author"
       class="diary-profile" />
-    <DiaryPage
-      class="diary-page"
+    <button
+      class="btn-flip"
+      @click="flipped = !flipped">
+      <span>{{ flipped ? 'Toon de digitale tekst' : 'Toon de originele dagboek pagina' }}</span>
+      <BaseIcon icon="material-symbols:autorenew" />
+    </button>
+    <Flip
       v-if="page"
-      :id="page.id"
-      :page="page"
-      :page-number="pageNr"
-      :total-pages="pages.length" />
+      class="flip-container"
+      :flipped="flipped">
+      <template #front>
+        <DiaryPage
+          class="diary-page"
+          :id="page.id"
+          :page="page"
+          :page-number="pageNr"
+          :total-pages="pages.length" />
+      </template>
+      <template #back>
+        <ImageViewer
+          class="image-viewer"
+          :images="page.sections.map(p => p.uri)" />
+      </template>
+    </Flip>
     <LoadingSpinner v-if="!page" />
     <div
       v-if="page"
@@ -43,13 +60,13 @@ definePageMeta({
   layout: 'diary',
 });
 
+/**
+ * Data fetching
+ */
 const slug = useRoute().params.authorName as string;
 const author = (await $fetch(`/api/dagboekschrijfsters/${slug}`)) as unknown as Author;
 const { diaries } = (await $fetch(`/api/diaries/${author.id}`)) as unknown as { diaries: Book[] };
 const pages = diaries.map((diary: Book) => diary.pages).flat();
-/**
- * Store deps
- */
 const authorSlug = useRoute().params.authorName as string;
 const pageId = useRoute().query.page as string;
 
@@ -59,6 +76,7 @@ const pageId = useRoute().query.page as string;
 const page = ref<Page>();
 const pageNr = ref<number>(pageId ? parseInt(pageId) : 1);
 const PHOTO_AMOUNT = 10;
+const flipped = ref<boolean>(false);
 
 /**
  * Methods
@@ -80,6 +98,13 @@ watch(
   },
 );
 
+watch(flipped, (value: boolean) => {
+  // Disable body scroll when flipping and make sure scroll top is 0
+  // TODO: Discuss if there is a better solution
+  document.body.style.overflow = value ? 'hidden' : 'auto';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
 /**
  * Lifecycle methods
  */
@@ -92,18 +117,39 @@ onMounted(async () => {
 .page-container {
   @include flex-column;
   align-items: center;
-  gap: var(--space-14);
+  gap: var(--space-8);
   min-height: calc(100vh - var(--space-32));
   overflow: hidden;
   margin-bottom: 0;
 
-  .diary-page {
-    margin-bottom: var(--space-18);
+  .btn-flip {
+    @include flex-row;
+    align-items: center;
+    gap: var(--space-4);
+    box-shadow: var(--shadow-2);
     margin-top: var(--space-16);
+    background: var(--white);
+    padding: var(--space-2) var(--space-7);
+    z-index: 0;
+
+    &:hover {
+      background: var(--linen);
+    }
+    &:active {
+      background: var(--alabaster);
+    }
+  }
+
+  .diary-page {
+    margin-bottom: var(--space-31);
   }
 
   .diary-profile {
     margin-top: var(--space-16);
+  }
+
+  .image-viewer {
+    height: calc(100vh - var(--space-88));
   }
 }
 
@@ -136,9 +182,18 @@ onMounted(async () => {
 @include sm-screen-down {
   .page-container {
     gap: var(--space-4);
+    margin-bottom: var(--space-16);
+
+    .btn-flip {
+      margin-top: 0;
+    }
 
     .diary-page {
       margin-block: 0;
+    }
+
+    .image-viewer {
+      height: calc(100vh - var(--space-94));
     }
   }
 
