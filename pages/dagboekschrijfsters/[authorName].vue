@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 const slug = useRoute().params.authorName as string;
-const author = (await $fetch(`/api/author/${slug}`)) as unknown as Author;
+const author = (await $fetch(`/api/dagboekschrijfsters/${slug}`)) as unknown as Author;
 </script>
 
 <style lang="scss" scoped>

@@ -118,6 +118,7 @@ const prepareSections = (sections: any[]): Record<string, any> => {
           type: section.type,
           position: section.position,
           lines: [],
+          uri: section.contenturl.replace(/full/, section.dimensions.replace(/^xywh=/, '')),
         };
         break;
     }
