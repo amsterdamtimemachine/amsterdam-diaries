@@ -18,7 +18,7 @@
       :description="resource.description || ''"
       :lines="7">
       <ExternalLink
-        v-if="externalLinkText"
+        v-if="externalLinkText && resourceType !== 'themas'"
         :class="{ 'external-link': true, 'align-left': resource.image && resourceType === 'personen' }"
         :link="resource.id"
         :link-text="externalLinkText" />
