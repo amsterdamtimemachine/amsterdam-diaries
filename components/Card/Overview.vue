@@ -84,18 +84,21 @@ const descriptionStyling = computed(() => {
 .description {
   display: -webkit-box;
   -webkit-box-orient: vertical;
+  line-clamp: var(--number-of-lines);
   -webkit-line-clamp: var(--number-of-lines);
   overflow: hidden;
 }
 
 .link {
+  background: var(--white);
+  padding: var(--space-5) var(--space-7);
+
   :deep(span) {
     display: -webkit-box;
     -webkit-box-orient: vertical;
+    line-clamp: 1;
     -webkit-line-clamp: 1;
     overflow: hidden;
   }
-  background: var(--white);
-  padding: var(--space-5) var(--space-7);
 }
 </style>

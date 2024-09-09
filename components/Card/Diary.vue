@@ -48,6 +48,7 @@ defineProps<{
 
     .content-text {
       display: -webkit-box;
+      line-clamp: 7;
       -webkit-line-clamp: 7;
       -webkit-box-orient: vertical;
       position: relative;

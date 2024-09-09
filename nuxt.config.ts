@@ -54,4 +54,5 @@ export default defineNuxtConfig({
       title: 'Amsterdam Diaries Time machine',
     },
   },
+  compatibilityDate: '2024-09-09',
 });
