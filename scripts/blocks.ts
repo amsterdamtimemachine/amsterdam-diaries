@@ -73,7 +73,7 @@ const importBlocks = async (importUrl: string): Promise<Record<string, any[]>> =
         id: block.id,
         type,
         imageId: image.id,
-        dimensions: fragmentSelector.value,
+        dimensions: fragmentSelector.value?.replace('xywh=', ''),
       });
       acc.images[image.id] = image;
       return acc;

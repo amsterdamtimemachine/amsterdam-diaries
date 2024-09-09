@@ -61,7 +61,8 @@ const fetchAnnotations = async (lines: any[]) => {
                   r.slug as slug
            FROM annotation a
            LEFT JOIN resource r ON a.identifyingid = r.id
-           WHERE a.sourceid in (${placeholders})`,
+           WHERE a.sourceid in (${placeholders})
+           AND a.type IN ('Person', 'Place', 'Etenswaren', 'Organization', 'Date', 'Blackening')`,
     values: lineIds,
   };
   return (await client.query(query2)).rows;
@@ -110,7 +111,7 @@ const prepareSections = (sections: any[]): Record<string, any> => {
         acc[section.id] = {
           type: section.type,
           position: section.position,
-          uri: section.contenturl.replace(/full/, section.dimensions.replace(/^xywh=/, '')),
+          uri: section.contenturl.replace(/full/, section.dimensions),
         };
         break;
       default:
@@ -118,7 +119,7 @@ const prepareSections = (sections: any[]): Record<string, any> => {
           type: section.type,
           position: section.position,
           lines: [],
-          uri: section.contenturl.replace(/full/, section.dimensions.replace(/^xywh=/, '')),
+          uri: section.contenturl.replace(/full/, section.dimensions),
         };
         break;
     }
@@ -151,7 +152,10 @@ const generateSections = (sectionData: any[], lineData: any[], annotationData: a
 
     // If there are no annotations, add the line as text part
     if (!annos.length) {
-      section.lines.unshift(generateTextLine(text));
+      const textLine = generateTextLine(text);
+      if (textLine.value.length) {
+        section.lines.unshift(textLine);
+      }
     } else {
       // Loop over the annotations and slice the text into parts
       for (let idx = 0; idx < annos.length; ++idx) {
@@ -161,7 +165,10 @@ const generateSections = (sectionData: any[], lineData: any[], annotationData: a
         if (ref.endposition && ref.endposition < line.value.length) {
           const part = text.slice(ref.endposition);
           const remaining = text.slice(0, ref.endposition);
-          section.lines.unshift(generateTextLine(part));
+          const textLine = generateTextLine(part);
+          if (textLine.value.length) {
+            section.lines.unshift(textLine);
+          }
           text = remaining;
         }
 
@@ -178,7 +185,10 @@ const generateSections = (sectionData: any[], lineData: any[], annotationData: a
       // If after parsing all the refs, there is text left.
       // Add it as text part
       if (text.length) {
-        section.lines.unshift(generateTextLine(text));
+        const textLine = generateTextLine(text);
+        if (textLine.value.length) {
+          section.lines.unshift(textLine);
+        }
       }
     }
   }
@@ -198,17 +208,28 @@ const combineLines = (section: any) => {
   for (let idx = 0; idx < section.lines.length; ++idx) {
     const line = section.lines[idx];
     const nextLine = section.lines[idx + 1];
+
+    // Check if the line ends with a hyphen, if so remove it
+    const endsWithHyphen = line.value.endsWith('-');
+    if (endsWithHyphen) {
+      line.value = line.value.replace(/-$/, '');
+    }
+
+    // If the line and the next line are the same annotation combine them
     if (line?.type === 'Annotation' && nextLine?.type === 'Annotation' && compareIds(line?.id, nextLine?.id)) {
-      const value = `${line.value?.replace(/-$/, '')}${nextLine.value}`;
-      line.value = value;
+      line.value = `${line.value}${endsWithHyphen ? '' : ' '}${nextLine.value}`;
       section.lines.splice(idx + 1, 1);
     }
 
-    if (line?.type === 'Text' && nextLine?.type === 'Text' && line.value.endsWith('-')) {
+    // If the line and next line are text and the line ended with a hyphen, combine them
+    if (line?.type === 'Text' && nextLine?.type === 'Text' && endsWithHyphen) {
       const [nextWord, ...rest] = nextLine.value.split(' ');
-      nextLine.value = rest.join(' ');
-      const lineValue = `${line.value.replace(/-$/, '')}${nextWord}`;
-      line.value = lineValue;
+      if (rest.length === 0) {
+        section.lines.splice(idx + 1, 1);
+      } else {
+        nextLine.value = rest.join(' ');
+      }
+      line.value = `${line.value}${nextWord}`;
     }
   }
   return section;
