@@ -23,22 +23,6 @@ class Database {
     });
   }
 
-  private async query<T extends QueryResultRow>(text: string, params?: any[]): Promise<QueryResult<T>> {
-    const client: PoolClient = await this.pool.connect();
-    try {
-      if (this.debug) {
-        console.log(`[Database] - Query: ${text}`);
-        if (params?.length) {
-          console.log(`[Database] - Params: ${params}`);
-        }
-      }
-      const res: QueryResult<T> = await client.query<T>(text, params);
-      return res;
-    } finally {
-      client.release();
-    }
-  }
-
   private async _insert(tableName: string, rowData: any[]) {
     try {
       const fields = Object.keys(rowData[0]);
@@ -101,6 +85,37 @@ class Database {
     }
   }
 
+  public async query<T extends QueryResultRow>(text: string, params?: any[]): Promise<QueryResult<T>> {
+    const client: PoolClient = await this.pool.connect();
+    try {
+      if (this.debug) {
+        console.log(`[Database] - Query: ${text}`);
+        if (params?.length) {
+          console.log(`[Database] - Params: ${params}`);
+        }
+      }
+      const res: QueryResult<T> = await client.query<T>(text, params);
+      return res;
+    } catch (err) {
+      console.error('[Database] - Error:', err);
+      console.error(`query: ${text}`);
+      console.error(`params: ${params}`);
+      throw new Error('Something went wrong');
+    } finally {
+      client.release();
+    }
+  }
+
+  public async delete(tableName: string) {
+    try {
+      await this.query(`DROP TABLE IF EXISTS ${tableName};`);
+    } catch (err) {
+      console.error('[Database] - Error:', err);
+      console.error(`TableName: ${tableName}`);
+      throw new Error('Something went wrong');
+    }
+  }
+
   public async insert(tableName: string, data: any) {
     try {
       // Check if we have multiple rows to insert
@@ -117,18 +132,6 @@ class Database {
       console.error(`TableName: ${tableName}`);
       console.error(`Data: ${data}`);
       throw new Error('Something went wrong');
-    }
-  }
-
-  // Test purposes
-  // TODO: Move this out of there
-  public async clean(): Promise<void> {
-    const tables = ['line', 'block', 'entry', 'book', 'author', 'annotation', 'resource', 'concept', 'image'];
-    for (const table of tables) {
-      if (this.debug) {
-        console.log(`[Database] - Dropping table: ${table}`);
-      }
-      await this.query(`DROP TABLE IF EXISTS ${table}`);
     }
   }
 

@@ -85,9 +85,9 @@ const importBlocks = async (importUrl: string): Promise<Record<string, any[]>> =
     },
   );
   return {
-    blocks: data.blocks,
-    lines: data.lines,
-    images: Object.values(data.images),
+    image: Object.values(data.images),
+    block: data.blocks,
+    line: data.lines,
   };
 };
 

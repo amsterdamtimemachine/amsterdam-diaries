@@ -1,59 +1,133 @@
 import { definitionAnnotations, importAnnotations } from './annotations';
-import { importConcepts, definitionConcepts } from './concepts';
-import { importResources, definitionResources } from './resources';
-import { importAuthors, definitionAuthors } from './authors';
-import { importBooks, definitionBooks } from './books';
-import { definitionEntries, importEntries } from './entries';
 import { definitionBlocks, importBlocks } from './blocks';
-import Database from './utils/database';
+import { definitionEntries, importEntries } from './entries';
 import { definitionImages } from './images';
 import { definitionLines, importLines } from './lines';
+import { importAuthors, definitionAuthors } from './authors';
+import { importBooks, definitionBooks } from './books';
+import { importConcepts, definitionConcepts } from './concepts';
+import { importResources, definitionResources } from './resources';
+import Database from './utils/database';
+import Progress from 'cli-progress';
 
 // concept url
 const baseUrl = 'https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/dev/rdf';
 
 // For test purposes
 const db = Database.getInstance();
-await db.clean();
 
-// Setup the database
-await db.create(definitionImages);
-await db.create(definitionConcepts);
-await db.create(definitionResources);
-await db.create(definitionAnnotations);
-await db.create(definitionAuthors);
-await db.create(definitionBooks);
-await db.create(definitionEntries);
-await db.create(definitionBlocks);
-await db.create(definitionLines);
+// Data setup
+const structure = [
+  {
+    name: 'image',
+    definition: definitionImages,
+  },
+  {
+    name: 'concept',
+    uri: `${baseUrl}/concepts.jsonld`,
+    definition: definitionConcepts,
+    importFn: importConcepts,
+  },
+  {
+    name: 'resource',
+    uri: `${baseUrl}/external_resources.jsonld`,
+    definition: definitionResources,
+    importFn: importResources,
+  },
+  {
+    name: 'annotation',
+    uri: `${baseUrl}/entity_annotations.jsonld`,
+    definition: definitionAnnotations,
+    importFn: importAnnotations,
+  },
+  {
+    name: 'author',
+    uri: `${baseUrl}/metadata.jsonld`,
+    definition: definitionAuthors,
+    importFn: importAuthors,
+  },
+  {
+    name: 'book',
+    uri: `${baseUrl}/metadata.jsonld`,
+    definition: definitionBooks,
+    importFn: importBooks,
+  },
+  {
+    name: 'entry',
+    uri: `${baseUrl}/metadata.jsonld`,
+    definition: definitionEntries,
+    importFn: importEntries,
+  },
+  {
+    name: 'block',
+    uri: `${baseUrl}/textual_annotations.jsonld`,
+    definition: definitionBlocks,
+    importFn: importBlocks,
+  },
+  {
+    name: 'line',
+    uri: `${baseUrl}/textual_annotations.jsonld`,
+    definition: definitionLines,
+    importFn: importLines,
+  },
+];
 
-// Run the importers
-const concepts = await importConcepts(`${baseUrl}/concepts.jsonld`);
-await db.insert('concept', concepts);
+const steps = [
+  {
+    type: 'DELETE',
+    label: 'Dropping tables',
+  },
+  {
+    type: 'CREATE',
+    label: 'Creating tables',
+  },
+  {
+    type: 'IMPORT',
+    label: 'Importing data',
+  },
+];
 
-const resources = await importResources(`${baseUrl}/external_resources.jsonld`);
-await db.insert('resource', resources);
-
-const annotations = await importAnnotations(`${baseUrl}/entity_annotations.jsonld`, concepts);
-await db.insert('annotation', annotations);
-
-const authors = await importAuthors(`${baseUrl}/metadata.jsonld`);
-await db.insert('image', authors.images);
-await db.insert('resource', authors.resources);
-await db.insert('author', authors.authors);
-
-const books = await importBooks(`${baseUrl}/metadata.jsonld`);
-await db.insert('book', books.books);
-await db.insert('entry', books.entries);
-
-const entries = await importEntries(`${baseUrl}/metadata.jsonld`);
-await db.insert('entry', entries.entries);
-await db.insert('block', entries.blocks);
-
-const blocks = await importBlocks(`${baseUrl}/textual_annotations.jsonld`);
-await db.insert('image', blocks.images);
-await db.insert('block', blocks.blocks);
-await db.insert('line', blocks.lines);
-
-const lines = await importLines(`${baseUrl}/textual_annotations.jsonld`);
-await db.insert('line', lines);
+for (const idx in steps) {
+  const step = steps[idx];
+  const progress = new Progress.SingleBar(
+    {
+      format: `${step.label} | {bar} | {percentage}% | {value}/{total}`,
+    },
+    Progress.Presets.shades_classic,
+  );
+  progress.start(structure.length, 0);
+  switch (step.type) {
+    case 'DELETE':
+      for (let idx = structure.length; idx > 0; idx--) {
+        const tableName = structure[idx - 1].name;
+        await db.delete(tableName);
+        progress.increment(1);
+      }
+      break;
+    case 'CREATE':
+      for (let idx = 0; idx < structure.length; idx++) {
+        const definition = structure[idx].definition;
+        await db.create(definition);
+        progress.increment(1);
+      }
+      break;
+    case 'IMPORT':
+      for (let idx = 0; idx < structure.length; idx++) {
+        const importFn = structure[idx].importFn;
+        const uri = structure[idx].uri;
+        if (importFn && uri) {
+          const data = await importFn(uri);
+          if (Array.isArray(data)) {
+            await db.insert(structure[idx].name, data);
+          } else {
+            for (const table in data) {
+              await db.insert(table, data[table]);
+            }
+          }
+        }
+        progress.increment(1);
+      }
+      break;
+  }
+  progress.stop();
+}

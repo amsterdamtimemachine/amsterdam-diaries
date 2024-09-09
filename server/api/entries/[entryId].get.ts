@@ -190,10 +190,6 @@ const generateSections = (sectionData: any[], lineData: any[], annotationData: a
  * Due to how the data is being processed an Annotation can be span multiple lines,
  * this method identifies the same annotation and combines them into a single annotation
  * Similar it detects text lines that end with a hyphen and stitches the hyphenated word back together
- *
- * TODO:
- * - Hyphenated words: Check if nextLine.value still holds a value, else just remove it
- * - Annotations: Check if the join of the annotation value is correct, can be multiple words
  */
 const combineLines = (section: any) => {
   if (section.type === 'Visual') {

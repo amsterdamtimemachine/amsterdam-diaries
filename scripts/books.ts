@@ -81,13 +81,13 @@ const importBooks = async (importUrl: string): Promise<Record<string, any[]>> =>
   const response = await fetch(importUrl);
   const json = await response.json();
   const framed = await jsonld.frame(json, frame, { explicit: true, omitGraph: false });
-  const entries: { id: string; bookId: string; position: number }[] = [];
+  const entry: { id: string; bookId: string; position: number }[] = [];
 
-  const books = ((framed['@graph'] ?? []) as item[]).map(item => {
+  const book = ((framed['@graph'] ?? []) as item[]).map(item => {
     if (item.hasPart) {
       for (let i = 0; i < item.hasPart['@list'].length; i++) {
-        const entry = item.hasPart['@list'][i];
-        entries.push({ id: entry.id, bookId: item.id, position: i + 1 });
+        const e = item.hasPart['@list'][i];
+        entry.push({ id: e.id, bookId: item.id, position: i + 1 });
       }
     }
     return {
@@ -100,7 +100,7 @@ const importBooks = async (importUrl: string): Promise<Record<string, any[]>> =>
       dateCreated: item.dateCreated,
     };
   });
-  return { books, entries };
+  return { book, entry };
 };
 
 export { importBooks, definitionBooks };

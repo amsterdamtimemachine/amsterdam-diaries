@@ -144,32 +144,7 @@ const parseTarget = (targets: Target[]) => {
   });
 };
 
-/**
- * Special method to filter out cases that aren't valid
- * Currently this is only for Dates without a correction,
- * since it prevents us from showing the correct value
- */
-const filterInvalidAnnotations = (annotations: any[], concepts: any[]) => {
-  // Generate a list of names
-  const conceptNames = concepts.map(concept => concept.name);
-
-  // Filter certain annotations
-  return annotations.filter((annotation: any) => {
-    if (annotation.type === 'Date') {
-      const invalidDate = /\d{4}-\d{2}-\d{2}$/.test(annotation.correction);
-      if (!invalidDate) {
-        console.warn('Invalid Date Annotation: ', annotation);
-        return false;
-      }
-    } else if (!annotation.identifyingId && !conceptNames.includes(annotation.type)) {
-      console.warn('Invalid Annotation: ', annotation);
-      return false;
-    }
-    return true;
-  });
-};
-
-const importAnnotations = async (importUrl: string, concepts: any[]) => {
+const importAnnotations = async (importUrl: string) => {
   const result = await fetch(importUrl);
   const json = await result.json();
 
@@ -189,7 +164,7 @@ const importAnnotations = async (importUrl: string, concepts: any[]) => {
   }, {});
 
   // Filter out invalid entries
-  return filterInvalidAnnotations(Object.values(annotations), concepts);
+  return Object.values(annotations);
 };
 
 export { definitionAnnotations, importAnnotations };

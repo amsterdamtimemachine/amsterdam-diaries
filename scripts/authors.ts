@@ -91,9 +91,9 @@ const importAuthors = async (importUrl: string) => {
   const flatten = await jsonld.flatten(framed, flattenContext);
   const items = Array.isArray(flatten['@graph']) ? flatten['@graph'] : [];
   const response: Record<string, any[]> = {
-    authors: [],
-    resources: [],
-    images: [],
+    image: [],
+    resource: [],
+    author: [],
   };
 
   items.forEach(item => {
@@ -103,7 +103,7 @@ const importAuthors = async (importUrl: string) => {
 
     switch (item.type) {
       case 'Person':
-        response.authors.push({
+        response.author.push({
           id: item.id,
           birthDate: item.birthDate,
           birthPlaceId: item.birthPlaceId,
@@ -115,14 +115,14 @@ const importAuthors = async (importUrl: string) => {
         });
         break;
       case 'Place':
-        response.resources.push({
+        response.resource.push({
           id: item.id,
           type: 'Place',
           name: item.name,
         });
         break;
       case 'ImageObject':
-        response.images.push({
+        response.image.push({
           id: item.id,
           contentUrl: item.contentUrl,
           thumbnailUrl: item.thumbnailUrl,
@@ -134,7 +134,7 @@ const importAuthors = async (importUrl: string) => {
   });
 
   // Add unqiue slugs to response.authors
-  response.authors = response.authors.reduce((acc: any[], item: any) => {
+  response.author = response.author.reduce((acc: any[], item: any) => {
     acc.push({
       ...item,
       slug: generateUniqueSlug(

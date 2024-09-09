@@ -77,13 +77,13 @@ const importEntries = async (importUrl: string): Promise<Record<string, any[]>> 
         };
       });
       // Update the accumulator and return it
-      acc.entries.push(entry);
-      acc.blocks.push(...parsedTargets);
+      acc.entry.push(entry);
+      acc.block.push(...parsedTargets);
       return acc;
     },
     {
-      entries: [],
-      blocks: [],
+      block: [],
+      entry: [],
     },
   );
 };

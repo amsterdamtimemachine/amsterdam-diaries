@@ -96,17 +96,14 @@ const importResources = async (importUrl: string): Promise<Resource[]> => {
       return acc;
     }
 
-    // If the resource doesn't have a name, log a warning and skip it
-    if (!item.name) {
-      console.warn('Invalid Resource: ', item);
-      return acc;
+    // If the resource doesn't have a name, the slug is an empty string
+    let slug = '';
+    if (item.name) {
+      slug = generateUniqueSlug(
+        item.name,
+        acc.map(eItem => eItem.slug),
+      );
     }
-
-    // Generate the slug and using the existing slugs to make it unique
-    const slug = generateUniqueSlug(
-      item.name,
-      acc.map(eItem => eItem.slug),
-    );
 
     // Add the item to the collections
     acc.push({

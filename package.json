@@ -8,6 +8,7 @@
     "generate": "nuxt generate",
     "import": "tsx ./scripts/import.ts",
     "import:test": "vitest --dir ./scripts",
+    "import:validate": "tsx ./scripts/validate.ts",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "git diff --name-only --diff-filter=MA main | grep -E '\\.ts$|\\.vue$' | xargs eslint",
@@ -21,7 +22,9 @@
   },
   "dependencies": {
     "@nuxtjs/robots": "^3.0.0",
+    "@types/cli-progress": "^3.11.6",
     "@types/pg": "^8.11.6",
+    "cli-progress": "^3.12.0",
     "jsonld": "^8.3.2",
     "leaflet": "^1.9.4",
     "nuxt": "^3.13.1",
