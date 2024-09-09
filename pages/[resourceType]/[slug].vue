@@ -16,7 +16,13 @@
       class="page-intro"
       :title="capitalizedTitle"
       :description="resource.description || ''"
-      :lines="7" />
+      :lines="7">
+      <ExternalLink
+        v-if="externalLinkText"
+        :class="{ 'external-link': true, 'align-left': resource.image && resourceType === 'personen' }"
+        :link="resource.id"
+        :link-text="externalLinkText" />
+    </PageIntro>
     <DiaryCards
       class="snippets"
       :cards="snippets" />
@@ -32,6 +38,10 @@ if (!defaultImage) {
 const resource = ref(await $fetch(`/api/${resourceType as string}/${slug}`)) as Ref<Resource>;
 const capitalizedTitle = computed(() => (resource.value.name ? useCapitalize(resource.value.name) : ''));
 const snippets = ref(await $fetch(`/api/snippets?type=${resourceType}&id=${btoa(resource.value.id)}`));
+
+const externalLinkText = computed<string>(() => {
+  return useExternalLinkType(resource.value.id);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -53,6 +63,13 @@ const snippets = ref(await $fetch(`/api/snippets?type=${resourceType}&id=${btoa(
 }
 .page-intro {
   text-align: center;
+}
+.external-link {
+  justify-content: center;
+
+  &.align-left {
+    justify-content: flex-start;
+  }
 }
 .snippets {
   width: 100%;

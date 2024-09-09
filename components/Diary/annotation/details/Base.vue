@@ -18,6 +18,10 @@
     <div class="content">
       <slot name="content" />
     </div>
+    <ExternalLink
+      v-if="externalLink && externalLinkText"
+      :link="externalLink"
+      :link-text="externalLinkText" />
   </div>
 </template>
 
@@ -26,6 +30,7 @@ const details = ref<HTMLElement>();
 const props = defineProps<{
   icon: string;
   variantColor: 'purple' | 'green' | 'blue';
+  externalLink?: string;
 }>();
 const variantColor = computed(() => `var(--${props.variantColor})`);
 
@@ -42,6 +47,10 @@ const detailsStyle = computed(() => {
   const value = parentRect.left + element.offsetWidth;
   return document.body.offsetWidth < value ? { right: 0 } : { left: 0 };
 });
+
+const externalLinkText = computed<string>(() => {
+  return useExternalLinkType(props.externalLink || '');
+});
 </script>
 
 <style lang="scss" scoped>
@@ -52,6 +61,7 @@ const detailsStyle = computed(() => {
   padding: var(--space-2);
   box-shadow: var(--shadow-2);
   z-index: 2;
+  line-height: 200%;
 
   .main {
     display: flex;

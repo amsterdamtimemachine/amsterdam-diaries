@@ -3,7 +3,15 @@
     icon="mdi-account"
     variant-color="blue">
     <span class="type">persoon: </span>
-    <span class="person">
+    <NuxtLink
+      v-if="props.line.slug"
+      :to="`/personen/${line.slug}`"
+      class="person">
+      {{ name }}
+    </NuxtLink>
+    <span
+      v-else
+      class="person">
       {{ name }}
     </span>
     <template

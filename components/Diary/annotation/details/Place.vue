@@ -1,7 +1,8 @@
 <template>
   <DiaryAnnotationDetailsBase
     icon="mdi-location"
-    variant-color="green">
+    variant-color="green"
+    :external-link="line.identifyingId">
     <span class="type">locatie: </span>
     <NuxtLink
       v-if="hasLocation"
