@@ -100,7 +100,6 @@ watch(
 
 watch(flipped, (value: boolean) => {
   // Disable body scroll when flipping and make sure scroll top is 0
-  // TODO: Discuss if there is a better solution
   document.body.style.overflow = value ? 'hidden' : 'auto';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
@@ -110,6 +109,10 @@ watch(flipped, (value: boolean) => {
  */
 onMounted(async () => {
   loadPage(pageNr.value);
+});
+
+onUnmounted(() => {
+  document.body.style.overflow = 'auto';
 });
 </script>
 

@@ -50,6 +50,7 @@ const props = defineProps<{
 
 const viewer = ref<OpenSeadragon.Viewer>();
 const zoomLevel = ref(1);
+const minZoomLevel = ref(1);
 
 /**
  * Methods
@@ -70,7 +71,7 @@ const zoomIn = () => {
 
 const zoomOut = () => {
   const zl = zoomLevel.value / 2;
-  zoomLevel.value = zl < 1 ? 1 : zl;
+  zoomLevel.value = zl < minZoomLevel.value ? minZoomLevel.value : zl;
   viewer.value.viewport.zoomTo(zoomLevel.value);
 };
 
@@ -102,6 +103,17 @@ onMounted(async () => {
     visibilityRatio: 1,
     sequenceMode: props.images.length > 1,
     crossOriginPolicy: 'Anonymous',
+  });
+
+  // Set the minimum zoom level to the natural zoom level for small images
+  viewer.value.addHandler('open', () => {
+    const naturalZoom = viewer.value.viewport.imageToViewportZoom(1);
+    if (naturalZoom < 1) {
+      minZoomLevel.value = naturalZoom;
+      zoomLevel.value = naturalZoom;
+      viewer.value.viewport.minZoomLevel = naturalZoom;
+      viewer.value.viewport.zoomTo(naturalZoom, null, true);
+    }
   });
 });
 
