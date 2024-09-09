@@ -1,7 +1,6 @@
 import { it, describe, expect } from 'vitest';
 import { importAnnotations } from './annotations';
 import expectedResults from './expectedResults/annotations';
-import { mockConcepts } from './utils/mocks';
 
 const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/entity_annotations.jsonld`;
 
@@ -80,7 +79,7 @@ describe('Annotations', async () => {
   });
 
   describe('importAnnotations', async () => {
-    const result = await importAnnotations(url, mockConcepts);
+    const result = await importAnnotations(url);
 
     it(`Should return an array of ${expectedResults.length} annotations`, async () => {
       expect(result.length).toBe(expectedResults.length);

@@ -1,5 +1,5 @@
 export default {
-  books: [
+  book: [
     {
       id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/diaries/0',
       authorId: 'http://www.wikidata.org/entity/Q65965451',
@@ -11,7 +11,7 @@ export default {
       dateCreated: '1944-06-01',
     },
   ],
-  entries: [
+  entry: [
     {
       id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/test1',
       bookId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/diaries/0',

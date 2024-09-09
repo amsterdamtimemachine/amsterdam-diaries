@@ -1,5 +1,5 @@
 export default {
-  entries: [
+  entry: [
     {
       id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/test1',
       name: 'Woensdag 5 April. 1944.',
@@ -31,7 +31,7 @@ export default {
       bookId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/diaries/0',
     },
   ],
-  blocks: [
+  block: [
     {
       id: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0001_001/r_11',
       entryId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries/test1',

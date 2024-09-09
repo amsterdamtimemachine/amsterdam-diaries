@@ -196,43 +196,43 @@ const generateSections = (sectionData: any[], lineData: any[], annotationData: a
 };
 
 /**
- * Post processing method to fix hypenated words and combine annotations
- * Due to how the data is being processed an Annotation can be span multiple lines,
- * this method identifies the same annotation and combines them into a single annotation
- * Similar it detects text lines that end with a hyphen and stitches the hyphenated word back together
+ * Post processing method to combine hyphenated words
  */
-const combineLines = (section: any) => {
-  if (section.type === 'Visual') {
-    return section;
-  }
-  for (let idx = 0; idx < section.lines.length; ++idx) {
-    const line = section.lines[idx];
-    const nextLine = section.lines[idx + 1];
-
-    // Check if the line ends with a hyphen, if so remove it
+const combineLines = (lines: any[]) => {
+  for (let idx = 0; idx < lines.length; ++idx) {
+    const line = lines[idx];
+    const nextLine = lines[idx + 1];
     const endsWithHyphen = line.value.endsWith('-');
-    if (endsWithHyphen) {
-      line.value = line.value.replace(/-$/, '');
-    }
 
-    // If the line and the next line are the same annotation combine them
-    if (line?.type === 'Annotation' && nextLine?.type === 'Annotation' && compareIds(line?.id, nextLine?.id)) {
-      line.value = `${line.value}${endsWithHyphen ? '' : ' '}${nextLine.value}`;
-      section.lines.splice(idx + 1, 1);
-    }
-
-    // If the line and next line are text and the line ended with a hyphen, combine them
-    if (line?.type === 'Text' && nextLine?.type === 'Text' && endsWithHyphen) {
+    if (endsWithHyphen && nextLine) {
+      // Fetch the values for this and next line
+      const values = line.value.split(' ');
+      const lastWord = values.pop();
       const [nextWord, ...rest] = nextLine.value.split(' ');
-      if (rest.length === 0) {
-        section.lines.splice(idx + 1, 1);
-      } else {
+      const hyphenatedWord = lastWord.replace(/-$/, nextWord);
+
+      // Determine the hyphenatedWord's location, annotations get priority to owning it
+      if (line?.type === 'Annotation') {
+        line.value = `${values.join(' ')} ${hyphenatedWord}`;
         nextLine.value = rest.join(' ');
+      } else {
+        line.value = values.join(' ');
+        nextLine.value = `${hyphenatedWord} ${rest.join(' ')}`;
       }
-      line.value = `${line.value}${nextWord}`;
+    }
+
+    // Check if this line and the next line need to be merged into 1 line.
+    // If they do, remove the next line and reparse this line.
+    const bothText = line?.type === 'Text' && nextLine?.type === 'Text';
+    const sameAnnotion =
+      line?.type === 'Annotation' && nextLine?.type === 'Annotation' && compareIds(line?.id, nextLine?.id);
+    if (bothText || sameAnnotion) {
+      line.value = `${line.value} ${nextLine.value}`;
+      lines.splice(idx + 1, 1);
+      idx--;
     }
   }
-  return section;
+  return lines;
 };
 
 /**
@@ -249,7 +249,17 @@ export default defineEventHandler(async event => {
   const sectionIdx = generateSections(blocks, lines, annotations);
   const sections = [];
   for (const idx in sectionIdx) {
-    sections.push(combineLines(sectionIdx[idx]));
+    const section = sectionIdx[idx];
+
+    switch (section.type) {
+      case 'Visual':
+        sections.push(section);
+        break;
+      default:
+        section.lines = combineLines(section.lines);
+        sections.push(section);
+        break;
+    }
   }
   return {
     sections,

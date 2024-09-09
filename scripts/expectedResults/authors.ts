@@ -1,5 +1,5 @@
 export default {
-  authors: [
+  author: [
     {
       birthDate: '1918-04-19',
       birthPlaceId: 'http://www.wikidata.org/entity/Q727',
@@ -14,7 +14,7 @@ export default {
       slug: 'neeltje-toby-vos',
     },
   ],
-  images: [
+  image: [
     {
       contentUrl:
         'https://images.diaries.amsterdamtimemachine.nl/iiif/profile-overview/neeltje-toby-vos/profile/1.jpg/full/max/0/default.jpg/full/max/0/default.jpg',
@@ -23,7 +23,7 @@ export default {
         'https://images.diaries.amsterdamtimemachine.nl/iiif/profile-overview/neeltje-toby-vos/profile/1.jpg/full/max/0/default.jpg/full/96,/0/default.jpg',
     },
   ],
-  resources: [
+  resource: [
     {
       id: 'http://www.wikidata.org/entity/Q727',
       name: 'Amsterdam',
