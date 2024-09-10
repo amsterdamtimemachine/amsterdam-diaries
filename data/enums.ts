@@ -136,3 +136,36 @@ export const ResourceInfo: Record<string, ResourceInfo | LocationResourceInfo | 
     snippetField: 'id',
   },
 } as const;
+
+export const AnnotationDetailsInfo: Record<string, AnnotationDetailsInfo> = {
+  date: {
+    icon: 'mdi-calendar',
+    label: 'datum',
+    variant: 'blue',
+  },
+  place: {
+    icon: 'mdi-location',
+    label: 'locatie',
+    variant: 'green',
+    useExternalLink: true,
+  },
+  etenswaren: {
+    icon: 'gridicons:themes',
+    label: 'topic',
+    variant: 'purple',
+    path: 'themas',
+    useTypeForNameAndPath: true,
+  },
+  person: {
+    icon: 'mdi-account',
+    label: 'persoon',
+    variant: 'blue',
+    path: 'personen',
+  },
+  organization: {
+    icon: 'bi:building',
+    label: 'organisatie',
+    variant: 'maroon',
+    path: 'organisaties',
+  },
+} as const;

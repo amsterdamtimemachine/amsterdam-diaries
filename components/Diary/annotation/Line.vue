@@ -3,9 +3,8 @@
     ref="annotationLine"
     class="annotation-line">
     <template v-if="isNonClickable">
-      <component
+      <DiaryAnnotationDetailsBlackening
         :class="annotationLineClass"
-        :is="fetchComponent(line.subType!)"
         :line="line" />
     </template>
     <template v-else>
@@ -16,9 +15,8 @@
         {{ line.value }}
       </button>
       <Transition name="fade">
-        <component
+        <DiaryAnnotationDetailsInfo
           v-if="clicked"
-          :is="fetchComponent(line.subType!)"
           :line="line" />
       </Transition>
     </template>
@@ -62,22 +60,6 @@ const annotationLineClass = computed(() => {
 const toggleAnnotation = () => {
   clicked.value = !clicked.value;
 };
-
-const fetchComponent = (type: string) => {
-  switch (type) {
-    case 'Date':
-      return resolveComponent('DiaryAnnotationDetailsDate');
-    case 'Place':
-      return resolveComponent('DiaryAnnotationDetailsPlace');
-    // TODO: Change this once we have multiple themes
-    case 'Etenswaren':
-      return resolveComponent('DiaryAnnotationDetailsTheme');
-    case 'Person':
-      return resolveComponent('DiaryAnnotationDetailsPerson');
-    case 'Blackening':
-      return resolveComponent('DiaryAnnotationDetailsBlackening');
-  }
-};
 </script>
 
 <style lang="scss" scoped>
@@ -104,7 +86,10 @@ const fetchComponent = (type: string) => {
     background: color-mix(in srgb, var(--blue) 20%, transparent);
   }
 
-  &.organization,
+  &.organization {
+    background: color-mix(in srgb, var(--maroon) 20%, transparent);
+  }
+
   &.date {
     color: var(--blue);
     text-decoration: underline;

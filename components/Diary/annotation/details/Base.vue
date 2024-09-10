@@ -29,7 +29,7 @@
 const details = ref<HTMLElement>();
 const props = defineProps<{
   icon: string;
-  variantColor: 'purple' | 'green' | 'blue';
+  variantColor: AnnotationDetailsVariant;
   externalLink?: string;
 }>();
 const variantColor = computed(() => `var(--${props.variantColor})`);
