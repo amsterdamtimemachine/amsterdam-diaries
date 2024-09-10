@@ -119,6 +119,7 @@ const loadPage = async (pageNumber: number) => {
 @include sm-screen-down {
   .page-container {
     gap: var(--space-4);
+    margin-bottom: var(--space-16);
 
     .diary-page {
       margin-block: 0;
