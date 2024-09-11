@@ -28,7 +28,7 @@
  * State & Props
  */
 const props = defineProps<{
-  line: AnnotationLine;
+  line: AnnotationData;
 }>();
 
 const clicked = ref<boolean>(false);

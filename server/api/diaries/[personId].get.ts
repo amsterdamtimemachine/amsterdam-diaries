@@ -26,31 +26,33 @@ const fetchEntries = async (id: string) => {
   return (await client.query(query)).rows;
 };
 
-export default defineEventHandler(async event => {
+export default defineEventHandler<Promise<DiaryData[]>>(async event => {
   const config = useRuntimeConfig();
   const personId = getRouterParam(event, 'personId');
   const id = `${config.app.entityBaseUri}${personId}`;
 
   try {
     const data = await fetchDiaries(id);
-    const diaries = [];
+    const diaries = [] as DiaryData[];
     for (let idx = 0; idx < data.length; ++idx) {
       const pages = (await fetchEntries(data[idx].id)).sort((a, b) => a.position - b.position);
       diaries.push({
         id: useSimplifyId(data[idx].id),
         type: 'Book',
-        temporalCoverage: data[idx].temporalcoverage,
+        temporalCoverage: data[idx].temporalcoverage as string,
         pages: pages.map(page => ({
           id: useSimplifyId(page.id),
           type: 'Manuscript',
-          dateCreated: page.datecreated,
+          dateCreated: page.datecreated as string,
+          sections: [],
         })),
       });
     }
 
-    return { diaries };
+    return diaries;
   } catch (e) {
     console.error('Error: ', e);
     setResponseStatus(event, 400);
+    return [];
   }
 });

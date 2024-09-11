@@ -1,6 +1,6 @@
 import { ResourceInfo } from '~/data/enums';
 
-export default defineEventHandler(async event => {
+export default defineEventHandler<Promise<SnippetData[]>>(async event => {
   const client = getClient();
   const { type, id, limit } = getQuery(event);
   const { snippetField } = ResourceInfo[type as string] ?? {};
@@ -8,8 +8,7 @@ export default defineEventHandler(async event => {
     return [];
   }
 
-  const resources = (
-    await client.query(`
+  const resources = await client.query(`
     SELECT DISTINCT ON (au.id)
       l1.id,
       l1.position,
@@ -36,8 +35,10 @@ export default defineEventHandler(async event => {
     JOIN book b ON e.bookId = b.id
     JOIN author au ON b.aboutId = au.id
     WHERE a.${snippetField} = '${atob(id as string)}'
-    LIMIT ${limit || 4}`)
-  ).rows.map(row => {
+    LIMIT ${limit || 4}
+  `);
+
+  return resources.rows.map(row => {
     const exactText = row.exacttext;
     const highlight = `<span class="highlight">${exactText}</span>`;
     const middle = `${row.value.slice(0, row.startposition)}${highlight}${row.value.slice(row.endposition)}`;
@@ -50,7 +51,6 @@ export default defineEventHandler(async event => {
       content: snippet,
       link: `/dagboeken/${row.author_slug}?page=${row.page_number}`,
       linkText: `Lees dagboek van ${row.author_name.split(' ')[0]}`,
-    } as DiaryCard;
+    } as SnippetData;
   });
-  return resources;
 });

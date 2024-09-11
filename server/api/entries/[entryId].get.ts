@@ -4,7 +4,7 @@ const ENTRY_BASE_URL = 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-
 /**
  * Helpers
  */
-const compareIds = (a: string, b: string) => {
+const compareIds = (a: string, b: string): boolean => {
   return a?.slice(0, a.length - 1) === b?.slice(0, b.length - 1);
 };
 
@@ -71,16 +71,16 @@ const fetchAnnotations = async (lines: any[]) => {
 /**
  * Generators
  */
-const generateTextLine = (value: string): TextLine => {
+const generateTextLine = (value: string): LineData => {
   return {
     type: 'Text',
     value: value ? value.trim() : '',
   };
 };
 
-const generateAnnotationLine = (text: string, data: any) => {
+const generateAnnotationLine = (text: string, data: any): AnnotationData => {
   const subData = data.latitude && data.longitude ? { latitude: data.latitude, longitude: data.longitude } : {};
-  const obj = {
+  return {
     type: 'Annotation',
     id: `${useSimplifyId(data.id)}`,
     subType: data.type,
@@ -93,10 +93,6 @@ const generateAnnotationLine = (text: string, data: any) => {
     slug: data.slug,
     ...subData,
   };
-
-  // Filter out null values from the object
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  return Object.fromEntries(Object.entries(obj).filter(([_, value]) => value !== null));
 };
 
 /**
@@ -104,7 +100,7 @@ const generateAnnotationLine = (text: string, data: any) => {
  *
  * TODO: Double check if the replace in the uri is correct
  */
-const prepareSections = (sections: any[]): Record<string, any> => {
+const prepareSections = (sections: any[]): Record<string, SectionData> => {
   return sections.reduce((acc: any, section: any) => {
     switch (section.type) {
       case 'Visual':
@@ -140,7 +136,7 @@ const generateSections = (sectionData: any[], lineData: any[], annotationData: a
 
   for (let idx = lineData.length - 1; idx >= 0; --idx) {
     const line = lineData[idx];
-    const section = sections[line.blockid];
+    const section = sections[line.blockid] as TextSectionData;
 
     // Get the annotations for this line and sort them by startposition
     const annos = annotationData
@@ -198,7 +194,7 @@ const generateSections = (sectionData: any[], lineData: any[], annotationData: a
 /**
  * Post processing method to combine hyphenated words
  */
-const combineLines = (lines: any[]) => {
+const combineLines = (lines: (LineData | AnnotationData)[]) => {
   for (let idx = 0; idx < lines.length; ++idx) {
     const line = lines[idx];
     const nextLine = lines[idx + 1];
@@ -209,7 +205,7 @@ const combineLines = (lines: any[]) => {
       const values = line.value.split(' ');
       const lastWord = values.pop();
       const [nextWord, ...rest] = nextLine.value.split(' ');
-      const hyphenatedWord = lastWord.replace(/-$/, nextWord);
+      const hyphenatedWord = lastWord!.replace(/-$/, nextWord);
 
       // Determine the hyphenatedWord's location, annotations get priority to owning it
       if (line?.type === 'Annotation') {
@@ -241,7 +237,7 @@ const combineLines = (lines: any[]) => {
  * - Generate the sections
  * - Post process the sections
  */
-export default defineEventHandler(async event => {
+export default defineEventHandler<Promise<SectionData[]>>(async event => {
   const entryId = getRouterParam(event, 'entryId') as string;
   const blocks = await fetchBlocks(entryId);
   const lines = await fetchLineData(entryId);
@@ -261,7 +257,5 @@ export default defineEventHandler(async event => {
         break;
     }
   }
-  return {
-    sections,
-  };
+  return sections;
 });

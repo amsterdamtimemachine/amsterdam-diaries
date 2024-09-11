@@ -1,14 +1,9 @@
 import jsonld from 'jsonld';
 import generateUniqueSlug from './utils/generateUniqueSlug';
 
-// TODO: Ask Leon about type and @type
-type item = {
-  '@type'?: string;
-  id: string;
-  name: string;
-  slug: string;
-};
-
+/**
+ * Framing context
+ */
 const frame = {
   '@context': {
     id: '@id',
@@ -19,6 +14,9 @@ const frame = {
   name: {},
 };
 
+/**
+ * Public methods
+ */
 const definitionConcepts = {
   name: 'concept',
   fields: [
@@ -38,21 +36,26 @@ const definitionConcepts = {
   ],
 };
 
-const importConcepts = async (importUrl: string) => {
+const importConcepts = async (importUrl: string): Promise<ParsedResponse> => {
   const result = await fetch(importUrl);
   const json = await result.json();
   const framed = await jsonld.frame(json, frame, { explicit: true, omitGraph: false });
-  return ((framed['@graph'] ?? []) as item[]).reduce((acc: item[], item: item) => {
-    acc.push({
-      id: item.id,
-      name: item.name,
-      slug: generateUniqueSlug(
-        item.name,
-        acc.map(eItem => eItem.slug),
-      ),
-    });
-    return acc;
-  }, []);
+  return ((framed['@graph'] ?? []) as RawConcept[]).reduce(
+    (acc: ParsedResponse, item: RawConcept) => {
+      acc.concept!.push({
+        id: item.id,
+        name: item.name,
+        slug: generateUniqueSlug(
+          item.name,
+          acc.concept!.map(eItem => eItem.slug),
+        ),
+      });
+      return acc;
+    },
+    {
+      concept: [],
+    },
+  );
 };
 
 export { definitionConcepts, importConcepts };

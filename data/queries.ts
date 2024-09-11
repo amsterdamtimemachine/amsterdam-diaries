@@ -96,7 +96,7 @@ export const Queries: Record<string, string> = {
 } as const;
 
 export const Parsers: Record<string, (row: any) => any> = {
-  authorList: (rows: any[]) => {
+  authorList: (rows: any[]): Author[] => {
     return rows.map(author => {
       return {
         id: useSimplifyId(author.id),
@@ -124,7 +124,7 @@ export const Parsers: Record<string, (row: any) => any> = {
       };
     });
   },
-  author: (rows: any[]) => {
+  author: (rows: any[]): Author => {
     const author = rows[0];
     return {
       id: useSimplifyId(author.id),

@@ -1,7 +1,29 @@
 export {};
 
 declare global {
-  type CardColor = 'light-green' | 'light-blue' | 'light-purple' | 'light-pink' | 'light-red' | 'light-yellow';
+  type AnnotationDetailsVariant = 'purple' | 'green' | 'blue' | 'maroon';
+
+  type AnnotationDetails = {
+    icon: string;
+    variant: AnnotationDetailsVariant;
+    label: string;
+    path?: string;
+    useExternalLink?: boolean;
+  };
+
+  type AnnotationType = 'Date' | 'Place' | 'Etenswaren' | 'Person' | 'Organization';
+
+  /****************************************************************************/
+  /*                                 UI Types                                 */
+  /****************************************************************************/
+
+  type ImageOptions = {
+    region?: string;
+    size?: string;
+    rotation?: string;
+    quality?: string;
+    format?: string;
+  };
 
   type Tag = {
     active?: boolean;
@@ -9,46 +31,31 @@ declare global {
     link: string;
   };
 
-  /***************************************************************************/
-  /*                                 Display                                 */
-  /***************************************************************************/
+  type Place = {
+    id: string;
+    type?: 'Place';
+    name?: string;
+    latitude?: number;
+    longitude?: number;
+  };
 
+  // TODO: Questionable if it's UI Type or just shared with API data
   type Author = {
     id: string;
     type: 'Person';
     name: string;
-    aliases?: string[];
     description: string;
     slug: string;
-    photos?: string[];
     birthDate?: string;
-    birthPlace?: {
-      id: string;
-      type?: 'Place';
-      name?: string;
-    };
+    birthPlace?: Place;
     deathDate?: string;
-    deathPlace?: {
-      id: string;
-      type?: 'Place';
-      name?: string;
-    };
-    totalPages: number;
-    pages?: Page[];
+    deathPlace?: Place;
+    image?: string;
   };
 
-  type Book = {
+  type DateEntry = {
     id: string;
-    type: 'Book';
-    dateCreated: string;
-    pages: Page[];
-  };
-
-  type Page = {
-    id: string;
-    type: 'Manuscript';
-    dateCreated: string;
-    sections: Section[];
+    value: Date;
   };
 
   type Resource = {
@@ -86,56 +93,11 @@ declare global {
     snippetField: string;
   };
 
-  type Section = TextSection | VisualSection;
+  /****************************************************************************/
+  /*                                 API Types                                */
+  /****************************************************************************/
 
-  type TextSection = {
-    type: 'Heading' | 'Paragraph' | 'Caption'; // TODO: Not yet defining Marginalia
-    lines: (TextLine | AnnotationLine)[];
-    uri: string;
-  };
-
-  type VisualSection = {
-    type: 'Visual';
-    uri: string;
-    captions?: TextLine[];
-  };
-
-  type TextLine = {
-    type: 'Text';
-    value: string;
-  };
-
-  type AnnotationLine = {
-    type: 'Annotation';
-    id: string;
-    subType: string;
-    name?: string;
-    description?: string;
-    value: string;
-    identifyingId?: string;
-    classifyingId: string;
-    correction?: string;
-    slug?: string;
-    latitude?: number;
-    longitude?: number;
-  };
-
-  type ImageOptions = {
-    region?: string;
-    size?: string;
-    rotation?: string;
-    quality?: string;
-    format?: string;
-  };
-
-  type LocationRef = {
-    id: string;
-    name?: string;
-    latitude?: string;
-    longitude?: string;
-  };
-
-  type DiaryCard = {
+  type SnippetData = {
     headerTitle: string;
     headerSubtitle: string;
     content: string;
@@ -143,184 +105,300 @@ declare global {
     linkText: string;
   };
 
-  type EntityContext = AnnotationRef & {
+  type LocationData = {
+    id: string;
+    name: string;
+    description: string;
+    latitude: number;
+    longitude: number;
+  };
+
+  type LineData = {
+    type: 'Text';
+    value: string;
+  };
+
+  type AnnotationData = {
     type: 'Annotation';
     id: string;
     subType: string;
-  };
-
-  /***************************************************************************/
-  /*                           Parse Annotations                             */
-  /***************************************************************************/
-
-  type SelectorBody = {
-    type: string;
     value: string;
+    classifyingId: string;
+    correction?: string;
     name?: string;
+    slug?: string;
+    identifyingId?: string;
+    latitude?: number;
+    longitude?: number;
     description?: string;
-    latitude?: string;
-    longitude?: string;
   };
 
-  type SelectorTarget = {
-    source: string;
-    highlight?: string;
-    start?: number;
-    end?: number;
-    content?: string;
+  type VisualSectionData = {
+    position: number;
+    type: 'Visual';
+    uri: string;
   };
 
-  type ParsedAbout = {
-    slug: string;
-    firstName: string;
-    name: string;
+  type TextSectionData = {
+    position: number;
+    type: 'Caption' | 'Heading' | 'Paragraph';
+    uri: string;
+    lines: (LineData | AnnotationData)[];
   };
 
-  type ParsedIsPartOf = {
-    author?: ParsedAbout;
-    diaryName?: string;
-    temporalCoverage?: string;
+  type SectionData = VisualSectionData | TextSectionData;
+
+  type PageData = {
+    id: string;
+    type: 'Manuscript';
+    dateCreated: string;
+    sections: SectionData[];
   };
 
-  type AnnotationRef = SelectorBody & SelectorTarget & ParsedIsPartOf & { guid?: string };
+  type DiaryData = {
+    id: string;
+    type: 'Book';
+    temporalCoverage: string;
+    pages: PageData[];
+  };
 
-  /***************************************************************************/
-  /*                                 INPUT                                   */
-  /***************************************************************************/
-
-  type Line = {
+  type DateData = {
     id: string;
     value: string;
   };
 
-  /**
-   * Annotations
-   */
-  type Annotation = {
-    id: string;
-    type: 'Annotation';
-    body: AnnotationBody | AnnotationBody[];
-    target: Target | Target[];
-    source: string;
-    isPartOf?: IsPartOf;
-  };
+  /****************************************************************************/
+  /*                         Raw Types (JSON-LD input)                        */
+  /****************************************************************************/
 
-  type AnnotationBody = Classification | TextualBody | SpecificResource;
-
-  type TextualBody = {
-    id: string;
-    type: 'TextualBody';
-    value: string;
-    next?: TextualBody;
-    prev?: TextualBody;
-  };
-
-  type About = {
-    id: string;
-    type: string;
-    name: string;
-  };
-
-  type IsPartOf = {
-    id: string;
-    type: 'Manuscript' | 'Book';
-    name: string;
-    isPartOf?: IsPartOf;
-    dateCreated?: string;
-    about?: About;
-    temporalCoverage?: string;
-  };
-
-  /**
-   * Clarifications
-   */
-  type Classification = {
+  type RawClassification = {
     type: 'SpecificResource';
-    purpose: 'classifying';
-    source:
-      | string
-      | {
-          id: string;
-          type: string;
-          label: string;
-        };
-  };
-
-  /**
-   * Sources
-   */
-  type LinkedSource = {
-    id: string;
-    type: string;
-    description: string;
-    name: string;
-  };
-
-  type GeoSource = LinkedSource & {
-    type: 'Place';
-    geo: {
+    source: {
       id: string;
-      latitude: string;
-      longitude: string;
+      type: string;
+      label: string;
     };
+    purpose: 'classifying';
   };
 
-  /**
-   * Identifiers
-   */
-  type ValueIdentifer = {
-    id: string;
-    purpose: 'identifying';
-    value: string | { type: string; '@value': string };
-  };
-
-  type SpecificIdentifier = {
-    id: string;
-    purpose: 'identifying';
-    source: GeoSource | LinkedSource;
-  };
-
-  /**
-   * Targets
-   */
-  type Target = {
+  type RawExternalResource = {
     type: 'SpecificResource';
-    source: string | TextualBody;
-    selector: Array<TextPositionSelector | TextQuoteSelector>;
+    source: {
+      id: string;
+      type: string;
+    };
+    purpose: 'identifying';
   };
 
-  /**
-   * Selectors
-   */
-  type TextQuoteSelector = {
+  type RawTextualResource = {
+    type: 'TextualBody';
+    value: {
+      '@type': string;
+      '@value': string;
+    };
+    purpose: 'identifying';
+  };
+
+  type RawTextQuoteSelector = {
     type: 'TextQuoteSelector';
     exact: string;
   };
 
-  type TextPositionSelector = {
+  type RawTextPositionSelector = {
     type: 'TextPositionSelector';
     start: number;
     end: number;
   };
 
-  /***************************************************************************/
-  /*                                 NEW                                     */
-  /***************************************************************************/
+  type RawTarget = {
+    type: 'SpecificResource';
+    source: string;
+    selector: (TextQuoteSelector | TextPositionSelector)[];
+  };
 
-  type DateEntry = {
+  type RawAnnotationBody = RawClassification | RawExternalResource | RawTextualResource;
+
+  type RawAnnotation = {
+    type: 'Annotation';
     id: string;
-    value: Date;
+    body: RawAnnotationBody[];
+    target: RawTarget[];
   };
 
-  type AnnotationDetailsVariant = 'purple' | 'green' | 'blue' | 'maroon';
-
-  type AnnotationDetails = {
-    icon: string;
-    variant: AnnotationDetailsVariant;
-    label: string;
-    path?: string;
-    useExternalLink?: boolean;
+  type RawBook = {
+    id: string;
+    author: {
+      id: string;
+    };
+    about: {
+      id: string;
+    };
+    name: string;
+    description: string;
+    temporalCoverage: string;
+    dateCreated: string;
+    hasPart?: {
+      '@list': { id: string }[];
+    };
   };
 
-  type AnnotationType = 'Date' | 'Place' | 'Etenswaren' | 'Person' | 'Organization';
+  type RawConcept = {
+    '@type': string;
+    id: string;
+    name: string;
+  };
+
+  type RawResource = {
+    id: string;
+    type: 'Place' | 'Organization' | 'Person' | 'GeoCoordinates';
+    name: string;
+    description?: string;
+    geo?: {
+      id: 'string';
+      type: 'GeoCoordinates';
+      latitude: number;
+      longitude: number;
+    };
+  };
+
+  type RawEntry = {
+    id: string;
+    type: 'Manuscript';
+    dateCreated: string;
+    targets: string[];
+    bookId: {
+      id: string;
+      type: 'Book';
+    };
+    name: string;
+  };
+
+  type RawLine = {
+    id: string;
+    type: 'Annotation';
+    textGranularity: string;
+    body: {
+      id: string;
+      type: string;
+      value: string;
+      purpose: string;
+    }[];
+    target: RawTarget;
+  };
+
+  type RawItem = {
+    [key: string | number]: any;
+  };
+
+  /****************************************************************************/
+  /*                        Parsed Types (partials)                           */
+  /****************************************************************************/
+
+  type ParsedAnnotationTarget = {
+    sourceId: string;
+    exactText: string;
+    startPosition: number;
+    endPosition: number;
+  };
+
+  type ParsedAnnotationBody = {
+    identifyingId?: string;
+    classifyingId?: string;
+    correction?: string;
+    type?: string;
+  };
+
+  /****************************************************************************/
+  /*                         Parsed Types (output)                            */
+  /****************************************************************************/
+
+  type ParsedAnnotation = {
+    id: string;
+    type: string;
+    identifyingId?: string;
+    classifyingId: string;
+    sourceId: string;
+    exactText: string;
+    startPosition: number;
+    endPosition: number;
+    correction?: string;
+  };
+
+  type ParsedAuthor = {
+    id: string;
+    type: 'Person';
+    name: string;
+    description: string;
+    slug: string;
+    birthDate: string;
+    birthPlaceId: string;
+    deathDate?: string;
+    deathPlaceId?: string;
+    imageId?: string;
+  };
+
+  type ParsedBlock = {
+    id: string;
+    entryId?: string;
+    type?: string;
+    position?: number;
+    imageId?: string;
+    dimensions?: string;
+  };
+
+  type ParsedBook = {
+    id: string;
+    authorId: string;
+    aboutId: string;
+    name: string;
+    description: string;
+    temporalCoverage: string;
+    dateCreated: string;
+  };
+
+  type ParsedConcept = {
+    id: string;
+    name: string;
+    slug: string;
+  };
+
+  type ParsedEntry = {
+    id: string;
+    name: string;
+    bookId: string;
+    position?: number;
+    dateCreated: string;
+  };
+
+  type ParsedImage = {
+    id: string;
+    contentUrl: string;
+    thumbnailUrl: string;
+  };
+
+  type ParsedResource = {
+    id: string;
+    type: 'Place' | 'Organization' | 'Person';
+    name: string;
+    slug: string;
+    description?: string;
+    latitude?: number;
+    longitude?: number;
+  };
+
+  /****************************************************************************/
+  /*                       Parsed Types (collection)                          */
+  /****************************************************************************/
+
+  type ParsedResponse = {
+    annotation?: ParsedAnnotation[];
+    author?: ParsedAuthor[];
+    block?: ParsedBlock[];
+    book?: ParsedBook[];
+    concept?: ParsedConcept[];
+    entry?: ParsedEntry[];
+    image?: ParsedImage[];
+    line?: ParsedLine[];
+    resource?: ParsedResource[];
+  };
 }

@@ -1,6 +1,7 @@
 import { it, describe, expect } from 'vitest';
 import { importResources } from './resources';
 import expectedResults from './expectedResults/resources';
+import expectedResultTest from './utils/expectedResultTest';
 
 const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/external_resources.jsonld`;
 
@@ -24,15 +25,6 @@ describe('Resources', async () => {
 
   describe('importResources', async () => {
     const result = await importResources(url);
-
-    it(`Should return an array of ${expectedResults.length} resources`, async () => {
-      expect(result.length).toBe(expectedResults.length);
-    });
-
-    result.forEach((resource, index) => {
-      it(`Should parse resource #${index + 1} correctly`, async () => {
-        expect(resource).toEqual(expectedResults[index]);
-      });
-    });
+    expectedResultTest(result, expectedResults);
   });
 });

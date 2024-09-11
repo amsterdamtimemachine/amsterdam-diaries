@@ -1,6 +1,7 @@
 import { it, describe, expect } from 'vitest';
 import { importConcepts } from './concepts';
 import expectedResults from './expectedResults/concepts';
+import expectedResultTest from './utils/expectedResultTest';
 
 const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/concepts.jsonld`;
 
@@ -24,15 +25,6 @@ describe('Concepts', async () => {
 
   describe('importConcepts', async () => {
     const result = await importConcepts(url);
-
-    it('Should return an array of 1 concept', async () => {
-      expect(result.length).toBe(1);
-    });
-
-    result.forEach((concept, index) => {
-      it(`Should parse concept #${index + 1} correctly`, async () => {
-        expect(concept).toEqual(expectedResults[index]);
-      });
-    });
+    expectedResultTest(result, expectedResults);
   });
 });

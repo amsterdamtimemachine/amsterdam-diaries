@@ -38,15 +38,16 @@ describe('Authors', async () => {
 
   describe('importAuthors', async () => {
     const result = await importAuthors(url);
+    let key: keyof typeof result;
 
-    for (const key in result) {
+    for (key in result) {
       const expectedResult = expectedResults[key as keyof typeof expectedResults];
 
       it(`Should return ${expectedResult.length} ${key}`, async () => {
-        expect(result[key].length).toBe(expectedResult.length);
+        expect(result[key]!.length).toBe(expectedResult.length);
       });
 
-      result[key].forEach((item, index) => {
+      result[key]!.forEach((item, index) => {
         it(`Should parse ${key} #${index + 1} correctly`, async () => {
           expect(item).toEqual(expectedResult[index]);
         });

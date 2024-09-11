@@ -38,7 +38,7 @@ if (!description) {
   throw new Error(`Invalid resource type: datums`);
 }
 const dates = ref<DateEntry[]>(
-  ((await $fetch('/api/dates')) as DateEntry[]).map((d: DateEntry) => ({
+  (await $fetch('/api/dates')).map((d: DateData) => ({
     id: d.id,
     value: new Date(d.value),
   })),
@@ -48,7 +48,7 @@ const years = ref<number[]>(Array.from(new Set(dates.value.map(d => d.value.getF
 const year = ref<number>(years.value[Math.floor(years.value.length / 2)]);
 const dateText = ref<string>('');
 
-const snippets = ref<DiaryCard[]>([]);
+const snippets = ref<SnippetData[]>([]);
 const setSnippets = async (date: { id: string; value: Date }) => {
   dateText.value = date.value.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
   snippets.value = await $fetch(`/api/snippets?id=${btoa(date.id)}&type=datums`);

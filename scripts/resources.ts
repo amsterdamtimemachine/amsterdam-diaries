@@ -1,30 +1,9 @@
 import jsonld from 'jsonld';
 import generateUniqueSlug from './utils/generateUniqueSlug';
 
-// Types
-type FramedResource = {
-  id: string;
-  type: 'Place' | 'Organization' | 'Person' | 'GeoCoordinates';
-  name: string;
-  description?: string;
-  geo?: {
-    id: 'string';
-    type: 'GeoCoordinates';
-    latitude: number;
-    longitude: number;
-  };
-};
-
-type Resource = {
-  id: string;
-  type: 'Place' | 'Organization' | 'Person';
-  name: string;
-  slug: string;
-  description?: string;
-  latitude?: number;
-  longitude?: number;
-};
-
+/**
+ * Framing context
+ */
 const frame = {
   '@context': {
     '@vocab': 'https://schema.org/',
@@ -50,6 +29,9 @@ const frame = {
   },
 };
 
+/**
+ * Public methods
+ */
 const definitionResources = {
   name: 'resource',
   fields: [
@@ -85,38 +67,44 @@ const definitionResources = {
   ],
 };
 
-const importResources = async (importUrl: string): Promise<Resource[]> => {
+const importResources = async (importUrl: string): Promise<ParsedResponse> => {
   const result = await fetch(importUrl);
   const json = await result.json();
   const framed = await jsonld.frame(json, frame, { omitGraph: false });
+  const items = (framed['@graph'] ?? []) as RawResource[];
 
-  return ((framed['@graph'] ?? []) as FramedResource[]).reduce((acc: Resource[], item: FramedResource) => {
-    // Skip GeoCoordinates
-    if (item.type === 'GeoCoordinates') {
+  return items.reduce(
+    (acc: ParsedResponse, item: RawResource) => {
+      // Skip GeoCoordinates
+      if (item.type === 'GeoCoordinates') {
+        return acc;
+      }
+
+      // If the resource doesn't have a name, the slug is an empty string
+      let slug = '';
+      if (item.name) {
+        slug = generateUniqueSlug(
+          item.name,
+          acc.resource!.map(eItem => eItem.slug),
+        );
+      }
+
+      // Add the item to the collections
+      acc.resource!.push({
+        id: item.id,
+        type: item.type,
+        name: item.name,
+        slug,
+        description: item.description,
+        latitude: item.geo?.latitude,
+        longitude: item.geo?.longitude,
+      });
       return acc;
-    }
-
-    // If the resource doesn't have a name, the slug is an empty string
-    let slug = '';
-    if (item.name) {
-      slug = generateUniqueSlug(
-        item.name,
-        acc.map(eItem => eItem.slug),
-      );
-    }
-
-    // Add the item to the collections
-    acc.push({
-      id: item.id,
-      type: item.type,
-      name: item.name,
-      slug,
-      description: item.description,
-      latitude: item.geo?.latitude,
-      longitude: item.geo?.longitude,
-    });
-    return acc;
-  }, []);
+    },
+    {
+      resource: [],
+    },
+  );
 };
 
 export { definitionResources, importResources };

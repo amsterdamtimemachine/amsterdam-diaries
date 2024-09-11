@@ -17,18 +17,18 @@ const fetchLocations = async () => {
     // this results in a very weird order of the placeholders in the query
     values: useRuntimeConfig().app.maxBounds.flat(),
   };
-  return (await client.query(query)).rows;
+  return (await client.query(query)).rows as ParsedResource[];
 };
 
-export default defineEventHandler(async () => {
+export default defineEventHandler<Promise<LocationData[]>>(async () => {
   const data = await fetchLocations();
-  return {
-    locations: data.map((item: any) => ({
+  return data.map((item: ParsedResource) => {
+    return {
       id: btoa(item.id),
       name: item.name,
       description: item.description,
       latitude: item.latitude,
       longitude: item.longitude,
-    })),
-  };
+    } as LocationData;
+  });
 });

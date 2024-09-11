@@ -25,7 +25,7 @@ const props = withDefaults(
 );
 const emit = defineEmits(['markerClick']);
 
-const markerSources = ref<LocationRef[]>([]);
+const markerSources = ref<LocationData[]>([]);
 
 /**
  * Methods
@@ -34,14 +34,11 @@ const popupMarker = (name: string) => {
   return `<p class="font-body-l">${name}</p>`;
 };
 
-const onMarkerClick = (marker: L.LeafletMouseEvent) => {
-  emit('markerClick', getMarkerSource(marker));
-};
-
-const getMarkerSource = (marker: any): LocationRef | undefined => {
-  return markerSources.value.find((source: LocationRef) => {
-    return Number(source.latitude) === marker.latlng.lat && Number(source.longitude) === marker.latlng.lng;
+const onMarkerClick = (event: L.LeafletMouseEvent) => {
+  const marker = markerSources.value.find((source: LocationData) => {
+    return Number(source.latitude) === event.latlng.lat && Number(source.longitude) === event.latlng.lng;
   });
+  emit('markerClick', marker);
 };
 
 /**
@@ -62,8 +59,7 @@ onMounted(async () => {
       '&copy; Kaartgegevens: <a href="https://www.kadaster.nl/">Kadaster</a>, cartografie: <a href="https://www.webmapper.net/">Webmapper</a>',
   }).addTo(map);
 
-  const { locations } = await $fetch(`/api/locations`);
-  markerSources.value = locations;
+  markerSources.value = await $fetch(`/api/locations`);
 
   // Markers
   const svgFlag = `
@@ -71,7 +67,7 @@ onMounted(async () => {
       <path fill-rule="evenodd" clip-rule="evenodd" d="M4 0.5H0V40.5H4V20.5H34L28 10.5L34 0.5H4Z" fill="currentColor"/>
     </svg>`;
 
-  markerSources.value.forEach((marker: LocationRef) => {
+  markerSources.value.forEach((marker: LocationData) => {
     const flagIcon = $L.divIcon({
       className: `${props.markerVariant}-marker`,
       html: svgFlag,

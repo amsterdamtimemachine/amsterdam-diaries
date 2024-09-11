@@ -1,6 +1,7 @@
 import { it, describe, expect } from 'vitest';
 import { importAnnotations } from './annotations';
 import expectedResults from './expectedResults/annotations';
+import expectedResultTest from './utils/expectedResultTest';
 
 const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/entity_annotations.jsonld`;
 
@@ -11,7 +12,7 @@ describe('Annotations', async () => {
     // Check the unfiltered results (to illustrate that importAnnotations is filtering)
     expect(result.length).toBe(64);
 
-    result.forEach((annotation: any) => {
+    result.forEach((annotation: RawAnnotation) => {
       // Validate the top level structure
       expect(Object.keys(annotation)).toEqual(['@context', 'id', 'type', 'body', 'target']);
 
@@ -19,7 +20,7 @@ describe('Annotations', async () => {
       expect(Array.isArray(annotation.body)).toBe(true);
 
       // Validate the classification and identifying structure
-      annotation.body.forEach((body: any) => {
+      annotation.body.forEach((body: RawAnnotationBody) => {
         switch (body.type) {
           case 'SpecificResource':
             expect(Object.keys(body)).toEqual(['type', 'source', 'purpose']);
@@ -58,10 +59,10 @@ describe('Annotations', async () => {
       expect(Array.isArray(annotation.target)).toBe(true);
 
       // Validate the selector structure
-      annotation.target.forEach((target: any) => {
+      annotation.target.forEach((target: RawTarget) => {
         expect(Object.keys(target)).toEqual(['type', 'source', 'selector']);
         expect(Array.isArray(target.selector)).toBe(true);
-        target.selector.forEach((selector: any) => {
+        target.selector.forEach((selector: RawTextPositionSelector | RawTextQuoteSelector) => {
           switch (selector.type) {
             case 'TextQuoteSelector':
               expect(Object.keys(selector)).toEqual(['type', 'exact']);
@@ -80,15 +81,6 @@ describe('Annotations', async () => {
 
   describe('importAnnotations', async () => {
     const result = await importAnnotations(url);
-
-    it(`Should return an array of ${expectedResults.length} annotations`, async () => {
-      expect(result.length).toBe(expectedResults.length);
-    });
-
-    result.forEach((annotation, index) => {
-      it(`Should parse annotation #${index + 1} correctly`, async () => {
-        expect(annotation).toEqual(expectedResults[index]);
-      });
-    });
+    expectedResultTest(result, expectedResults);
   });
 });

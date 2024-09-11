@@ -19,8 +19,8 @@
 /**
  * State & Props
  */
-const currentLocation = ref<AnnotationLine>();
-const diaryCards = ref<DiaryCard[]>([]);
+const currentLocation = ref<AnnotationData>();
+const diaryCards = ref<SnippetData[]>([]);
 const { title, description, defaultLocation, defaultLabel, aboutLabel } =
   (ResourceInfo.locaties as LocationResourceInfo) ?? {};
 if (!title) {
@@ -46,7 +46,7 @@ const diariesHeaderText = computed(() => {
 /**
  * Methods
  */
-const onMarkerClick = async (source: AnnotationLine) => {
+const onMarkerClick = async (source: AnnotationData) => {
   currentLocation.value = source;
 };
 

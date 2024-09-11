@@ -1,3 +1,6 @@
+/**
+ * Public Methods
+ */
 const definitionLines = {
   name: 'line',
   fields: [
@@ -22,16 +25,18 @@ const definitionLines = {
   ],
 };
 
-const importLines = async (importUrl: string): Promise<any[]> => {
+const importLines = async (importUrl: string): Promise<ParsedResponse> => {
   const result = await fetch(importUrl);
-  const json = await result.json();
-  const lines = json.filter((data: any) => data.textGranularity === 'line');
-  return lines.map((line: any) => {
-    return {
-      id: line.id,
-      value: line.body[0].value,
-    };
-  });
+  const json = (await result.json()) as RawLine[];
+  const lines = json.filter((data: RawLine) => data.textGranularity === 'line');
+  return {
+    line: lines.map((line: RawLine) => {
+      return {
+        id: line.id,
+        value: line.body[0].value,
+      };
+    }),
+  };
 };
 
 export { definitionLines, importLines };

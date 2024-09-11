@@ -17,7 +17,7 @@
 const snippets = ref<HTMLElement>();
 
 const props = defineProps<{
-  cards: DiaryCard[];
+  cards: SnippetData[];
 }>();
 
 const restartAnimation = () => {

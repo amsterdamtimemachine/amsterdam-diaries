@@ -43,7 +43,7 @@ import type { RouteLocationRaw } from '#vue-router';
  * State & Props
  */
 const props = defineProps<{
-  line: AnnotationLine;
+  line: AnnotationData;
 }>();
 const { icon, label, variant, useExternalLink, path } = AnnotationDetails[props.line.subType.toLowerCase()];
 const details = ref<HTMLElement>();

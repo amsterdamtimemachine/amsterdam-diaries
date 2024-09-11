@@ -27,7 +27,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   currentPage: number;
-  pages: Page[];
+  pages: PageData[];
 }>();
 
 const previousPageLabel = computed<string>(() => {

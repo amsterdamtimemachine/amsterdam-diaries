@@ -4,6 +4,6 @@
 
 <script setup lang="ts">
 defineProps<{
-  line: AnnotationLine;
+  line: AnnotationData;
 }>();
 </script>

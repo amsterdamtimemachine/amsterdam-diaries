@@ -31,15 +31,16 @@ const definitionBlocks = {
   ],
 };
 
-const importBlocks = async (importUrl: string): Promise<Record<string, any[]>> => {
+const importBlocks = async (importUrl: string): Promise<ParsedResponse> => {
   const result = await fetch(importUrl);
   const json = await result.json();
-  const blocks = json.filter((data: any) => {
+  const blocks = json.filter((data: RawItem) => {
     return data.textGranularity === 'block';
   });
 
-  const data = blocks.reduce(
-    (acc: any, block: any) => {
+  const imageIdx: Record<string, ParsedImage> = {};
+  return blocks.reduce(
+    (acc: ParsedResponse, block: RawItem) => {
       // Define the block type
       const type = block.body?.[0]?.source?.label;
 
@@ -53,7 +54,7 @@ const importBlocks = async (importUrl: string): Promise<Record<string, any[]>> =
           };
         });
 
-        acc.lines.push(...lines);
+        acc.line!.push(...lines);
       }
 
       // Parse the target for the image data
@@ -69,26 +70,23 @@ const importBlocks = async (importUrl: string): Promise<Record<string, any[]>> =
       });
 
       // Update the accumulator and return it
-      acc.blocks.push({
+      acc.block!.push({
         id: block.id,
         type,
         imageId: image.id,
         dimensions: fragmentSelector.value?.replace('xywh=', ''),
       });
-      acc.images[image.id] = image;
+      // Try to update image index and then add it to the accumulator
+      imageIdx[image.id] = image;
+      acc.image = Object.values(imageIdx);
       return acc;
     },
     {
-      blocks: [],
-      lines: [],
-      images: {},
+      image: [],
+      block: [],
+      line: [],
     },
   );
-  return {
-    image: Object.values(data.images),
-    block: data.blocks,
-    line: data.lines,
-  };
 };
 
 export { definitionBlocks, importBlocks };

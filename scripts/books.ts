@@ -1,22 +1,8 @@
 import jsonld from 'jsonld';
 
-type item = {
-  id: string;
-  author: {
-    id: string;
-  };
-  about: {
-    id: string;
-  };
-  name: string;
-  description: string;
-  temporalCoverage: string;
-  dateCreated: string;
-  hasPart?: {
-    '@list': { id: string }[];
-  };
-};
-
+/**
+ * Framing context
+ */
 const frame = {
   '@context': {
     '@vocab': 'https://schema.org/',
@@ -40,6 +26,9 @@ const frame = {
   hasPart: [],
 };
 
+/**
+ * Public methods
+ */
 const definitionBooks = {
   name: 'book',
   fields: [
@@ -77,17 +66,17 @@ const definitionBooks = {
   ],
 };
 
-const importBooks = async (importUrl: string): Promise<Record<string, any[]>> => {
+const importBooks = async (importUrl: string): Promise<ParsedResponse> => {
   const response = await fetch(importUrl);
   const json = await response.json();
   const framed = await jsonld.frame(json, frame, { explicit: true, omitGraph: false });
-  const entry: { id: string; bookId: string; position: number }[] = [];
-
-  const book = ((framed['@graph'] ?? []) as item[]).map(item => {
+  // TODO: Refactor this to use a reduce function
+  const entry: ParsedEntry[] = [];
+  const book = ((framed['@graph'] ?? []) as RawBook[]).map(item => {
     if (item.hasPart) {
       for (let i = 0; i < item.hasPart['@list'].length; i++) {
         const e = item.hasPart['@list'][i];
-        entry.push({ id: e.id, bookId: item.id, position: i + 1 });
+        entry.push({ id: e.id, bookId: item.id, position: i + 1 } as ParsedEntry);
       }
     }
     return {

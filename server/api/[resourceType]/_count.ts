@@ -1,7 +1,7 @@
 import { ResourceInfo } from '~/data/enums';
 import { Queries } from '~/data/queries';
 
-export default defineEventHandler(async event => {
+export default defineEventHandler<Promise<number>>(async event => {
   const client = getClient();
   const resourceType = getRouterParam(event, 'resourceType') as string;
   const { table } = ResourceInfo[resourceType] ?? {};

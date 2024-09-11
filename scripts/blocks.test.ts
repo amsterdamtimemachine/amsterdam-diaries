@@ -1,6 +1,7 @@
 import { it, describe, expect } from 'vitest';
 import { importBlocks } from './blocks';
 import expectedResults from './expectedResults/blocks';
+import expectedResultTest from './utils/expectedResultTest';
 
 const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/textual_annotations.jsonld`;
 
@@ -34,19 +35,6 @@ describe('Blocks', async () => {
 
   describe('importBlocks', async () => {
     const result = await importBlocks(url);
-
-    for (const key in result) {
-      const expectedResult = expectedResults[key as keyof typeof expectedResults];
-
-      it(`Should return ${expectedResult.length} ${key}`, async () => {
-        expect(result[key].length).toBe(expectedResult.length);
-      });
-
-      result[key].forEach((item, index) => {
-        it(`Should parse ${key} #${index + 1} correctly`, async () => {
-          expect(item).toEqual(expectedResult[index]);
-        });
-      });
-    }
+    expectedResultTest(result, expectedResults);
   });
 });

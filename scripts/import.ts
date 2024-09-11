@@ -117,12 +117,8 @@ for (const idx in steps) {
         const uri = structure[idx].uri;
         if (importFn && uri) {
           const data = await importFn(uri);
-          if (Array.isArray(data)) {
-            await db.insert(structure[idx].name, data);
-          } else {
-            for (const table in data) {
-              await db.insert(table, data[table]);
-            }
+          for (const table in data) {
+            await db.insert(table, data[table as keyof typeof data]);
           }
         }
         progress.increment(1);

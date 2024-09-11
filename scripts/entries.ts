@@ -1,6 +1,9 @@
 import jsonld from 'jsonld';
 import type { Frame } from 'jsonld/jsonld-spec';
 
+/**
+ * Framing context
+ */
 const frame: Frame = {
   '@context': {
     '@vocab': 'https://schema.org/',
@@ -26,6 +29,9 @@ const frame: Frame = {
   targets: {},
 };
 
+/**
+ * Public methods
+ */
 const definitionEntries = {
   name: 'entry',
   fields: [
@@ -54,14 +60,14 @@ const definitionEntries = {
   ],
 };
 
-const importEntries = async (importUrl: string): Promise<Record<string, any[]>> => {
+const importEntries = async (importUrl: string): Promise<ParsedResponse> => {
   const result = await fetch(importUrl);
   const json = await result.json();
   const framed = await jsonld.frame(json, frame, { explicit: true, omitGraph: false });
-  const items = Array.isArray(framed['@graph']) ? framed['@graph'] : [];
+  const items = (Array.isArray(framed['@graph']) ? framed['@graph'] : []) as RawEntry[];
 
   return items.reduce(
-    (acc: any, { targets, id, dateCreated, bookId, name }: any) => {
+    (acc: ParsedResponse, { targets, id, dateCreated, bookId, name }: RawEntry) => {
       const entry = {
         id,
         name,
@@ -77,8 +83,8 @@ const importEntries = async (importUrl: string): Promise<Record<string, any[]>> 
         };
       });
       // Update the accumulator and return it
-      acc.entry.push(entry);
-      acc.block.push(...parsedTargets);
+      acc.entry!.push(entry);
+      acc.block!.push(...parsedTargets);
       return acc;
     },
     {

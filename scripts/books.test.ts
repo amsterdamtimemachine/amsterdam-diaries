@@ -1,6 +1,7 @@
 import { it, describe, expect } from 'vitest';
 import { importBooks } from './books';
 import expectedResults from './expectedResults/books';
+import expectedResultTest from './utils/expectedResultTest';
 
 const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/metadata.jsonld`;
 
@@ -35,19 +36,6 @@ describe('Books', async () => {
 
   describe('importBooks', async () => {
     const result = await importBooks(url);
-
-    for (const key in result) {
-      const expectedResult = expectedResults[key as keyof typeof expectedResults];
-
-      it(`Should return ${expectedResult.length} ${key}`, async () => {
-        expect(result[key].length).toBe(expectedResult.length);
-      });
-
-      result[key].forEach((item, index) => {
-        it(`Should parse ${key} #${index + 1} correctly`, async () => {
-          expect(item).toEqual(expectedResult[index]);
-        });
-      });
-    }
+    expectedResultTest(result, expectedResults);
   });
 });

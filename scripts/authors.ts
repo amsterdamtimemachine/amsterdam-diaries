@@ -1,6 +1,9 @@
 import jsonld from 'jsonld';
 import generateUniqueSlug from './utils/generateUniqueSlug';
 
+/**
+ * Framing contexts
+ */
 const frame = {
   '@context': {
     '@vocab': 'https://schema.org/',
@@ -38,6 +41,9 @@ const flattenContext = {
   imageType: 'https://schema.org/type',
 };
 
+/**
+ * Public methods
+ */
 const definitionAuthors = {
   name: 'author',
   fields: [
@@ -84,68 +90,59 @@ const definitionAuthors = {
   ],
 };
 
-const importAuthors = async (importUrl: string) => {
+const importAuthors = async (importUrl: string): Promise<ParsedResponse> => {
   const result = await fetch(importUrl);
   const json = await result.json();
   const framed = await jsonld.frame(json, frame);
   const flatten = await jsonld.flatten(framed, flattenContext);
-  const items = Array.isArray(flatten['@graph']) ? flatten['@graph'] : [];
-  const response: Record<string, any[]> = {
-    image: [],
-    resource: [],
-    author: [],
-  };
-
-  items.forEach(item => {
-    if (item.imageType) {
-      item.type = item.imageType;
-    }
-
-    switch (item.type) {
-      case 'Person':
-        response.author.push({
-          id: item.id,
-          birthDate: item.birthDate,
-          birthPlaceId: item.birthPlaceId,
-          deathDate: item.deathDate,
-          deathPlaceId: item.deathPlaceId,
-          description: item.description,
-          imageId: item.imageId,
-          name: item.name,
-        });
-        break;
-      case 'Place':
-        response.resource.push({
-          id: item.id,
-          type: 'Place',
-          name: item.name,
-        });
-        break;
-      case 'ImageObject':
-        response.image.push({
-          id: item.id,
-          contentUrl: item.contentUrl,
-          thumbnailUrl: item.thumbnailUrl,
-        });
-        break;
-      default:
-        throw new Error('Unknown data found while parsing Authors');
-    }
-  });
-
-  // Add unqiue slugs to response.authors
-  response.author = response.author.reduce((acc: any[], item: any) => {
-    acc.push({
-      ...item,
-      slug: generateUniqueSlug(
-        item.name,
-        acc.map(eItem => eItem.slug),
-      ),
-    });
-    return acc;
-  }, []);
-
-  return response;
+  const items = (Array.isArray(flatten['@graph']) ? flatten['@graph'] : []) as RawItem[];
+  return items.reduce(
+    (acc: ParsedResponse, item: RawItem) => {
+      if (item?.imageType) {
+        item.type = item.imageType;
+      }
+      switch (item.type) {
+        case 'Person':
+          acc.author!.push({
+            id: item.id,
+            name: item.name,
+            description: item.description,
+            slug: generateUniqueSlug(
+              item.name,
+              acc.author!.map(eItem => eItem.slug),
+            ),
+            birthDate: item.birthDate,
+            birthPlaceId: item.birthPlaceId,
+            deathDate: item.deathDate,
+            deathPlaceId: item.deathPlaceId,
+            imageId: item.imageId,
+          } as ParsedAuthor);
+          break;
+        case 'Place':
+          acc.resource!.push({
+            id: item.id,
+            type: 'Place',
+            name: item.name,
+          } as ParsedResource);
+          break;
+        case 'ImageObject':
+          acc.image!.push({
+            id: item.id,
+            contentUrl: item.contentUrl,
+            thumbnailUrl: item.thumbnailUrl,
+          } as ParsedImage);
+          break;
+        default:
+          throw new Error('Unknown data found while parsing Authors');
+      }
+      return acc;
+    },
+    {
+      image: [],
+      resource: [],
+      author: [],
+    },
+  );
 };
 
 export { definitionAuthors, importAuthors };
