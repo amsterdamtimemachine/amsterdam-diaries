@@ -15,7 +15,7 @@
         {{ line.value }}
       </button>
       <Transition name="fade">
-        <DiaryAnnotationDetailsInfo
+        <DiaryAnnotationDetails
           v-if="clicked"
           :line="line" />
       </Transition>

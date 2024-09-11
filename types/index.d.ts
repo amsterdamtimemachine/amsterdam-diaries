@@ -314,13 +314,12 @@ declare global {
 
   type AnnotationDetailsVariant = 'purple' | 'green' | 'blue' | 'maroon';
 
-  type AnnotationDetailsInfo = {
+  type AnnotationDetails = {
     icon: string;
     variant: AnnotationDetailsVariant;
     label: string;
     path?: string;
     useExternalLink?: boolean;
-    useTypeForNameAndPath?: boolean;
   };
 
   type AnnotationType = 'Date' | 'Place' | 'Etenswaren' | 'Person' | 'Organization';

@@ -137,7 +137,7 @@ export const ResourceInfo: Record<string, ResourceInfo | LocationResourceInfo | 
   },
 } as const;
 
-export const AnnotationDetailsInfo: Record<string, AnnotationDetailsInfo> = {
+export const AnnotationDetails: Record<string, AnnotationDetails> = {
   date: {
     icon: 'mdi-calendar',
     label: 'datum',
@@ -154,7 +154,6 @@ export const AnnotationDetailsInfo: Record<string, AnnotationDetailsInfo> = {
     label: 'topic',
     variant: 'purple',
     path: 'themas',
-    useTypeForNameAndPath: true,
   },
   person: {
     icon: 'mdi-account',
