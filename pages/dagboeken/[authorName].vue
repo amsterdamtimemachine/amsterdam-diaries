@@ -68,13 +68,12 @@ const author = (await $fetch(`/api/dagboekschrijfsters/${slug}`)) as Author;
 const diaries = (await $fetch(`/api/diaries/${author.id}`)) as DiaryData[];
 const pages = diaries.map((diary: DiaryData) => diary.pages).flat();
 const authorSlug = useRoute().params.authorName as string;
-const pageId = useRoute().query.page as string;
 
 /**
  * State & props
  */
 const page = ref<PageData>();
-const pageNr = ref<number>(pageId ? parseInt(pageId) : 1);
+const pageNr = ref<number>(1);
 const PHOTO_AMOUNT = 10;
 const flipped = ref<boolean>(false);
 
@@ -94,7 +93,12 @@ const loadPage = async (pageNumber: number) => {
 watch(
   () => useRoute().query.page,
   newPageId => {
-    loadPage(parseInt(newPageId as string));
+    const pageid = newPageId as string;
+    pageNr.value = parseInt(pageid ?? 1);
+    loadPage(pageNr.value);
+  },
+  {
+    immediate: true,
   },
 );
 
