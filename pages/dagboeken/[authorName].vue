@@ -171,7 +171,6 @@ onUnmounted(() => {
   z-index: -1;
   pointer-events: none;
   inset: 0;
-  padding: var(--space-32);
 
   .photo {
     grid-area: l;
