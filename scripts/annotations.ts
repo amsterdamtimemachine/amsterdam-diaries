@@ -4,7 +4,8 @@ const parseBody = (body: RawAnnotationBody[]): ParsedAnnotationBody => {
       switch (body.purpose) {
         case 'classifying':
           result.classifyingId = body.source.id;
-          result.type = body.source.label;
+          // TODO: Remove the if-statement when the data is correct
+          result.type = (body.source.label === 'Etenswaren' ? 'Theme' : body.source.label) as AnnotationType;
           break;
         case 'identifying':
           switch (body.type) {

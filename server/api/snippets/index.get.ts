@@ -1,14 +1,15 @@
 import { ResourceInfo } from '~/data/enums';
+import Database from '~/server/utils/database';
 
 export default defineEventHandler<Promise<SnippetData[]>>(async event => {
-  const client = getClient();
+  const client = Database.getInstance();
   const { type, id, limit } = getQuery(event);
   const { snippetField } = ResourceInfo[type as string] ?? {};
   if (!snippetField) {
     return [];
   }
 
-  const resources = await client.query(`
+  const query = `
     SELECT DISTINCT ON (au.id)
       l1.id,
       l1.position,
@@ -35,8 +36,8 @@ export default defineEventHandler<Promise<SnippetData[]>>(async event => {
     JOIN book b ON e.bookId = b.id
     JOIN author au ON b.aboutId = au.id
     WHERE a.${snippetField} = '${atob(id as string)}'
-    LIMIT ${limit || 4}
-  `);
+    LIMIT ${limit || 4}`;
+  const resources = await client.query(query);
 
   return resources.rows.map(row => {
     const exactText = row.exacttext;

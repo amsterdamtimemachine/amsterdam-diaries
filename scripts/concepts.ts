@@ -42,9 +42,11 @@ const importConcepts = async (importUrl: string): Promise<ParsedResponse> => {
   const framed = await jsonld.frame(json, frame, { explicit: true, omitGraph: false });
   return ((framed['@graph'] ?? []) as RawConcept[]).reduce(
     (acc: ParsedResponse, item: RawConcept) => {
+      // TODO: Remove the if-statement when the data is correct
+      const name = item.name === 'Etenswaren' ? 'Theme' : item.name;
       acc.concept!.push({
         id: item.id,
-        name: item.name,
+        name,
         slug: generateUniqueSlug(
           item.name,
           acc.concept!.map(eItem => eItem.slug),

@@ -7,7 +7,7 @@ import { importAuthors, definitionAuthors } from './authors';
 import { importBooks, definitionBooks } from './books';
 import { importConcepts, definitionConcepts } from './concepts';
 import { importResources, definitionResources } from './resources';
-import Database from './utils/database';
+import Database from '../server/utils/database';
 import Progress from 'cli-progress';
 
 // concept url

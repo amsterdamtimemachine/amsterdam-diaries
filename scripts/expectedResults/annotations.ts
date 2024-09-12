@@ -310,7 +310,7 @@ export default {
       identifyingId: undefined,
       classifyingId: 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/tags/concepts/atm_food',
       correction: undefined,
-      type: 'Etenswaren',
+      type: 'Theme',
       sourceId:
         'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/regions/0001_001/r_3-l_329',
       exactText: 'eten',

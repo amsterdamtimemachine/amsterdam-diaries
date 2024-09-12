@@ -1,29 +1,27 @@
+import Database from '~/server/utils/database';
+
 const fetchDiaries = async (id: string) => {
-  const client = getClient();
-  const query = {
-    text: `SELECT id,
-                  name,
-                  description,
-                  temporalCoverage
-           FROM book
-           WHERE aboutid = $1`,
-    values: [id],
-  };
-  return (await client.query(query)).rows;
+  const client = Database.getInstance();
+  const query = `
+    SELECT id,
+           name,
+           description,
+           temporalCoverage
+    FROM book
+    WHERE aboutid = $1`;
+  return (await client.query(query, [id])).rows;
 };
 
 const fetchEntries = async (id: string) => {
-  const client = getClient();
-  const query = {
-    text: `SELECT id,
-                  name,
-                  position,
-                  dateCreated
-           FROM entry
-           WHERE bookid = $1`,
-    values: [id],
-  };
-  return (await client.query(query)).rows;
+  const client = Database.getInstance();
+  const query = `
+    SELECT id,
+           name,
+           position,
+           dateCreated
+    FROM entry
+    WHERE bookid = $1`;
+  return (await client.query(query, [id])).rows;
 };
 
 export default defineEventHandler<Promise<DiaryData[]>>(async event => {

@@ -1,3 +1,6 @@
+import { SupportedAnnotationTypes } from '~/data/enums';
+import Database from '~/server/utils/database';
+
 // Constants
 const ENTRY_BASE_URL = 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries';
 
@@ -12,36 +15,32 @@ const compareIds = (a: string, b: string): boolean => {
  * Database methods
  */
 const fetchBlocks = async (entryId: string) => {
-  const client = getClient();
-  const query = {
-    text: `SELECT b.id,
-                  b.position,
-                  b.type,
-                  b.imageid,
-                  b.dimensions,
-                  i.contenturl
-           FROM block b
-           INNER JOIN image i on b.imageid = i.id
-           WHERE entryid = $1`,
-    values: [`${ENTRY_BASE_URL}/${entryId}`],
-  };
-  return (await client.query(query)).rows.sort((a, b) => a.position - b.position);
+  const client = Database.getInstance();
+  const query = `
+    SELECT b.id,
+           b.position,
+           b.type,
+           b.imageid,
+           b.dimensions,
+           i.contenturl
+    FROM block b
+    INNER JOIN image i on b.imageid = i.id
+    WHERE entryid = $1`;
+  return (await client.query(query, [`${ENTRY_BASE_URL}/${entryId}`])).rows.sort((a, b) => a.position - b.position);
 };
 
 const fetchLineData = async (entryId: string) => {
-  const client = getClient();
-  const query = {
-    text: `SELECT line.id,
-                  line.position,
-                  line.value,
-                  block.position as blockPosition,
-                  block.id as blockId
-           FROM line
-           INNER JOIN block ON line.blockid = block.id
-           WHERE block.entryid = $1`,
-    values: [`${ENTRY_BASE_URL}/${entryId}`],
-  };
-  return (await client.query(query)).rows.sort((a, b) => {
+  const client = Database.getInstance();
+  const query = `
+    SELECT line.id,
+           line.position,
+           line.value,
+           block.position as blockPosition,
+           block.id as blockId
+    FROM line
+    INNER JOIN block ON line.blockid = block.id
+    WHERE block.entryid = $1`;
+  return (await client.query(query, [`${ENTRY_BASE_URL}/${entryId}`])).rows.sort((a, b) => {
     const aPos = a.blockposition * 100 + a.position;
     const bPos = b.blockposition * 100 + b.position;
     return aPos - bPos;
@@ -49,23 +48,23 @@ const fetchLineData = async (entryId: string) => {
 };
 
 const fetchAnnotations = async (lines: any[]) => {
-  const client = getClient();
+  const client = Database.getInstance();
   const lineIds = lines.map(line => line.id);
   const placeholders = lines.map((_, index: number) => `$${index + 1}`).join(', ');
-  const query2 = {
-    text: `SELECT a.*,
-                  r.name as name,
-                  r.description as description,
-                  r.latitude as latitude,
-                  r.longitude as longitude,
-                  r.slug as slug
-           FROM annotation a
-           LEFT JOIN resource r ON a.identifyingid = r.id
-           WHERE a.sourceid in (${placeholders})
-           AND a.type IN ('Person', 'Place', 'Etenswaren', 'Organization', 'Date', 'Blackening')`,
-    values: lineIds,
-  };
-  return (await client.query(query2)).rows;
+  const types = SupportedAnnotationTypes.map((_, index: number) => `$${index + lineIds.length + 1}`).join(', ');
+  const query = `
+    SELECT a.*,
+           COALESCE(r.name, c.name) as name,
+           COALESCE(r.slug, c.slug) as slug,
+           r.description as description,
+           r.latitude as latitude,
+           r.longitude as longitude
+    FROM annotation a
+    LEFT JOIN resource r ON a.identifyingid = r.id
+    LEFT JOIN concept c ON a.classifyingid = c.id
+    WHERE a.sourceid in (${placeholders})
+    AND a.type IN (${types})`;
+  return (await client.query(query, [...lineIds, ...SupportedAnnotationTypes])).rows;
 };
 
 /**

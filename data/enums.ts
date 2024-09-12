@@ -149,7 +149,7 @@ export const AnnotationDetails: Record<string, AnnotationDetails> = {
     variant: 'green',
     useExternalLink: true,
   },
-  etenswaren: {
+  theme: {
     icon: 'gridicons:themes',
     label: 'topic',
     variant: 'purple',
@@ -168,3 +168,5 @@ export const AnnotationDetails: Record<string, AnnotationDetails> = {
     path: 'organisaties',
   },
 } as const;
+
+export const SupportedAnnotationTypes = ['Date', 'Place', 'Theme', 'Person', 'Organization'] as const;

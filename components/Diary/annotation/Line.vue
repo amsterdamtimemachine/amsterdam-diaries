@@ -77,8 +77,7 @@ const toggleAnnotation = () => {
     background: color-mix(in srgb, var(--green) 20%, transparent);
   }
 
-  // TODO: If we want to support multiple themes in the future this should be just '.theme'
-  &.etenswaren {
+  &.theme {
     background: color-mix(in srgb, var(--purple) 20%, transparent);
   }
 

@@ -1,8 +1,9 @@
 import { ResourceInfo } from '~/data/enums';
 import { Parsers, Queries } from '~/data/queries';
+import Database from '~/server/utils/database';
 
 export default defineEventHandler(async event => {
-  const client = getClient();
+  const client = Database.getInstance();
   const resourceType = getRouterParam(event, 'resourceType') as string;
   const limit = getQuery(event).limit as string;
   const offset = getQuery(event).offset as string;
@@ -10,11 +11,7 @@ export default defineEventHandler(async event => {
   if (!table) {
     return [];
   }
-  const query = {
-    text: Queries[`${table}List`],
-    values: [limit, offset],
-  };
-  const rows = (await client.query(query)).rows;
+  const rows = (await client.query(Queries[`${table}List`], [limit, offset])).rows;
   const parser = Parsers[`${table}List`] || Parsers.list;
   return parser(rows);
 });

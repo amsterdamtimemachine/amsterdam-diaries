@@ -11,7 +11,7 @@ declare global {
     useExternalLink?: boolean;
   };
 
-  type AnnotationType = 'Date' | 'Place' | 'Etenswaren' | 'Person' | 'Organization';
+  type AnnotationType = (typeof SupportedAnnotationTypes)[number];
 
   /****************************************************************************/
   /*                                 UI Types                                 */
@@ -305,7 +305,7 @@ declare global {
     identifyingId?: string;
     classifyingId?: string;
     correction?: string;
-    type?: string;
+    type?: AnnotationType;
   };
 
   /****************************************************************************/
