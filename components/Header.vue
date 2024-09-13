@@ -10,23 +10,38 @@
     <nav class="menu-section">
       <NuxtLink
         @click="hideMenu"
-        to="/">
-        Home
+        to="/themas">
+        Thema's
       </NuxtLink>
       <NuxtLink
         @click="hideMenu"
-        to="/dagboekschrijfsters/gerda-oestreicher-laqueur">
+        to="/personen">
+        Personen
+      </NuxtLink>
+      <NuxtLink
+        @click="hideMenu"
+        to="/dagboekschrijfsters">
         Dagboekschrijfsters
+      </NuxtLink>
+      <NuxtLink
+        @click="hideMenu"
+        to="/amsterdam">
+        Amsterdam
+      </NuxtLink>
+      <NuxtLink
+        @click="hideMenu"
+        to="/organisaties">
+        Organisaties
+      </NuxtLink>
+      <NuxtLink
+        @click="hideMenu"
+        to="/kalender">
+        Kalender
       </NuxtLink>
       <NuxtLink
         @click="hideMenu"
         to="/about">
         Over ATM
-      </NuxtLink>
-      <NuxtLink
-        @click="hideMenu"
-        to="/amsterdam">
-        Wat gebeurde in Amsterdam
       </NuxtLink>
     </nav>
     <button

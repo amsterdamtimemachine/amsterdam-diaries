@@ -77,3 +77,81 @@ export const AuthorDiaryOverviewGradients: Record<string, string> = {
   'gerda-oestreicher-laqueur': 'gradient-2',
   'neeltje-toby-vos': 'gradient-1',
 } as const;
+
+export const ResourceInfo: Record<string, ResourceInfo | LocationResourceInfo | DateResourceInfo> = {
+  organisaties: {
+    defaultImage: 'default-organization.svg',
+    readMore: 'Bekijk meer over {X}',
+    overviewLabel: 'organisaties',
+    table: 'organization',
+    snippetField: 'identifying_id',
+  },
+  themas: {
+    defaultImage: 'default-theme.svg',
+    readMore: 'Bekijk dit thema',
+    overviewLabel: "thema's",
+    table: 'concept',
+    snippetField: 'classifying_id',
+  },
+  personen: {
+    defaultImage: 'default-person.svg',
+    readMore: 'Lees meer over {X}',
+    overviewLabel: 'personen',
+    table: 'person',
+    snippetField: 'identifying_id',
+  },
+  dagboekschrijfsters: {
+    defaultImage: 'default-author.svg',
+    readMore: 'Lees meer over {X}',
+    overviewLabel: 'schrijfsters',
+    table: 'author',
+    snippetField: 'identifying_id',
+  },
+  locaties: {
+    defaultLocation: 'http://www.wikidata.org/entity/Q727', // Amsterdam
+    defaultLabel: `Dagboekteksten uit`,
+    aboutLabel: `Dagboekteksten over`,
+    table: 'resource',
+    snippetField: 'identifying_id',
+  },
+  datums: {
+    selectedDescription: `Dagboekpassages geschreven op __DATETIME__. Klik op andere geselecteerde data om te ontdekken wat er op een specifieke moment gebeurde in Amsterdam.`,
+    description: `Klik op geselecteerde data om te ontdekken wat er op een specifieke moment gebeurde in Amsterdam.`,
+    table: 'resource',
+    snippetField: 'id',
+  },
+} as const;
+
+export const AnnotationDetails: Record<string, AnnotationDetails> = {
+  date: {
+    icon: 'mdi-calendar',
+    label: 'datum',
+    variant: 'blue',
+  },
+  place: {
+    icon: 'mdi-location',
+    label: 'locatie',
+    variant: 'green',
+    useExternalLink: true,
+  },
+  theme: {
+    icon: 'gridicons:themes',
+    label: 'topic',
+    variant: 'purple',
+    path: 'themas',
+  },
+  person: {
+    icon: 'mdi-account',
+    label: 'persoon',
+    variant: 'blue',
+    path: 'personen',
+  },
+  organization: {
+    icon: 'bi:building',
+    label: 'organisatie',
+    variant: 'maroon',
+    path: 'organisaties',
+  },
+} as const;
+
+export const SupportedAnnotationTypes = ['Date', 'Place', 'Theme', 'Person', 'Organization'] as const;

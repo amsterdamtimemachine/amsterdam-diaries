@@ -1,29 +1,16 @@
 <template>
-  <figure>
-    <img :src="input.uri" />
-    <DiaryCaption
-      v-if="input.captions?.length"
-      :input="captionInput" />
-  </figure>
+  <img :src="input.uri" />
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  input: VisualSection;
+defineProps<{
+  input: VisualSectionData;
 }>();
-
-const captionInput = computed<TextSection>(() => {
-  return {
-    type: 'Caption',
-    lines: props.input.captions || [],
-  };
-});
 </script>
 
 <style lang="scss" scoped>
-figure {
-  img {
-    max-width: 100%;
-  }
+img {
+  width: fit-content;
+  max-width: 100%;
 }
 </style>

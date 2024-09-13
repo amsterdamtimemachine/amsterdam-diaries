@@ -6,13 +6,15 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
+    "import": "tsx ./scripts/import.ts",
+    "import:test": "vitest --dir ./scripts",
+    "import:validate": "tsx ./scripts/validate.ts",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "git diff --name-only --diff-filter=MA main | grep -E '\\.ts$|\\.vue$' | xargs eslint",
     "lint:all": "eslint './**/*.{vue,ts}'",
     "lint:fix": "git diff --name-only --diff-filter=MA main | grep -E '\\.ts$|\\.vue$' | xargs eslint --fix",
     "lint:fix:all": "eslint --fix './**/*.{vue,ts}",
-    "test": "vitest",
     "ts:check": "vue-tsc --noEmit --skipLibCheck"
   },
   "overrides": {
@@ -20,12 +22,14 @@
   },
   "dependencies": {
     "@nuxtjs/robots": "^3.0.0",
-    "@pinia/nuxt": "^0.5.1",
+    "cli-progress": "^3.12.0",
+    "dotenv": "^16.4.5",
     "jsonld": "^8.3.2",
     "leaflet": "^1.9.4",
-    "nuxt": "^3.11.1",
+    "mariadb": "^3.3.1",
+    "nuxt": "^3.13.1",
+    "openseadragon": "^5.0.0",
     "pinch-zoom-js": "^2.3.5",
-    "pinia": "^2.1.7",
     "ress": "^5.0.2",
     "xml2js": "^0.6.2"
   },
@@ -34,6 +38,8 @@
     "@iconify/vue": "^4.1.1",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@nuxtjs/google-fonts": "^3.2.0",
+    "@samk-dev/nuxt-vcalendar": "^1.0.4",
+    "@types/cli-progress": "^3.11.6",
     "@types/geojson": "^7946.0.14",
     "@types/jsonld": "^1.5.13",
     "@types/leaflet": "^1.9.11",
@@ -47,7 +53,10 @@
     "eslint-plugin-vue": "^9.24.0",
     "prettier": "^3.2.5",
     "sass": "^1.72.0",
+    "tsx": "^4.17.0",
     "typescript": "^5.3.3",
+    "unplugin-auto-import": "^0.18.2",
+    "vitest": "^1.6.0",
     "vue-tsc": "^1.8.27"
   }
 }

@@ -16,6 +16,7 @@
   --purple: #6A51FB;
   --pink: #DB50FE;
   --red: #FE6850;
+  --maroon: #800000;
   --yellow: #FEC350;
   --gray: #8F806D;
   --brown: #C2AF98;
@@ -25,8 +26,10 @@
   --timberwolf: #D8D1C8;
 
   // Black with opacity
+  --black-0: rgba(0, 0, 0, 0);
   --black-10: rgba(0, 0, 0, 0.1);
   --black-25: rgba(0, 0, 0, 0.25);
+  --black-50: rgba(0, 0, 0, 0.5);
 
   // Spacing & Dimensions
   --space-0: 0.0625rem; // 1px
@@ -37,15 +40,24 @@
     --space-#{$i}: #{$value};
   }
 
+  --space-50: 12.5rem;
+  --space-58: 14.5rem;
   --space-64: 16rem;
+  --space-78: 19.5rem;
   --space-80: 20rem;
   --space-88: 22rem;
+  --space-94: 23.5rem;
+  --space-98: 24.5rem;
+  --space-105: 26.25rem;
+  --space-120: 30rem;
+  --space-123: 30.75rem;
+  --space-150: 37.5rem;
   --space-160: 40rem;
 
   // Specific sizes
   // Note: first collect, then maybe move into --space
   --diary-card-teaser-width: 17.5rem;
-  --diary-card-width: 21.25rem;
+  --diary-card-width: 22.5rem;
   --intro-width: 43.5rem;
   --page-width: 46rem;
   --about-background-height: 64rem;
@@ -82,6 +94,9 @@
   --animation-fade-in-up: fadeInUp var(--animation-time-2) ease-in forwards;
   --animation-fade-in: fadeIn var(--animation-time-2) ease;
 
+  // Gradients
+  --linear-gradient-1: linear-gradient(to bottom, rgba(255, 240, 211, 0) 0%, rgba(255, 240, 211, 1) 100%);
+
   @keyframes fadeInUp {
     0% {
       transform: translateY(var(--space-5));
@@ -105,8 +120,6 @@
   }
 
   // Gradients
-  --linear-gradient-1: linear-gradient(to bottom, rgba(255, 240, 211, 0) 0%, rgba(255, 240, 211, 1) 100%);
-
   // TODO: Move this into gradient variables
   .gradient-1 {
     background: linear-gradient(to right, var(--light-green) 0%, var(--light-yellow) 200%);
@@ -186,7 +199,13 @@ body {
   @extend .container;
   position: relative;
   margin: var(--space-32) var(--space-12) var(--space-18) var(--space-12);
-  min-height: calc(100vh - var(--space-32) - var(--space-18)); // TODO: Replace this
+  min-height: calc(100vh - var(--space-50));
+}
+
+.page-container-2 {
+  @extend .page-container;
+  margin: var(--space-40) var(--space-12) var(--space-18) var(--space-12);
+  min-height: calc(100vh - var(--space-58));
 }
 
 .fixed-full-screen {
@@ -219,7 +238,8 @@ body {
     max-width: calc(100% - var(--space-8));
   }
 
-  .page-container {
+  .page-container,
+  .page-container-2 {
     @extend .container;
     margin: var(--space-22) var(--space-4) var(--space-8) var(--space-4);
     min-height: calc(100vh - var(--space-30)); // 22 + 8
@@ -234,7 +254,6 @@ body {
     line-height: 165%;
   }
 
-  // TODO: Not sure about h1 font size being the same as h2. Discuss this
   .font-h1 {
     font-size: 1.5rem;
     font-weight: 600;

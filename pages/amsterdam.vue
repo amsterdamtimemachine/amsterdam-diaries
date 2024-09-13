@@ -1,14 +1,14 @@
 <template>
-  <div class="page-container">
+  <div class="amsterdam page-container-2">
     <PageIntro
-      :title="introTitle"
-      :description="introDescription"
+      :title="title"
+      :description="description"
       :lines="7" />
     <Map
       class="map"
       marker-variant="light-pink"
       @marker-click="onMarkerClick"
-      :selected-marker-id="selectedMarkerId" />
+      :initial-marker-id="initialMarkerId" />
 
     <h2 class="diaries-header font-h2">{{ diariesHeaderText }}</h2>
     <DiaryCards :cards="diaryCards" />
@@ -19,48 +19,45 @@
 /**
  * State & Props
  */
-const locationsName = ref('Amsterdam');
-const diaryCards = ref<DiaryCard[]>([]);
-const introTitle = ref<string>('Wat beleefden de dagboekschrijfsters in Amsterdam?');
-const introDescription = ref<string>(
-  `In de dagboeken was veel aandacht voor de beslommeringen van alle dag. Onvermijdelijk drong ook de oorlog daarin
-   door. Bekijk op deze kaart waar in Amsterdam het dagelijks leven van de dagboekschrijfsters zich afspeelde en
-   wat ze erover in hun dagboeken noteerden.`,
-);
-const selectedMarkerId = ref<string>('');
+const currentLocation = ref<AnnotationData>();
+const diaryCards = ref<SnippetData[]>([]);
+const { defaultLocation, defaultLabel, aboutLabel } = (ResourceInfo.locaties as LocationResourceInfo) ?? {};
+const { title, description } = toRefs(reactive(await $fetch(`/api/info?type=amsterdam`)));
+
+// Fetch the initial marker from the query parameter or use the default marker
+const initialMarkerId = ref<string>((useRoute().query.id as string) ?? btoa(defaultLocation as string));
 
 /**
  * Computed Properties
  */
-const diariesHeaderText = computed(() =>
-  locationsName.value === 'Amsterdam'
-    ? `Dagboekteksten uit ${locationsName.value}`
-    : `Dagboekteksten over ${locationsName.value}`,
-);
+const diariesHeaderText = computed(() => {
+  const location = unref(currentLocation);
+  if (!location) {
+    return '';
+  }
+  if (location.id === btoa(defaultLocation)) {
+    return `${defaultLabel} ${location.name}`;
+  }
+  return `${aboutLabel} ${location.name}`;
+});
 
 /**
  * Methods
  */
-const onMarkerClick = async (source: AnnotationLine) => {
-  locationsName.value = source?.name || '';
-  const annotations = await useFetchAnnotations('context', source.id);
-  diaryCards.value = useMapDiaryCards(annotations);
+const onMarkerClick = async (source: AnnotationData) => {
+  currentLocation.value = source;
 };
 
 /**
- * Lifecycle methods
+ * Watchers
  */
-onMounted(async () => {
-  // Get id from route
-  const route = useRoute();
-  selectedMarkerId.value = route.query.id as string;
-  const annotations = await useFetchAnnotations('context', 'aHR0cDovL3d3dy53aWtpZGF0YS5vcmcvZW50aXR5L1E3Mjc='); // Amsterdam
-  diaryCards.value = useMapDiaryCards(annotations);
+watch(currentLocation, async newValue => {
+  diaryCards.value = await $fetch(`/api/snippets?id=${newValue?.id}&type=locaties`);
 });
 </script>
 
 <style lang="scss" scoped>
-.page-container {
+.amsterdam {
   @include flex-column;
   align-items: center;
   gap: var(--space-8);
@@ -76,7 +73,7 @@ onMounted(async () => {
 }
 
 @include sm-screen-down {
-  .page-container {
+  .amsterdam {
     gap: var(--space-4);
   }
   .diaries-header {

@@ -1,40 +1,35 @@
 <template>
   <div
-    v-if="currentAuthor"
-    class="diary-authors page-container">
+    v-if="author"
+    class="diary-author page-container">
     <div class="info">
       <div class="title-desc">
         <div class="profile-image-name">
           <Image
             class="profile-image"
-            :src="`${useServerImage(`profile-overview/${currentAuthor.slug}/profile/1.jpg`, { size: '96,' })}`"
-            default="default-profile.png"
-            :alt="currentAuthor.slug" />
+            :src="`${useServerImage(`profile-overview/${author.slug}/profile/1.jpg`, { size: '96,' })}`"
+            default="default-author.svg"
+            :alt="author.slug" />
           <h1 class="font-h2">
-            {{ currentAuthor.name }}
+            {{ author.name }}
           </h1>
         </div>
         <Description
           class="font-body-l"
-          :input="currentAuthor.description || 'Nederlandse dagboekschrijfster'"
+          :input="author.description || 'Nederlandse dagboekschrijfster'"
           :lines="3" />
       </div>
       <LinkArrow
         class="diary-link"
-        :link="`/dagboeken/${currentAuthor.slug}`"
-        :link-text="`Dagboek van ${currentAuthor.name}`" />
-      <LinkArrow
-        class="view-more-authors"
-        link-text="Meer auteurs bekijken?"
-        icon="mdi:arrow-down"
-        @click="scrollToTags" />
+        :link="`/dagboeken/${author.slug}`"
+        :link-text="`Dagboek van ${author.name}`" />
     </div>
     <div
-      :class="{ background: true, [AuthorDiaryOverviewGradients[currentAuthor.slug]]: true }"
+      :class="{ background: true, [AuthorDiaryOverviewGradients[author.slug]]: true }"
       ref="bgcontainer">
       <PhotoScroller
-        :slug="currentAuthor.slug"
-        :diary-teaser-text="AuthorDiaryPreviews[currentAuthor.slug]">
+        :slug="author.slug"
+        :diary-teaser-text="AuthorDiaryPreviews[author.slug]">
         <template #prev-button="{ scrollPhotos }">
           <LinkArrow
             class="left-arrow"
@@ -50,53 +45,20 @@
         </template>
       </PhotoScroller>
     </div>
-    <div
-      ref="tags"
-      class="authors"
-      v-intersect="0.01"
-      @intersect="setTagsVisibility">
-      <Tags :tags="authorTags" />
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const authorStore = useAuthorStore();
-const { authors } = storeToRefs(authorStore);
-const tags = ref<HTMLElement>();
-
-const currentAuthor = computed<Author | undefined>(() => {
-  const authorSlug = useRoute().params.authorName as string;
-  return authorStore.findAuthorBySlug(authorSlug);
-});
-
-const authorTags = computed(() => {
-  return authors.value.map(a => ({
-    title: a.name,
-    link: `/dagboekschrijfsters/${a.slug}`,
-    active: currentAuthor.value?.slug === a.slug,
-  }));
-});
-
-const scrollToTags = () => {
-  tags.value?.scrollIntoView({ behavior: 'smooth' });
-};
-
-const setTagsVisibility = () => {
-  if (tags.value && !tags.value.classList.contains('authors-animate')) {
-    tags.value.classList.add('authors-animate');
-  }
-};
+const slug = useRoute().params.authorName as string;
+const author = (await $fetch(`/api/dagboekschrijfsters/${slug}`)) as unknown as Author;
 </script>
 
 <style lang="scss" scoped>
-.diary-authors {
+.diary-author {
   display: grid;
-  grid-template-rows: 1fr var(--space-10);
+  grid-template-rows: 1fr;
   grid-template-columns: 1fr 2fr;
-  grid-template-areas:
-    'info bg'
-    'authors authors';
+  grid-template-areas: 'info bg';
   gap: var(--space-14) var(--space-16);
 
   .info {
@@ -142,31 +104,20 @@ const setTagsVisibility = () => {
     right: var(--space-6);
     bottom: var(--space-6);
   }
-
-  .authors {
-    grid-area: authors;
-
-    :deep(ul) {
-      gap: var(--space-4) var(--space-5);
-    }
-  }
-
-  .view-more-authors {
-    display: none;
-    width: fit-content;
-    align-self: center;
-  }
 }
 
 @include sm-screen-down {
-  .diary-authors {
+  .diary-author {
     grid-template-columns: 1fr;
     grid-template-areas:
       'bg'
-      'info'
-      'authors';
-    grid-template-rows: var(--space-80) auto auto;
+      'info';
+    grid-template-rows: var(--space-80) auto;
     gap: var(--space-9);
+
+    .info {
+      justify-content: initial;
+    }
 
     .profile-image {
       height: var(--space-11);
@@ -190,20 +141,6 @@ const setTagsVisibility = () => {
     .left-arrow,
     .right-arrow {
       display: none;
-    }
-
-    .authors {
-      :deep(li:has(.active)) {
-        display: none;
-      }
-
-      &.authors-animate {
-        animation: var(--animation-fade-in-up);
-      }
-    }
-
-    .view-more-authors {
-      display: flex;
     }
   }
 }

@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  input: TextSection;
+  input: TextSectionData;
 }>();
 </script>
 
