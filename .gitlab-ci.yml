@@ -52,6 +52,7 @@ npm-staging:
   script:
     - npm ci
     - npm run build
+    - npm run import:build
   stage: build
 
 npm-production:
@@ -68,6 +69,7 @@ npm-production:
   script:
     - npm ci
     - npm run build
+    - npm run import:build
   stage: build
 
 package:

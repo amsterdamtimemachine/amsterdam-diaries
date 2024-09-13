@@ -8,7 +8,8 @@ import { importBooks, definitionBooks } from './books';
 import { importConcepts, definitionConcepts } from './concepts';
 import { importResources, definitionResources } from './resources';
 import { definitionInfo, importInfo } from './info';
-import Database from '../server/utils/database';
+// TODO: It's a copy of the file in server/utils/database... Fix this
+import Database from './utils/database';
 import Progress from 'cli-progress';
 
 // concept url

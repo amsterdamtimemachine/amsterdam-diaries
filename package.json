@@ -9,6 +9,7 @@
     "import": "tsx ./scripts/import.ts",
     "import:test": "vitest --dir ./scripts",
     "import:validate": "tsx ./scripts/validate.ts",
+    "import:build": "cp -r ./scripts ./.output/scripts && rm -Rf ./.output/scripts/expectedResults && rm -f ./.output/scripts/*.test.ts",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "git diff --name-only --diff-filter=MA main | grep -E '\\.ts$|\\.vue$' | xargs eslint",
