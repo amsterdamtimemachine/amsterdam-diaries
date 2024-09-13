@@ -1,5 +1,5 @@
 import jsonld from 'jsonld';
-import generateUniqueSlug from './utils/generateUniqueSlug';
+import generateUniqueSlug from './generateUniqueSlug';
 
 /**
  * Framing context

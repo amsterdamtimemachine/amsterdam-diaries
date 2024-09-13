@@ -1,7 +1,7 @@
 import { it, describe, expect } from 'vitest';
-import { importAnnotations } from './annotations';
+import { importAnnotations } from '../src/annotations';
 import expectedResults from './expectedResults/annotations';
-import expectedResultTest from './utils/expectedResultTest';
+import expectedResultTest from './expectedResultTest';
 
 const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/entity_annotations.jsonld`;
 

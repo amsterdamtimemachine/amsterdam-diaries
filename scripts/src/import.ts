@@ -8,9 +8,8 @@ import { importBooks, definitionBooks } from './books';
 import { importConcepts, definitionConcepts } from './concepts';
 import { importResources, definitionResources } from './resources';
 import { definitionInfo, importInfo } from './info';
-// TODO: It's a copy of the file in server/utils/database... Fix this
-import Database from './utils/database';
 import Progress from 'cli-progress';
+import Database from './database';
 
 // concept url
 const baseUrl = 'https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/dev/rdf';

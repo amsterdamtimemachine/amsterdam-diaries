@@ -1,7 +1,7 @@
 import { it, describe, expect } from 'vitest';
-import { importResources } from './resources';
+import { importResources } from '../src/resources';
 import expectedResults from './expectedResults/resources';
-import expectedResultTest from './utils/expectedResultTest';
+import expectedResultTest from './expectedResultTest';
 
 const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/external_resources.jsonld`;
 

@@ -1,7 +1,7 @@
 import { it, describe, expect } from 'vitest';
-import { importConcepts } from './concepts';
+import { importConcepts } from '../src/concepts';
 import expectedResults from './expectedResults/concepts';
-import expectedResultTest from './utils/expectedResultTest';
+import expectedResultTest from './expectedResultTest';
 
 const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/concepts.jsonld`;
 

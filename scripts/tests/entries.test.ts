@@ -1,7 +1,7 @@
 import { it, describe, expect } from 'vitest';
-import { importEntries } from './entries';
+import { importEntries } from '../src/entries';
 import expectedResults from './expectedResults/entries';
-import expectedResultTest from './utils/expectedResultTest';
+import expectedResultTest from './expectedResultTest';
 
 const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/metadata.jsonld`;
 
