@@ -47,8 +47,10 @@ const total = ref(0);
 const offset = ref(0);
 const LIMIT = 50;
 const resourceType = useRoute().params.resourceType as string;
-const { title, description, readMore, overviewLabel } = (ResourceInfo[resourceType] ?? {}) as ResourceInfo;
-if (!title) {
+const { readMore, overviewLabel } = (ResourceInfo[resourceType] ?? {}) as ResourceInfo;
+const { id, title, description } = toRefs(reactive(await $fetch(`/api/info?type=${resourceType}`)));
+
+if (!readMore || !id) {
   throw new Error(`Invalid resource type: ${resourceType}`);
 }
 

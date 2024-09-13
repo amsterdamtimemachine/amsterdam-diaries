@@ -80,8 +80,6 @@ export const AuthorDiaryOverviewGradients: Record<string, string> = {
 
 export const ResourceInfo: Record<string, ResourceInfo | LocationResourceInfo | DateResourceInfo> = {
   organisaties: {
-    title: 'Alle organisaties',
-    description: 'Ontdek de diverse perspectieven over specifieke organisaties die terugkomen in diverse dagboeken.',
     defaultImage: 'default-organization.svg',
     readMore: 'Bekijk meer over {X}',
     overviewLabel: 'organisaties',
@@ -89,10 +87,6 @@ export const ResourceInfo: Record<string, ResourceInfo | LocationResourceInfo | 
     snippetField: 'identifyingid',
   },
   themas: {
-    title: "Alle thema's",
-    description: `Thema's worden beïnvloed door diverse perspectieven en grote gebeurtenissen.
-  Schrijvers, als weerspiegeling van hun tijd, verwerken deze invloeden in hun werk, waardoor unieke en veelzijdige
-  verhalen ontstaan.`,
     defaultImage: 'default-theme.svg',
     readMore: 'Bekijk dit thema',
     overviewLabel: "thema's",
@@ -100,8 +94,6 @@ export const ResourceInfo: Record<string, ResourceInfo | LocationResourceInfo | 
     snippetField: 'classifyingid',
   },
   personen: {
-    title: 'Alle personen',
-    description: 'Ontdek personen die worden genoemd in diverse dagboeken.',
     defaultImage: 'default-person.svg',
     readMore: 'Lees meer over {X}',
     overviewLabel: 'personen',
@@ -109,9 +101,6 @@ export const ResourceInfo: Record<string, ResourceInfo | LocationResourceInfo | 
     snippetField: 'identifyingid',
   },
   dagboekschrijfsters: {
-    title: 'Alle dagboekschrijfsters',
-    description:
-      'Ontdek de diverse perspectieven die dagboeken ons bieden en laat je inspireren door de persoonlijke verhalen van anderen.',
     defaultImage: 'default-author.svg',
     readMore: 'Lees meer over {X}',
     overviewLabel: 'schrijfsters',
@@ -119,10 +108,6 @@ export const ResourceInfo: Record<string, ResourceInfo | LocationResourceInfo | 
     snippetField: 'identifyingid',
   },
   locaties: {
-    title: 'Wat beleefden de dagboekschrijfsters in Amsterdam?',
-    description: `In de dagboeken was veel aandacht voor de beslommeringen van alle dag. Onvermijdelijk drong ook de oorlog daarin
-       door. Bekijk op deze kaart waar in Amsterdam het dagelijks leven van de dagboekschrijfsters zich afspeelde en
-       wat ze erover in hun dagboeken noteerden.`,
     defaultLocation: 'http://www.wikidata.org/entity/Q727', // Amsterdam
     defaultLabel: `Dagboekteksten uit`,
     aboutLabel: `Dagboekteksten over`,

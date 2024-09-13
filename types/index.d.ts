@@ -67,8 +67,6 @@ declare global {
   };
 
   type ResourceInfo = {
-    title: string;
-    description: string;
     defaultImage: string;
     readMore: string;
     overviewLabel: string;
@@ -77,8 +75,6 @@ declare global {
   };
 
   type LocationResourceInfo = {
-    title: string;
-    description: string;
     table: string;
     snippetField: string;
     defaultLocation: string;
@@ -165,6 +161,12 @@ declare global {
   type DateData = {
     id: string;
     value: string;
+  };
+
+  type InfoData = {
+    id: string;
+    title: string;
+    description: string;
   };
 
   /****************************************************************************/
@@ -400,5 +402,6 @@ declare global {
     image?: ParsedImage[];
     line?: ParsedLine[];
     resource?: ParsedResource[];
+    info?: InfoData[];
   };
 }

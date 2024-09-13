@@ -7,6 +7,7 @@ import { importAuthors, definitionAuthors } from './authors';
 import { importBooks, definitionBooks } from './books';
 import { importConcepts, definitionConcepts } from './concepts';
 import { importResources, definitionResources } from './resources';
+import { definitionInfo, importInfo } from './info';
 import Database from '../server/utils/database';
 import Progress from 'cli-progress';
 
@@ -21,6 +22,13 @@ const structure = [
   {
     name: 'image',
     definition: definitionImages,
+  },
+  {
+    name: 'info',
+    // TODO: Replace with baseUrl once the data is available on github
+    uri: 'http://localhost:3000/info.json',
+    definition: definitionInfo,
+    importFn: importInfo,
   },
   {
     name: 'concept',

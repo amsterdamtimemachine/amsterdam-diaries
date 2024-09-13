@@ -12,14 +12,11 @@
             alt="Amsterdam Diaries Time Machine" />
         </NuxtLink>
         <div class="text-info">
-          <h1 class="font-h2">Amsterdam</h1>
+          <h1 class="font-h2">{{ title }}</h1>
           <TypingText
             :duration="4"
             class="font-body-l"
-            text="Hoe zag het dagelijks leven in Amsterdam eruit in de Tweede Wereldoorlog? Hoe beleefden Amsterdammers hun
-          stad? De Amsterdam Diaries Time Machine brengt het verleden tot leven met dagboekfragmenten van Amsterdamse
-          vrouwen tijdens WOII. Navigeer door hun dagboeken. Lees over hun familie en vrienden, plaatsen en gebouwen in
-          de stad." />
+            :text="description" />
         </div>
       </div>
       <div>
@@ -74,6 +71,7 @@ definePageMeta({
   layout: 'transparent',
 });
 const showNav = ref<boolean>(false);
+const { title, description } = toRefs(reactive(await $fetch('/api/info?type=home')));
 </script>
 
 <style lang="scss" scoped>

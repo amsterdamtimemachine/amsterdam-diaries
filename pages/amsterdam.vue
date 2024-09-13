@@ -21,11 +21,9 @@
  */
 const currentLocation = ref<AnnotationData>();
 const diaryCards = ref<SnippetData[]>([]);
-const { title, description, defaultLocation, defaultLabel, aboutLabel } =
-  (ResourceInfo.locaties as LocationResourceInfo) ?? {};
-if (!title) {
-  throw new Error(`Invalid resource type: locaties`);
-}
+const { defaultLocation, defaultLabel, aboutLabel } = (ResourceInfo.locaties as LocationResourceInfo) ?? {};
+const { title, description } = toRefs(reactive(await $fetch(`/api/info?type=amsterdam`)));
+
 // Fetch the initial marker from the query parameter or use the default marker
 const initialMarkerId = ref<string>((useRoute().query.id as string) ?? btoa(defaultLocation as string));
 
