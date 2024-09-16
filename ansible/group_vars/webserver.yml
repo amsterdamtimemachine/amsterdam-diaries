@@ -2,4 +2,6 @@
 # Define deployment options
 ansistrano_deploy_from: "../dist.tgz"
 ansistrano_deploy_to: "/projects/{{ project_dir }}"
+ansistrano_shared_files:
+  - ".env"
 ansistrano_keep_releases: 3
