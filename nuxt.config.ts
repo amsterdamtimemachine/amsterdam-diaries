@@ -40,12 +40,12 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig: {
+    dbHost: '',
+    dbName: '',
+    dbUser: '',
+    dbPass: '',
+    dbPort: '',
     app: {
-      dbHost: '',
-      dbName: '',
-      dbUser: '',
-      dbPass: '',
-      dbPort: '',
       entityBaseUri: 'http://www.wikidata.org/entity/',
       imageServerUri: 'https://images.diaries.amsterdamtimemachine.nl/iiif',
       maxBounds: [
