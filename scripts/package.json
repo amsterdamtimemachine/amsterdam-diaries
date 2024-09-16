@@ -1,0 +1,17 @@
+{
+  "name": "amsterdam-diaries",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "import": "tsx ./import.ts",
+    "validate": "tsx ./validate.ts"
+  },
+  "devDependencies": {
+    "cli-progress": "^3.12.0",
+    "dotenv": "^16.4.5",
+    "jsonld": "^8.3.2",
+    "mariadb": "^3.3.1",
+    "tsx": "^4.17.0",
+    "typescript": "^5.3.3"
+  }
+}

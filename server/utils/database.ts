@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import mariadb from 'mariadb';
 
 type Field = {
@@ -14,12 +13,13 @@ class Database {
   private debug = false;
 
   private constructor() {
+    const config = useRuntimeConfig();
     this.pool = mariadb.createPool({
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 3306,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_NAME,
+      host: config.app.dbHost,
+      port: config.app.dbPort ? parseInt(config.app.dbPort) : 3306,
+      user: config.app.dbUser,
+      password: config.app.dbPass,
+      database: config.app.dbName,
       connectionLimit: 5,
     });
   }
