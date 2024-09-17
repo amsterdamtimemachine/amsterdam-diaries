@@ -181,7 +181,6 @@ header {
     gap: 0;
     margin: 0;
     padding: var(--space-2) var(--space-4);
-    padding-bottom: var(--space-20);
     transition: var(--transition-3);
     height: var(--space-20);
     overflow: hidden;
