@@ -15,11 +15,11 @@ class Database {
   private constructor() {
     const config = useRuntimeConfig();
     this.pool = mariadb.createPool({
-      host: config.app.dbHost,
-      port: config.app.dbPort ? parseInt(config.app.dbPort) : 3306,
-      user: config.app.dbUser,
-      password: config.app.dbPass,
-      database: config.app.dbName,
+      host: config.dbHost,
+      port: config.dbPort ? parseInt(config.dbPort) : 3306,
+      user: config.dbUser,
+      password: config.dbPass,
+      database: config.dbName,
       connectionLimit: 5,
     });
   }
