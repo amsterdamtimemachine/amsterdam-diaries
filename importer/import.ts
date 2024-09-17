@@ -9,7 +9,7 @@ import { importConcepts, definitionConcepts } from './concepts';
 import { importResources, definitionResources } from './resources';
 import { definitionInfo, importInfo } from './info';
 import Progress from 'cli-progress';
-import Database from './database';
+import Database from '../server/utils/database';
 
 // concept url
 const baseUrl = 'https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/dev/rdf';

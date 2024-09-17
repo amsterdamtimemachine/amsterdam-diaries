@@ -1,5 +1,5 @@
 import { it, describe, expect } from 'vitest';
-import { importLines } from '../src/lines';
+import { importLines } from './lines';
 import expectedResults from './expectedResults/lines';
 import expectedResultTest from './expectedResultTest';
 

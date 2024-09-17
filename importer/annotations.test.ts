@@ -1,5 +1,5 @@
 import { it, describe, expect } from 'vitest';
-import { importAnnotations } from '../src/annotations';
+import { importAnnotations } from './annotations';
 import expectedResults from './expectedResults/annotations';
 import expectedResultTest from './expectedResultTest';
 

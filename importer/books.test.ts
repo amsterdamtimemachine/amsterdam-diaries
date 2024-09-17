@@ -1,5 +1,5 @@
 import { it, describe, expect } from 'vitest';
-import { importBooks } from '../src/books';
+import { importBooks } from './books';
 import expectedResults from './expectedResults/books';
 import expectedResultTest from './expectedResultTest';
 

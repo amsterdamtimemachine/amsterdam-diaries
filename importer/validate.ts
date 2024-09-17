@@ -1,4 +1,4 @@
-import Database from './database';
+import Database from '../server/utils/database';
 import { writeFile } from 'fs/promises';
 // For test purposes
 const db = Database.getInstance();

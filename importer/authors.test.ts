@@ -1,5 +1,5 @@
 import { it, describe, expect } from 'vitest';
-import { importAuthors } from '../src/authors';
+import { importAuthors } from './authors';
 import expectedResults from './expectedResults/authors';
 
 const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/metadata.jsonld`;

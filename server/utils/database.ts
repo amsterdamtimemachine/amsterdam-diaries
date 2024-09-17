@@ -12,8 +12,23 @@ class Database {
   private pool: mariadb.Pool;
   private debug = false;
 
+  private fetchConfig() {
+    if (typeof useRuntimeConfig === 'function') {
+      return useRuntimeConfig();
+    } else {
+      // Fallback to directly accesing the environment variables
+      return {
+        dbHost: process.env.NUXT_DB_HOST,
+        dbPort: process.env.NUXT_DB_PORT,
+        dbUser: process.env.NUXT_DB_USER,
+        dbPass: process.env.NUXT_DB_PASS,
+        dbName: process.env.NUXT_DB_NAME,
+      };
+    }
+  }
+
   private constructor() {
-    const config = useRuntimeConfig();
+    const config = this.fetchConfig();
     this.pool = mariadb.createPool({
       host: config.dbHost,
       port: config.dbPort ? parseInt(config.dbPort) : 3306,
