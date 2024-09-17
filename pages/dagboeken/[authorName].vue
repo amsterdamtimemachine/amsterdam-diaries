@@ -192,6 +192,9 @@ onUnmounted(() => {
 
     .btn-flip {
       margin-top: 0;
+      width: 100%;
+      padding-inline: var(--space-2) 0;
+      justify-content: center;
     }
 
     .diary-page {
