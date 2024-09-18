@@ -135,6 +135,7 @@ onUnmounted(() => {
     gap: var(--space-4);
     box-shadow: var(--shadow-2);
     margin-top: var(--space-16);
+    color: var(--black);
     background: var(--white);
     padding: var(--space-2) var(--space-7);
     z-index: 0;

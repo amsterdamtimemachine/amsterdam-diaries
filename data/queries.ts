@@ -89,7 +89,7 @@ export const Queries: Record<string, string> = {
   person: `SELECT * FROM resource WHERE type = 'Person' AND slug=?`,
   conceptList: `SELECT * FROM concept ORDER BY name LIMIT ? OFFSET ?`,
   concept: `SELECT * FROM concept WHERE slug = ?`,
-  authorCount: `SELECT COUNT(DISTINCT(a.id)) FROM author a INNER JOIN book b ON a.id = b.about_id`,
+  authorCount: `SELECT COUNT(DISTINCT(a.id)) as total FROM author a INNER JOIN book b ON a.id = b.about_id`,
   organizationCount: `SELECT COUNT(*) as total FROM resource WHERE type = 'Organization'`,
   personCount: `SELECT COUNT(*) as total FROM resource WHERE type = 'Person'`,
   conceptCount: `SELECT COUNT(*) as total FROM concept`,

@@ -66,10 +66,6 @@ const externalLinkText = computed<string>(() => {
 }
 .external-link {
   justify-content: center;
-
-  &.align-left {
-    justify-content: flex-start;
-  }
 }
 .snippets {
   width: 100%;
@@ -101,6 +97,10 @@ const externalLinkText = computed<string>(() => {
 
     .snippets {
       grid-column: 1 / -1;
+    }
+
+    .external-link.align-left {
+      justify-content: flex-start;
     }
   }
 }

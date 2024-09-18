@@ -61,6 +61,10 @@ defineProps<{
 
     &.flipped {
       transform: rotateY(180deg);
+      .card-back {
+        // Put z-index back when flipped to be able to zoom correctly on mobile
+        z-index: initial;
+      }
     }
   }
 
@@ -72,6 +76,8 @@ defineProps<{
   }
 
   .card-back {
+    // Fixes not being able to scroll on actual mobile device when not flipped
+    z-index: -1;
     transform: rotateY(180deg);
   }
 }

@@ -140,7 +140,6 @@ header {
   justify-content: flex-end;
   display: flex;
   align-items: center;
-  gap: var(--space-17);
   pointer-events: none;
   opacity: 0;
   width: 100%;
@@ -148,6 +147,8 @@ header {
   gap: var(--space-8);
 
   a {
+    // Prevents the text from wrapping
+    flex: none;
     text-decoration: none;
     color: var(--black);
     padding: var(--space-1);
@@ -171,6 +172,13 @@ header {
   }
 }
 
+// Used for screens in between mobile and desktop. Only used once so no mixin needed
+@media screen and (max-width: 74.25rem) {
+  .menu-section {
+    gap: var(--space-4);
+  }
+}
+
 @include sm-screen-down {
   header {
     grid-template-rows: var(--space-20) auto;
@@ -182,7 +190,7 @@ header {
     margin: 0;
     padding: var(--space-2) var(--space-4);
     transition: var(--transition-3);
-    height: var(--space-20);
+    height: var(--space-22);
     overflow: hidden;
     inset: 0;
     max-width: unset;

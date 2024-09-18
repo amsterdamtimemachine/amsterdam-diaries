@@ -241,8 +241,16 @@ body {
   .page-container,
   .page-container-2 {
     @extend .container;
+  }
+
+  .page-container {
     margin: var(--space-22) var(--space-4) var(--space-8) var(--space-4);
     min-height: calc(100vh - var(--space-30)); // 22 + 8
+  }
+
+  .page-container-2 {
+    margin: var(--space-26) var(--space-4) var(--space-8) var(--space-4);
+    min-height: calc(100vh - var(--space-34)); // 26 + 8
   }
 
   /**

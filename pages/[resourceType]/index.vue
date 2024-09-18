@@ -114,6 +114,13 @@ onMounted(async () => {
 }
 
 @include sm-screen-down {
+  .content {
+    gap: var(--space-3);
+  }
+  .label {
+    font-size: 0.875rem;
+    line-height: 165%;
+  }
   .cards {
     grid-template-columns: 1fr;
   }

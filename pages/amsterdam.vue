@@ -8,7 +8,8 @@
       class="map"
       marker-variant="light-pink"
       @marker-click="onMarkerClick"
-      :initial-marker-id="initialMarkerId" />
+      :initial-marker-id="initialMarkerId"
+      :scroll-map-into-view="scrollMapIntoView" />
 
     <h2 class="diaries-header font-h2">{{ diariesHeaderText }}</h2>
     <DiaryCards :cards="diaryCards" />
@@ -25,7 +26,9 @@ const { defaultLocation, defaultLabel, aboutLabel } = (ResourceInfo.locaties as 
 const { title, description } = toRefs(reactive(await $fetch(`/api/info?type=amsterdam`)));
 
 // Fetch the initial marker from the query parameter or use the default marker
-const initialMarkerId = ref<string>((useRoute().query.id as string) ?? btoa(defaultLocation as string));
+const route = useRoute();
+const initialMarkerId = ref<string>((route.query.id as string) ?? btoa(defaultLocation as string));
+const scrollMapIntoView = ref<boolean>(!!route.query.id);
 
 /**
  * Computed Properties

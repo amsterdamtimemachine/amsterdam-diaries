@@ -16,6 +16,7 @@ const props = withDefaults(
     markers?: { lat: number; lng: number }[];
     markerVariant?: 'yellow' | 'light-pink';
     initialMarkerId?: string;
+    scrollMapIntoView?: boolean;
   }>(),
   {
     markerVariant: 'yellow',
@@ -86,6 +87,14 @@ onMounted(async () => {
       });
     }
   });
+
+  // Scroll map into view
+  if (props.scrollMapIntoView) {
+    const mapElement = document.getElementById('map');
+    if (mapElement) {
+      mapElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
 });
 </script>
 

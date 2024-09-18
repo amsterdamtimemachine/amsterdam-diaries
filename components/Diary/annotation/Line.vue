@@ -72,6 +72,7 @@ const toggleAnnotation = () => {
   display: flex;
   align-items: center;
   line-height: 1.3;
+  color: var(--black);
 
   &.place {
     background: color-mix(in srgb, var(--green) 20%, transparent);

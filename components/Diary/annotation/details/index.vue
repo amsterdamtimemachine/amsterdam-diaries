@@ -52,17 +52,28 @@ const details = ref<HTMLElement>();
  * Computed properties
  */
 const detailsStyle = computed(() => {
-  // If we don't have a parent element, return an empty object
   const element = details.value;
   const parentElement = element?.parentElement;
-  if (!parentElement) {
+  const page = document.querySelector('.diary-page');
+
+  // If we don't have a parent element or page, return object with left 0
+  if (!parentElement || !page) {
     return { left: 0 };
   }
 
-  // Get the parent element's bounding rect
   const parentRect = parentElement.getBoundingClientRect();
+  const pageRect = page?.getBoundingClientRect();
   const value = parentRect.left + element.offsetWidth;
-  return document.body.offsetWidth < value ? { right: 0 } : { left: 0 };
+  const valueRight = parentRect.right - element.offsetWidth;
+
+  // Reset position if element is outside of page, otherwise return 0 pos
+  if (page.offsetWidth < value) {
+    const pos = valueRight - pageRect.left;
+    return { right: `${pos < pageRect.left ? pos : 0}px` };
+  } else {
+    const pos = pageRect.left + value;
+    return { left: `${pos > pageRect.right ? pos : 0}px` };
+  }
 });
 
 const variantColor = computed<string>(() => `var(--${variant})`);
