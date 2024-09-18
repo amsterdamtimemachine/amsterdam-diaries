@@ -62,17 +62,23 @@ const detailsStyle = computed(() => {
   }
 
   const parentRect = parentElement.getBoundingClientRect();
-  const pageRect = page?.getBoundingClientRect();
   const value = parentRect.left + element.offsetWidth;
-  const valueRight = parentRect.right - element.offsetWidth;
 
-  // Reset position if element is outside of page, otherwise return 0 pos
-  if (page.offsetWidth < value) {
-    const pos = valueRight - pageRect.left;
-    return { right: `${pos < pageRect.left ? pos : 0}px` };
+  // On desktop check body offsetwidth
+  if (window.innerWidth > 1024) {
+    return document.body.offsetWidth < value ? { right: 0 } : { left: 0 };
   } else {
-    const pos = pageRect.left + value;
-    return { left: `${pos > pageRect.right ? pos : 0}px` };
+    const pageRect = page?.getBoundingClientRect();
+    const valueRight = parentRect.right - element.offsetWidth;
+
+    // Reset position if element is outside of page, otherwise return 0 pos
+    if (page.offsetWidth < value) {
+      const pos = valueRight - pageRect.left;
+      return { right: `${pos < pageRect.left ? pos : 0}px` };
+    } else {
+      const pos = pageRect.left + value;
+      return { left: `${pos > pageRect.right ? pos : 0}px` };
+    }
   }
 });
 
