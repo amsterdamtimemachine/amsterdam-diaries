@@ -14,16 +14,19 @@
     </button>
     <div class="controls">
       <button
-        ref="zoomIn"
-        class="zoom-button"
+        class="control"
         @click="zoomIn">
         <BaseIcon icon="mdi:add" />
       </button>
       <button
-        ref="zoomOut"
-        class="zoom-button"
+        class="control"
         @click="zoomOut">
         <BaseIcon icon="mdi:minus" />
+      </button>
+      <button
+        class="control exit"
+        @click="$emit('exit')">
+        <BaseIcon icon="mdi:fullscreen-exit" />
       </button>
     </div>
     <button
@@ -47,6 +50,7 @@ import OpenSeadragon from 'openseadragon';
 const props = defineProps<{
   images: string[];
 }>();
+defineEmits(['exit']);
 
 const viewer = ref<OpenSeadragon.Viewer>();
 const zoomLevel = ref(1);
@@ -189,12 +193,15 @@ onUnmounted(() => {
   z-index: 1;
   gap: var(--space-1);
 
-  .zoom-button {
+  .control {
     background-color: var(--black-50);
     color: var(--white);
     cursor: pointer;
     padding: var(--space-2);
     line-height: 1;
+    &.exit {
+      display: none;
+    }
   }
 }
 
@@ -206,8 +213,11 @@ onUnmounted(() => {
     }
   }
   .controls {
-    .zoom-button {
+    .control {
       padding: var(--space-1);
+      &.exit {
+        display: initial;
+      }
     }
   }
 }

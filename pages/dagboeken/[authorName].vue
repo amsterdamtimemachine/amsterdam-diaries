@@ -11,10 +11,13 @@
       class="btn-flip"
       @click="flipped = !flipped">
       <span>{{ flipped ? 'Toon de digitale tekst' : 'Toon de originele dagboek pagina' }}</span>
-      <BaseIcon icon="material-symbols:autorenew" />
+      <BaseIcon
+        :icon="isMobile ? 'mdi:fullscreen' : 'material-symbols:autorenew'"
+        width="var(--space-7)"
+        height="var(--space-7)" />
     </button>
     <Flip
-      v-if="page"
+      v-if="page && !isMobile"
       class="flip-container"
       :flipped="flipped">
       <template #front>
@@ -31,6 +34,20 @@
           :images="page.sections.map(p => p.uri)" />
       </template>
     </Flip>
+    <template v-if="page && isMobile">
+      <DiaryPage
+        v-if="!flipped"
+        class="diary-page"
+        :id="page.id"
+        :page="page"
+        :page-number="pageNr"
+        :total-pages="pages.length" />
+      <ImageViewer
+        v-else
+        class="image-viewer"
+        :images="page.sections.map(p => p.uri)"
+        @exit="flipped = !flipped" />
+    </template>
     <LoadingSpinner v-if="!page" />
     <div
       v-if="page"
@@ -76,6 +93,7 @@ const page = ref<PageData>();
 const pageNr = ref<number>(1);
 const PHOTO_AMOUNT = 10;
 const flipped = ref<boolean>(false);
+const isMobile = ref<boolean>(window?.innerWidth <= 1024);
 
 /**
  * Methods
@@ -90,6 +108,13 @@ const loadPage = async (pageNumber: number) => {
   }
 };
 
+const handleResize = () => {
+  isMobile.value = window.innerWidth <= 1024;
+};
+
+/**
+ * Watchers
+ */
 watch(
   () => useRoute().query.page,
   newPageId => {
@@ -113,10 +138,12 @@ watch(flipped, (value: boolean) => {
  */
 onMounted(async () => {
   loadPage(pageNr.value);
+  window.addEventListener('resize', handleResize);
 });
 
 onUnmounted(() => {
   document.body.style.overflow = 'auto';
+  window.removeEventListener('resize', handleResize);
 });
 </script>
 
@@ -203,7 +230,11 @@ onUnmounted(() => {
     }
 
     .image-viewer {
-      height: calc(100vh - var(--space-94));
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      height: 100vh;
+      width: 100vw;
     }
   }
 
