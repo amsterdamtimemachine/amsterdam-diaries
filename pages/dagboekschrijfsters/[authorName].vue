@@ -16,7 +16,7 @@
         </div>
         <Description
           class="font-body-l"
-          :input="currentAuthor.description || 'Nederlandse dagboekschrijfster'"
+          :input="authorDescription"
           :lines="3" />
       </div>
       <LinkArrow
@@ -76,6 +76,14 @@ const authorTags = computed(() => {
     link: `/dagboekschrijfsters/${a.slug}`,
     active: currentAuthor.value?.slug === a.slug,
   }));
+});
+
+const authorDescription = computed(() => {
+  if (!currentAuthor.value?.description) {
+    return 'Nederlandse dagboekschrijfster';
+  }
+  // Temporary replacement fix. Will be fixed in version-2
+  return currentAuthor.value.description.replace('Joods Historisch Museum', 'Joods Museum');
 });
 
 const scrollToTags = () => {
