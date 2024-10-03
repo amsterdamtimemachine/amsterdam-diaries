@@ -19,7 +19,7 @@
         <CardOverview
           v-for="item in items"
           :key="item.id"
-          :title="item.name || ''"
+          :title="(item.name === 'Theme' ? useCapitalize(item.slug!) : item.name) || ''"
           :description="item.description"
           :image="item.image"
           :link="`/${resourceType}/${item.slug}`"
