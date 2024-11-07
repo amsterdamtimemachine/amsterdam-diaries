@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - feature/ATM-224
+
+jobs:
+  packaging:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Add any common steps required for both environments
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm import:test
