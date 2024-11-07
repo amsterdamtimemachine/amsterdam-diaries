@@ -1,0 +1,74 @@
+name: Build and Deploy workflow
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install node modules
+        run: npm ci
+
+      - name: Build Nuxt
+        run: npm run build
+
+      - name: Copy Import files
+        run: npm run import:build
+
+      - name: Create tarball
+        run: |
+          rm -Rf dist.tgz
+          tar -czvf dist.tgz -C .output .
+
+      - name: Login to Docker registry
+        uses: docker/login-action@v3
+        with:
+          registry: https://cr.totaldesign.com
+          username: oauth2
+          password: ${{ secrets.GITLAB_TOKEN }}
+
+      - name: Set up SSH
+        run: |
+          mkdir -p .ssh
+          chmod 700 .ssh
+          echo "${{ secrets.PRIVATE_KEY }}" | base64 -d > .ssh/id_rsa
+          chmod 400 .ssh/id_rsa
+          echo "${{ secrets.SSH_KNOWN_HOSTS }}" >> .ssh/known_hosts
+          chmod 644 .ssh/known_hosts
+
+      - name: Pull Ansistrano image
+        run: docker pull cr.totaldesign.com/total-design/ansistrano:3.11.0
+
+      - name: Run Ansible Playbook in Docker Container
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/deploy/code \
+            -v ${{ github.workspace }}/.ssh:/deploy/.ssh \
+            cr.totaldesign.com/total-design/ansistrano:3.11.0 \
+            /bin/bash -c "
+              curl -L -O https://galaxy.ansible.com/api/v3/plugin/ansible/content/published/collections/artifacts/community-general-9.1.0.tar.gz &&
+              ansible-galaxy collection install community-general-9.1.0.tar.gz &&
+              ansible-playbook ansible/deploy.yml -i ansible/acceptance
+            "
