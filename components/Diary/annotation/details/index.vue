@@ -113,7 +113,7 @@ const to = computed(() => {
     }
     const { maxBounds } = useRuntimeConfig().app;
     if (useIsCoordinateWithinBounds(props.line.latitude, props.line.longitude, maxBounds)) {
-      const obj: RouteLocationRaw = { name: 'amsterdam' };
+      const obj: RouteLocationRaw = { name: 'kaart' };
       if (props.line.identifyingId) {
         obj.query = { id: btoa(props.line.identifyingId) };
       }
