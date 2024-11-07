@@ -34,14 +34,14 @@
           <LinkArrow
             class="left-arrow"
             @click="scrollPhotos(false)"
-            link-text="Vorige"
+            link-text=""
             icon="mdi:arrow-left" />
         </template>
         <template #next-button="{ scrollPhotos }">
           <LinkArrow
             class="right-arrow"
             @click="scrollPhotos(true)"
-            link-text="Volgende" />
+            link-text="" />
         </template>
       </PhotoScroller>
     </div>
