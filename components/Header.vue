@@ -25,8 +25,8 @@
       </NuxtLink>
       <NuxtLink
         @click="hideMenu"
-        to="/amsterdam">
-        Amsterdam
+        to="/kaart">
+        Kaart
       </NuxtLink>
       <NuxtLink
         @click="hideMenu"

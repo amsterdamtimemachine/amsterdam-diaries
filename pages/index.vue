@@ -31,8 +31,8 @@
             <div class="nav-links">
               <LinkArrow
                 class="nav-link"
-                link-text="Amsterdam"
-                link="/amsterdam" />
+                link-text="Kaart"
+                link="/kaart" />
               <LinkArrow
                 class="nav-link"
                 link-text="Dagboekschrijfsters"
