@@ -53,8 +53,8 @@ const logos = ref<{ name: string; src: string; url: string }[]>([
     url: 'https://www.amsterdam.nl/stadsarchief/',
   },
   {
-    name: 'Joods Cultureel Kwartier',
-    src: 'logos/jck.png',
+    name: 'Joods Museum',
+    src: 'logos/jm.svg',
     url: 'https://jck.nl/',
   },
   {
