@@ -10,7 +10,7 @@
     <button
       class="btn-flip"
       @click="flipped = !flipped">
-      <span>{{ flipped ? 'Toon de digitale tekst' : 'Toon de originele dagboek pagina' }}</span>
+      <span>{{ flipped ? 'Toon de digitale tekst' : 'Toon de originele dagboekpagina' }}</span>
       <BaseIcon
         :icon="isMobile ? 'mdi:fullscreen' : 'material-symbols:autorenew'"
         width="var(--space-7)"
