@@ -3,8 +3,8 @@
     ref="snippets"
     class="diaries">
     <CardDiary
-      v-for="card in cards"
-      :key="card.headerTitle"
+      v-for="(card, idx) in cards"
+      :key="idx"
       :headerTitle="card.headerTitle"
       :headerSubtitle="card.headerSubtitle"
       :content="card.content"
