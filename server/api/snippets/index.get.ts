@@ -3,7 +3,7 @@ import Database from '~/server/utils/database';
 
 export default defineEventHandler<Promise<SnippetData[]>>(async event => {
   const client = Database.getInstance();
-  const { type, id, limit } = getQuery(event);
+  const { type, id } = getQuery(event);
   const { snippetField } = ResourceInfo[type as string] ?? {};
   if (!snippetField) {
     return [];
@@ -30,9 +30,7 @@ export default defineEventHandler<Promise<SnippetData[]>>(async event => {
     INNER JOIN entry e ON p.entry_id = e.id
     INNER JOIN book b ON e.book_id = b.id
     INNER JOIN author au ON b.about_id = au.id
-    WHERE a.${snippetField} = '${atob(id as string)}'
-    GROUP BY au.id
-    LIMIT ${limit || 4}`;
+    WHERE a.${snippetField} = '${atob(id as string)}'`;
   const resources = await client.query(query);
 
   return resources.map(row => {
