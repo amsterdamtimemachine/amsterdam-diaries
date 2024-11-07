@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - develop
+      - main
 
 jobs:
   run_tests:
@@ -18,7 +19,6 @@ jobs:
         with:
           node-version: '20'
 
-      # Add any common steps required for both environments
       - name: Install dependencies
         run: npm ci
 

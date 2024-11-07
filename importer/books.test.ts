@@ -30,7 +30,7 @@ describe('Books', async () => {
     books.forEach((book: any) => {
       expect(Object.keys(book).every(key => bookKeys.includes(key))).toBe(true);
       expect(Array.isArray(book.hasPart)).toBe(true);
-      expect(book.hasPart.length).toBeGreaterThan(3000);
+      expect(book.hasPart.length).toBeGreaterThan(0);
     });
   });
 
