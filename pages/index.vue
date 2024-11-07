@@ -14,9 +14,15 @@
         <div class="text-info">
           <h1 class="font-h2">{{ title }}</h1>
           <TypingText
+            v-if="showTypedText"
             :duration="4"
             class="font-body-l"
             :text="description" />
+          <div
+            v-else
+            class="font-body-l">
+            {{ description }}
+          </div>
         </div>
       </div>
       <div>
@@ -72,6 +78,11 @@ definePageMeta({
 });
 const showNav = ref<boolean>(false);
 const { title, description } = toRefs(reactive(await $fetch('/api/info?type=home')));
+const showTypedText = useState('showTypedText', () => true);
+
+onUnmounted(() => {
+  showTypedText.value = false;
+});
 </script>
 
 <style lang="scss" scoped>
