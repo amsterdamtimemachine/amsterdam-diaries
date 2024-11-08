@@ -25,7 +25,7 @@ const structure = [
   },
   {
     name: 'info',
-    uri: `${baseUrl}/info.json`,
+    uri: `${baseUrl}/info.jsonld`,
     definition: definitionInfo,
     importFn: importInfo,
   },

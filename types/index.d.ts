@@ -244,6 +244,13 @@ declare global {
     };
   };
 
+  type RawInfo = {
+    id: string;
+    type: string;
+    title: string;
+    description: string;
+  };
+
   type RawConcept = {
     '@type': string;
     id: string;
