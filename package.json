@@ -5,17 +5,12 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "generate": "nuxt generate",
     "import": "tsx ./importer/import.ts",
     "import:test": "vitest --dir ./importer",
-    "import:validate": "tsx ./importer/validate.ts'",
+    "import:validate": "tsx ./importer/validate.ts",
     "import:build": "rollup -c rollup.config.js",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
-    "lint": "git diff --name-only --diff-filter=MA main | grep -E '\\.ts$|\\.vue$' | xargs eslint",
-    "lint:all": "eslint './**/*.{vue,ts}'",
-    "lint:fix": "git diff --name-only --diff-filter=MA main | grep -E '\\.ts$|\\.vue$' | xargs eslint --fix",
-    "lint:fix:all": "eslint --fix './**/*.{vue,ts}",
+    "lint": "eslint './**/*.{vue,ts}'",
+    "lint:fix": "eslint --fix './**/*.{vue,ts}'",
     "ts:check": "vue-tsc --noEmit --skipLibCheck"
   },
   "overrides": {
