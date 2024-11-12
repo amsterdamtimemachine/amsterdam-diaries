@@ -1,61 +1,63 @@
-# Amsterdam Diaries Time Machine (Nuxt 3)
+# Amsterdam Diaries Time Machine
 
-The Amsterdam Diaries Time Machine Nuxt 3 project is a frontend application build in Nuxt 3.
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+**Amsterdam Diaries Time Machine** is a Nuxt 3 application designed to bring the past to life with diary fragments from Amsterdam women during World war 2. By navigating through their diaries, get an immersive glimpse into their lives.
 
-## Instructions setting up deployment (via GitHub actions)
+## Getting Started
 
-This repo is migrated from GitLab. In GitLab deployments were setup using Ansible. You can find the configuration for this in:
+### Prerequisites
+
+- **Node.js** (version 20 or higher)
+- **NPM**
+- **Docker** (To run the database)
+
+### Installation
+
+1. Clone the repository:
 
 ```bash
-- /ansible/..
-- .gitlab-ci.yml
-- build.xml
+git clone git@github.com:amsterdamtimemachine/amsterdam-diaries.git
+cd amsterdam-diaries
 ```
 
-The above needs to be migrated to use GitHub Actions.
-
-## Setup
-
-Make sure to install the dependencies:
+2. Build & Run the database container
 
 ```bash
-# npm
-npm install
+docker build -t atm-db .
+docker run -d --name atm-db -p 3306:3306 atm-db
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+3. Install dependencies:
 
 ```bash
-# npm
+npm ci
+```
+
+4. To populate the database with diaries, use the import script.\
+   You do need to add the env variabels to connect to the database, for example:
+
+```bash
+NUXT_DB_HOST=localhost NUXT_DB_PORT=3306 NUXT_DB_USER=importer NUXT_DB_PASS=importer NUXT_DB_NAME=mydb npm run import
+```
+
+5. Run the development server:
+
+```bash
 npm run dev
 ```
 
-## Production
+### Deployment
 
-Build the application for production:
+This project uses **GitHub Actions** for automated deployments:
 
-```bash
-# npm
-npm run build
-```
+- **Production Deployment**: Commits to the `main` branch automatically trigger a deployment to the production environment.
+- **Staging Deployment**: Commits to the `develop` branch trigger a deployment to the staging environment for testing and acceptance purposes.
 
-Locally preview production build:
+### Running Tests
 
-```bash
-# npm
-npm run preview
-```
-
-## Deployments
-
-This repo is in the process of being migrated to GitHub. For now deployments are done from the GitLab repo.
-When pushing new commits make sure to commit to both repo's until deployments are setup on GitHub:
+To ensure data integrity, the application includes tests to validate the contract with the linked open data:
 
 ```bash
-To push to GitHub:
-git remote add github {GitHub repo link} (only once)
-git push github develop
+npm run import:test
 ```
+
+These tests verify that the application is correctly fetching and displaying linked open data, maintaining consistency between the app and data sources.
