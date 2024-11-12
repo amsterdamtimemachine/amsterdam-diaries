@@ -26,11 +26,15 @@
         </div>
       </div>
       <div>
-        <LinkArrow
+        <button
           v-if="!showNav"
           class="link"
-          @click="showNav = !showNav"
-          link-text="Ontdek het verhaal van de stad" />
+          @click="showNav = !showNav">
+          <span>Ontdek het verhaal van de stad</span>
+          <BaseIcon
+            class="arrow-icon"
+            icon="mdi:arrow-right" />
+        </button>
         <Transition name="fade">
           <div v-if="showNav">
             <div class="font-body-l">Selecteer:</div>
@@ -115,7 +119,24 @@ onUnmounted(() => {
 }
 
 .link {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--black);
+  text-decoration: none;
+  transition: var(--transition-1);
+  border-bottom: var(--space-0) solid transparent;
   width: fit-content;
+
+  .arrow-icon {
+    flex: none;
+  }
+
+  &:hover {
+    border-bottom: var(--space-0) solid var(--black);
+  }
 }
 
 .nav-links {
