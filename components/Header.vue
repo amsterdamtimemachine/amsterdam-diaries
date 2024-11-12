@@ -10,23 +10,38 @@
     <nav class="menu-section">
       <NuxtLink
         @click="hideMenu"
-        to="/">
-        Home
+        to="/themas">
+        Thema's
       </NuxtLink>
       <NuxtLink
         @click="hideMenu"
-        to="/dagboekschrijfsters/gerda-oestreicher-laqueur">
+        to="/personen">
+        Personen
+      </NuxtLink>
+      <NuxtLink
+        @click="hideMenu"
+        to="/dagboekschrijfsters">
         Dagboekschrijfsters
+      </NuxtLink>
+      <NuxtLink
+        @click="hideMenu"
+        to="/kaart">
+        Kaart
+      </NuxtLink>
+      <NuxtLink
+        @click="hideMenu"
+        to="/organisaties">
+        Organisaties
+      </NuxtLink>
+      <NuxtLink
+        @click="hideMenu"
+        to="/kalender">
+        Kalender
       </NuxtLink>
       <NuxtLink
         @click="hideMenu"
         to="/about">
         Over ATM
-      </NuxtLink>
-      <NuxtLink
-        @click="hideMenu"
-        to="/amsterdam">
-        Wat gebeurde in Amsterdam
       </NuxtLink>
     </nav>
     <button
@@ -125,7 +140,6 @@ header {
   justify-content: flex-end;
   display: flex;
   align-items: center;
-  gap: var(--space-17);
   pointer-events: none;
   opacity: 0;
   width: 100%;
@@ -133,6 +147,8 @@ header {
   gap: var(--space-8);
 
   a {
+    // Prevents the text from wrapping
+    flex: none;
     text-decoration: none;
     color: var(--black);
     padding: var(--space-1);
@@ -156,6 +172,13 @@ header {
   }
 }
 
+// Used for screens in between mobile and desktop. Only used once so no mixin needed
+@media screen and (max-width: 74.25rem) {
+  .menu-section {
+    gap: var(--space-4);
+  }
+}
+
 @include sm-screen-down {
   header {
     grid-template-rows: var(--space-20) auto;
@@ -166,9 +189,8 @@ header {
     gap: 0;
     margin: 0;
     padding: var(--space-2) var(--space-4);
-    padding-bottom: var(--space-20);
     transition: var(--transition-3);
-    height: var(--space-20);
+    height: var(--space-22);
     overflow: hidden;
     inset: 0;
     max-width: unset;

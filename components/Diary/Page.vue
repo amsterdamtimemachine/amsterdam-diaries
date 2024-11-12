@@ -16,7 +16,7 @@
  * State & Props
  */
 const props = defineProps<{
-  page: Page;
+  page: PageData;
 }>();
 
 /**
@@ -25,6 +25,7 @@ const props = defineProps<{
 const fetchComponent = (type: string) => {
   switch (type) {
     case 'Heading':
+    case 'header':
       return resolveComponent('DiaryHeading');
     case 'Paragraph':
       return resolveComponent('DiaryParagraph');

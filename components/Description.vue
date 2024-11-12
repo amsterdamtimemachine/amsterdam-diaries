@@ -137,6 +137,7 @@ onUnmounted(() => {
     &.collapsed {
       display: -webkit-box;
       -webkit-box-orient: vertical;
+      line-clamp: var(--number-of-lines);
       -webkit-line-clamp: var(--number-of-lines);
     }
   }

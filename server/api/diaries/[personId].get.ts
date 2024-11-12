@@ -1,42 +1,56 @@
-const fetchAndParsePages = async (diaryId: string) => {
-  const pages = await useFetchGraph('entriesOfDiary', diaryId);
-  const result = [];
-  for (let idx = 0; idx < pages.length; ++idx) {
-    const page = pages[idx];
-    result.push({
-      ...page,
-      id: useSimplifyId(page.id as string),
-    });
-  }
-  return result;
+import Database from '~/server/utils/database';
+
+const fetchDiaries = async (id: string) => {
+  const client = Database.getInstance();
+  const query = `
+    SELECT id,
+           name,
+           description,
+           temporal_coverage
+    FROM book
+    WHERE about_id = ?`;
+  return await client.query(query, [id]);
 };
 
-const fetchAndParseDiaries = async (id: string) => {
-  const diaries = await useFetchGraph('diariesOfAuthor', id);
-  const result = [];
-
-  for (let idx = 0; idx < diaries.length; ++idx) {
-    const diary = diaries[idx];
-    result.push({
-      ...diary,
-      id: useSimplifyId(diary.id as string),
-      pages: await fetchAndParsePages(diary.id as string),
-    });
-  }
-
-  return result;
+const fetchEntries = async (id: string) => {
+  const client = Database.getInstance();
+  const query = `
+    SELECT id,
+           name,
+           position,
+           date_created
+    FROM entry
+    WHERE book_id = ?`;
+  return await client.query(query, [id]);
 };
 
-export default defineEventHandler(async event => {
+export default defineEventHandler<Promise<DiaryData[]>>(async event => {
   const config = useRuntimeConfig();
   const personId = getRouterParam(event, 'personId');
   const id = `${config.app.entityBaseUri}${personId}`;
 
   try {
-    const diaries = await fetchAndParseDiaries(id);
-    return { diaries };
+    const data = await fetchDiaries(id);
+    const diaries = [] as DiaryData[];
+    for (let idx = 0; idx < data.length; ++idx) {
+      const pages = (await fetchEntries(data[idx].id)).sort((a, b) => a.position - b.position);
+      diaries.push({
+        id: useSimplifyId(data[idx].id),
+        type: 'Book',
+        temporalCoverage: data[idx].temporal_coverage as string,
+        pages: pages.map(page => ({
+          id: useSimplifyId(page.id),
+          type: 'Manuscript',
+          dateCreated: page.date_created as string,
+          sections: [],
+        })),
+      });
+    }
+
+    return diaries;
   } catch (e) {
     console.error('Error: ', e);
     setResponseStatus(event, 400);
+    return [];
   }
 });

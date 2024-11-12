@@ -1,0 +1,13 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: production
+    secrets: inherit

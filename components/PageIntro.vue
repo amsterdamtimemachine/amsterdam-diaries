@@ -2,9 +2,11 @@
   <div class="intro">
     <h1 class="title font-h1">{{ title }}</h1>
     <Description
+      v-if="description"
       :input="description"
       :lines="lines"
       class="font-body-l" />
+    <slot />
   </div>
 </template>
 

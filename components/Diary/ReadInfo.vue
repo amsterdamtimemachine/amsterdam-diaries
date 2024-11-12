@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  page?: Page;
+  page?: PageData;
   pageNumber: number;
   totalPages: number;
 }>();
@@ -22,8 +22,8 @@ const props = defineProps<{
 const rawText = computed<string>(() => {
   if (!props.page) return '';
   return props.page.sections
-    .filter((s: Section) => s.type !== 'Visual')
-    .map((s: Section) => (s as TextSection).lines)
+    .filter((s: SectionData) => s.type !== 'Visual')
+    .map((s: SectionData) => (s as TextSectionData).lines)
     .flat()
     .map(y => y.value)
     .join(' ');
@@ -33,7 +33,6 @@ const rawText = computed<string>(() => {
 <style lang="scss" scoped>
 .read-info {
   position: fixed;
-  width: 100%;
   background: var(--alabaster);
   z-index: 1;
 }

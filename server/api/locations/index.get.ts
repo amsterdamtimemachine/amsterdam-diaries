@@ -1,55 +1,36 @@
-const withinBounds = (data?: AnnotationRef): boolean => {
-  const bounds = useRuntimeConfig().app.maxBounds;
+import Database from '~/server/utils/database';
 
-  return (
-    Number(data?.latitude) >= bounds[1][0] &&
-    Number(data?.latitude) <= bounds[0][0] &&
-    Number(data?.longitude) >= bounds[1][1] &&
-    Number(data?.longitude) <= bounds[0][1]
-  );
+const fetchLocations = async () => {
+  const client = Database.getInstance();
+  const query = `
+    SELECT DISTINCT(r.id),
+           r.name,
+           r.description,
+           r.latitude,
+           r.longitude
+    FROM annotation a
+    LEFT JOIN resource r ON a.identifying_id = r.id
+    WHERE a.type = 'Place'
+    AND r.latitude <= ?
+    AND r.longitude <= ?
+    AND r.latitude >= ?
+    AND r.longitude >= ?`;
+
+  // Note: config.app.maxBounds has the wrong order of coordinates
+  // this results in a very weird order in the query
+  const values = useRuntimeConfig().app.maxBounds.flat();
+  return (await client.query(query, values)) as ParsedResource[];
 };
 
-const fetchAndParseLocations = async (id: string): Promise<LocationRef[]> => {
-  const items = await useFetchGraph('locationsPerAuthor', id);
-  const locations: LocationRef[] = [];
-
-  for (let idx = 0; idx < items.length; ++idx) {
-    const annotations = await useParseAnnotation(items[idx] as Annotation);
-    if (annotations) {
-      annotations.forEach((annotation: AnnotationRef) => {
-        if (withinBounds(annotation)) {
-          locations.push({
-            id: btoa(annotation.value),
-            name: annotation.name,
-            latitude: annotation.latitude,
-            longitude: annotation.longitude,
-          });
-        }
-      });
-    }
-  }
-  return locations;
-};
-
-export default defineEventHandler(async event => {
-  const config = useRuntimeConfig();
-
-  // Fetch the Authors, throw error when not found
-  const result: { authors: Author[] } = await $fetch('/api/authors');
-  if (!result?.authors) {
-    console.error('Error: no authors found');
-    setResponseStatus(event, 404);
-  }
-
-  // Parse the location for each author
-  const locations: LocationRef[][] = [];
-  for (const author of result.authors) {
-    locations.push(await fetchAndParseLocations(`${config.app.entityBaseUri}${author.id}`));
-  }
-
-  // Return the locations
-  // Only include unique locations
-  return {
-    locations: locations.flat().filter((value, index, self) => index === self.findIndex(obj => obj.id === value.id)),
-  };
+export default defineEventHandler<Promise<LocationData[]>>(async () => {
+  const data = await fetchLocations();
+  return data.map((item: ParsedResource) => {
+    return {
+      id: btoa(item.id),
+      name: item.name,
+      description: item.description,
+      latitude: item.latitude,
+      longitude: item.longitude,
+    } as LocationData;
+  });
 });

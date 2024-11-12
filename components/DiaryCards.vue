@@ -3,8 +3,8 @@
     ref="snippets"
     class="diaries">
     <CardDiary
-      v-for="card in cards"
-      :key="card.headerTitle"
+      v-for="(card, idx) in cards"
+      :key="idx"
       :headerTitle="card.headerTitle"
       :headerSubtitle="card.headerSubtitle"
       :content="card.content"
@@ -17,7 +17,7 @@
 const snippets = ref<HTMLElement>();
 
 const props = defineProps<{
-  cards: DiaryCard[];
+  cards: SnippetData[];
 }>();
 
 const restartAnimation = () => {
@@ -36,8 +36,7 @@ watch(() => props.cards, restartAnimation);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: var(--space-11);
-  max-width: var(--theme-diaries-max-width);
+  gap: var(--space-6);
   animation: var(--animation-fade-in-up);
 }
 

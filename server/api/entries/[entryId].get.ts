@@ -1,70 +1,178 @@
-const fetchAndParseAnnotations = async (pageId: string) => {
-  const items = await useFetchGraph('getAnnotation', pageId);
-  const annotations = [];
+import { SupportedAnnotationTypes } from '~/data/enums';
+import Database from '~/server/utils/database';
 
-  for (let idx = 0; idx < items.length; ++idx) {
-    const annotation = await useParseAnnotation(items[idx] as Annotation);
-    if (annotation) {
-      annotations.push(...annotation);
-    }
-  }
-  const supportedAnnotations = ['Place', 'Etenswaren', 'Person', 'https://schema.org/Person', 'Date', 'Blackening'];
-  return annotations.filter(filter => supportedAnnotations.includes(filter.type));
+// Constants
+const ENTRY_BASE_URL = 'https://id.amsterdamtimemachine.nl/ark:/81741/amsterdam-diaries/annotations/entries';
+
+/**
+ * Helpers
+ */
+const compareIds = (a: string, b: string): boolean => {
+  return a?.slice(0, a.length - 1) === b?.slice(0, b.length - 1);
 };
 
-const generateTextpart = (value: string): TextLine => {
+/**
+ * Database methods
+ */
+const fetchBlocks = async (entryId: string) => {
+  const client = Database.getInstance();
+  const query = `
+    SELECT b.id,
+           b.position,
+           b.type,
+           b.image_id,
+           b.dimensions,
+           i.content_url
+    FROM block b
+    INNER JOIN image i on b.image_id = i.id
+    WHERE entry_id = ?`;
+  return (await client.query(query, [`${ENTRY_BASE_URL}/${entryId}`])).sort((a, b) => a.position - b.position);
+};
+
+const fetchLineData = async (entryId: string) => {
+  const client = Database.getInstance();
+  const query = `
+    SELECT line.id,
+           line.position,
+           line.value,
+           block.position as block_position,
+           block.id as block_id
+    FROM line
+    INNER JOIN block ON line.block_id = block.id
+    WHERE block.entry_id = ?`;
+  return (await client.query(query, [`${ENTRY_BASE_URL}/${entryId}`])).sort((a, b) => {
+    const aPos = a.block_position * 100 + a.position;
+    const bPos = b.block_position * 100 + b.position;
+    return aPos - bPos;
+  });
+};
+
+const fetchAnnotations = async (lines: any[]) => {
+  const client = Database.getInstance();
+  const lineIds = lines.map(line => line.id);
+  const placeholders = lines.map(() => `?`).join(', ');
+  const types = SupportedAnnotationTypes.map(() => `?`).join(', ');
+  const query = `
+    SELECT a.*,
+           COALESCE(r.name, c.name) as name,
+           COALESCE(r.slug, c.slug) as slug,
+           r.description as description,
+           r.latitude as latitude,
+           r.longitude as longitude
+    FROM annotation a
+    LEFT JOIN resource r ON a.identifying_id = r.id
+    LEFT JOIN concept c ON a.classifying_id = c.id
+    WHERE a.source_id in (${placeholders})
+    AND a.type IN (${types})`;
+  return await client.query(query, [...lineIds, ...SupportedAnnotationTypes]);
+};
+
+/**
+ * Generators
+ */
+const generateTextLine = (value: string): LineData => {
   return {
     type: 'Text',
-    value: value.trim(),
+    value: value ? value.trim() : '',
   };
 };
 
-const generateAnnotationPart = (value: string, ref: AnnotationRef): AnnotationLine => {
-  const { name, description, value: reference, type, latitude, longitude, source, guid } = ref;
-  const subData = latitude && longitude ? { latitude, longitude } : {};
-
+const generateAnnotationLine = (text: string, data: any): AnnotationData => {
+  const subData = data.latitude && data.longitude ? { latitude: data.latitude, longitude: data.longitude } : {};
   return {
     type: 'Annotation',
-    id: `${useSimplifyId(source)}-${guid}`,
-    subType: type,
-    name,
-    description,
-    reference,
-    value: value.trim(),
+    id: `${useSimplifyId(data.id)}`,
+    subType: data.type,
+    name: data.name,
+    description: data.description,
+    value: text.trim(),
+    identifyingId: data.identifying_id,
+    classifyingId: data.classifying_id,
+    correction: data.correction,
+    slug: data.slug,
     ...subData,
   };
 };
 
-const parseTextBasedSection = (section: any, annotations: AnnotationRef[]): TextSection => {
-  const lines = [];
-  const items = useForceArray(section.items);
+/**
+ * Loop over all the sectionData and prepare the sections
+ *
+ * TODO: Double check if the replace in the uri is correct
+ */
+const prepareSections = (sections: any[]): Record<string, SectionData> => {
+  return sections.reduce((acc: any, section: any) => {
+    switch (section.type) {
+      case 'Visual':
+        acc[section.id] = {
+          type: section.type,
+          position: section.position,
+          uri: section.content_url.replace(/full/, section.dimensions),
+        };
+        break;
+      default:
+        acc[section.id] = {
+          type: section.type,
+          position: section.position,
+          lines: [],
+          uri: section.content_url.replace(/full/, section.dimensions),
+        };
+        break;
+    }
+    return acc;
+  }, {});
+};
 
-  for (let idx = items.length - 1; idx >= 0; --idx) {
-    const parts: Array<TextLine | AnnotationLine> = [];
-    const { id, value } = items[idx].body;
-    const annos = annotations
-      .filter(annotation => annotation.source === id)
-      .sort((a, b) => (b.start || 0) - (a.start || 0));
+/**
+ * Generate the section with their lines and annotations
+ *
+ * We prepare all the sections and then loop over all the lineData.
+ * Per line, we find matching annotations and split the line in multiple parts if needed.
+ * The reason we loop backwards is to maintain the offset of the annotations,
+ * in case there are multiple annotations per line.
+ */
+const generateSections = (sectionData: any[], lineData: any[], annotationData: any[]) => {
+  const sections = prepareSections(sectionData);
 
+  for (let idx = lineData.length - 1; idx >= 0; --idx) {
+    const line = lineData[idx];
+    const section = sections[line.block_id] as TextSectionData;
+
+    // Get the annotations for this line and sort them by start_position
+    const annos = annotationData
+      .filter(annotation => annotation.source_id === line.id)
+      .sort((a, b) => (b.start_position || 0) - (a.start_position || 0));
+
+    // Create reference to do text manupulations on
+    let text: string = line.value;
+
+    // If there are no annotations, add the line as text part
     if (!annos.length) {
-      parts.unshift(generateTextpart(value));
+      const textLine = generateTextLine(text);
+      if (textLine.value.length) {
+        section.lines.unshift(textLine);
+      }
     } else {
-      let text: string = value;
+      // Loop over the annotations and slice the text into parts
       for (let idx = 0; idx < annos.length; ++idx) {
         const ref = annos[idx];
+
         // If there is text after the ref, slice that into a separate part
-        if (ref.end && ref.end < value.length) {
-          const part = text.slice(ref.end);
-          const remaining = text.slice(0, ref.end);
-          parts.unshift(generateTextpart(part));
+        if (ref.end_position && ref.end_position < line.value.length) {
+          const part = text.slice(ref.end_position);
+          const remaining = text.slice(0, ref.end_position);
+          const textLine = generateTextLine(part);
+          if (textLine.value.length) {
+            section.lines.unshift(textLine);
+          }
           text = remaining;
         }
 
         // Slice the annotation value into a seperate part
-        if (ref.start && ref.end && ref.start >= 0 && ref.end <= value.length) {
-          const part = text.slice(ref.start, ref.end);
-          const remaining = text.slice(0, ref.start);
-          parts.unshift(generateAnnotationPart(part, ref));
+        if (ref.start_position >= 0 && ref.end_position <= line.value.length) {
+          const part = text.slice(ref.start_position, ref.end_position);
+          const remaining = text.slice(0, ref.start_position);
+          const annotation = generateAnnotationLine(part, ref);
+          section.lines.unshift(annotation);
           text = remaining;
         }
       }
@@ -72,69 +180,81 @@ const parseTextBasedSection = (section: any, annotations: AnnotationRef[]): Text
       // If after parsing all the refs, there is text left.
       // Add it as text part
       if (text.length) {
-        parts.unshift(generateTextpart(text));
+        const textLine = generateTextLine(text);
+        if (textLine.value.length) {
+          section.lines.unshift(textLine);
+        }
       }
     }
-    lines.unshift(...parts);
   }
-
-  return {
-    type: section.type,
-    lines,
-  };
+  return sections;
 };
 
-const parseVisualBasedSection = (section: any) => {
-  const config = useRuntimeConfig();
-  const filename = section.target.source.split('/').pop();
-  const dimensions = section.target.selector.value.replace('xywh=', '');
-  const uri = `${config.app.imageServerUri}/${filename}/${dimensions}/max/0/default.jpg`;
-  const items = useForceArray(section.items);
-  const captions = items.map(item => {
-    return generateTextpart(item.body.value);
-  });
+/**
+ * Post processing method to combine hyphenated words
+ */
+const combineLines = (lines: (LineData | AnnotationData)[]) => {
+  for (let idx = 0; idx < lines.length; ++idx) {
+    const line = lines[idx];
+    const nextLine = lines[idx + 1];
+    const endsWithHyphen = line.value.endsWith('-');
 
-  return {
-    type: section.type,
-    uri,
-    captions,
-  };
+    if (endsWithHyphen && nextLine) {
+      // Fetch the values for this and next line
+      const values = line.value.split(' ');
+      const lastWord = values.pop();
+      const [nextWord, ...rest] = nextLine.value.split(' ');
+      const hyphenatedWord = lastWord!.replace(/-$/, nextWord);
+
+      // Determine the hyphenatedWord's location, annotations get priority to owning it
+      if (line?.type === 'Annotation') {
+        line.value = `${values.join(' ')} ${hyphenatedWord}`;
+        nextLine.value = rest.join(' ');
+      } else {
+        line.value = values.join(' ');
+        nextLine.value = `${hyphenatedWord} ${rest.join(' ')}`;
+      }
+    }
+
+    // Check if this line and the next line need to be merged into 1 line.
+    // If they do, remove the next line and reparse this line.
+    const bothText = line?.type === 'Text' && nextLine?.type === 'Text';
+    const sameAnnotion =
+      line?.type === 'Annotation' && nextLine?.type === 'Annotation' && compareIds(line?.id, nextLine?.id);
+    if (bothText || sameAnnotion) {
+      line.value = `${line.value} ${nextLine.value}`;
+      lines.splice(idx + 1, 1);
+      idx--;
+    }
+  }
+  return lines;
 };
 
-const fetchAndParseText = async (pageId: string) => {
-  const config = useRuntimeConfig();
-  const uri = `${config.app.getTextUri}?entry=${pageId}`;
-  const json = await useCompactJson('getText', uri);
-  const annotations = await fetchAndParseAnnotations(pageId);
-  const items = useForceArray(json['items']);
+/**
+ * Handler to fetch the sections for a single entry:
+ * - Fetch all block, lines and annotation data
+ * - Generate the sections
+ * - Post process the sections
+ */
+export default defineEventHandler<Promise<SectionData[]>>(async event => {
+  const entryId = getRouterParam(event, 'entryId') as string;
+  const blocks = await fetchBlocks(entryId);
+  const lines = await fetchLineData(entryId);
+  const annotations = lines.length ? await fetchAnnotations(lines) : [];
+  const sectionIdx = generateSections(blocks, lines, annotations);
   const sections = [];
+  for (const idx in sectionIdx) {
+    const section = sectionIdx[idx];
 
-  for (let index = items.length - 1; index >= 0; --index) {
-    const section: any = items[index];
     switch (section.type) {
       case 'Visual':
-        sections.unshift(parseVisualBasedSection(section));
+        sections.push(section);
         break;
-      case 'Caption':
-      case 'Heading':
-      case 'Paragraph':
-        sections.unshift(parseTextBasedSection(section, annotations));
+      default:
+        section.lines = combineLines(section.lines);
+        sections.push(section);
         break;
     }
   }
-  return sections.filter(x => x);
-};
-
-export default defineEventHandler(async event => {
-  const config = useRuntimeConfig();
-  const entryId = getRouterParam(event, 'entryId');
-  const id = `${config.app.entryBaseUri}${entryId}`;
-
-  try {
-    const sections = await fetchAndParseText(id);
-    return { sections };
-  } catch (e) {
-    console.error('Error: ', e);
-    setResponseStatus(event, 400);
-  }
+  return sections;
 });
