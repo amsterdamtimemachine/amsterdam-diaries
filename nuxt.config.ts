@@ -24,6 +24,7 @@ export default defineNuxtConfig({
   robots: {
     rules: {
       UserAgent: '*',
+      Disallow: process.env.NUXT_ROBOTS_DISALLOW ?? [],
     },
   },
   imports: {
