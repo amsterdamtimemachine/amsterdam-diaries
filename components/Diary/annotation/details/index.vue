@@ -54,7 +54,7 @@ const details = ref<HTMLElement>();
 const detailsStyle = computed(() => {
   const element = details.value;
   const parentElement = element?.parentElement;
-  const page = document.querySelector('.diary-page');
+  const page = document.querySelector('.diary-page') as HTMLElement;
 
   // If we don't have a parent element or page, return object with left 0
   if (!parentElement || !page) {
