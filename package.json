@@ -5,6 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "generate": "nuxt generate",
     "import": "tsx ./importer/import.ts",
     "import:test": "vitest --dir ./importer",
     "import:validate": "tsx ./importer/validate.ts",
