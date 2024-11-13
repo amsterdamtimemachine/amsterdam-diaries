@@ -12,6 +12,8 @@
     "import:build": "rollup -c rollup.config.js",
     "lint": "eslint './**/*.{vue,ts}'",
     "lint:fix": "eslint --fix './**/*.{vue,ts}'",
+    "postinstall": "nuxt prepare",
+    "preview": "nuxt preview",
     "ts:check": "vue-tsc --noEmit --skipLibCheck"
   },
   "overrides": {
