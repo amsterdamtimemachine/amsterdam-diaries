@@ -3,7 +3,7 @@ import { importResources } from './resources';
 import expectedResults from './expectedResults/resources';
 import expectedResultTest from './expectedResultTest';
 
-const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/external_resources.jsonld`;
+const url = `${process.env.IMPORT_URL}/external_resources.jsonld`;
 
 describe('Resources', async () => {
   it('Should validate correctly', async () => {

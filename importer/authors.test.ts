@@ -2,7 +2,7 @@ import { it, describe, expect } from 'vitest';
 import { importAuthors } from './authors';
 import expectedResults from './expectedResults/authors';
 
-const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/metadata.jsonld`;
+const url = `${process.env.IMPORT_URL}/metadata.jsonld`;
 
 describe('Authors', async () => {
   it('Should validate correctly', async () => {
