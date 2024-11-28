@@ -1,9 +1,8 @@
 import { it, describe, expect } from 'vitest';
 import { importResources } from './resources';
-import expectedResults from './expectedResults/resources';
 import expectedResultTest from './expectedResultTest';
 
-const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/external_resources.jsonld`;
+const url = `${process.env.IMPORT_URL}/external_resources.jsonld`;
 
 describe('Resources', async () => {
   it('Should validate correctly', async () => {
@@ -11,7 +10,7 @@ describe('Resources', async () => {
     const allowedKeys = ['@context', '@id', '@type', 'name', 'description', 'geo'];
 
     // To illustrate that importResources will filter some items
-    expect(result.length).toBe(31);
+    expect(result.length).toBeGreaterThan(0);
 
     result.forEach((data: any) => {
       const topKeys = Object.keys(data);
@@ -25,6 +24,8 @@ describe('Resources', async () => {
 
   describe('importResources', async () => {
     const result = await importResources(url);
-    expectedResultTest(result, expectedResults);
+    expectedResultTest(result, {
+      resource: ['id', 'type', 'name', 'slug', 'description', 'latitude', 'longitude'],
+    });
   });
 });

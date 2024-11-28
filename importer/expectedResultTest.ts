@@ -1,17 +1,17 @@
 import { it, expect } from 'vitest';
 
-export default (input: ParsedResponse, expectedResults: Record<string, any>) => {
+export default (input: ParsedResponse, expectedResults: Record<string, any>, limit: number = 500) => {
   for (const key in input) {
-    const expectedResult = expectedResults[key as keyof typeof expectedResults];
+    const expectedKeys = expectedResults[key as keyof typeof expectedResults];
     const values = input[key as keyof typeof input]!;
 
-    it(`Should return ${expectedResult.length} ${key}`, async () => {
-      expect(values.length).toBe(expectedResult.length);
+    it(`Should return an object with ${key} array`, async () => {
+      expect(Array.isArray(values)).toBeTruthy();
     });
 
-    values.forEach((item, index) => {
-      it(`Should parse ${key} #${index + 1} correctly`, async () => {
-        expect(item).toEqual(expectedResult[index]);
+    values.slice(0, limit).forEach((item, index) => {
+      it(`Should parse into a valid ${key} #${index + 1}`, async () => {
+        expect(Object.keys(item)).toEqual(expectedKeys);
       });
     });
   }

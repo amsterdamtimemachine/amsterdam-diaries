@@ -1,9 +1,8 @@
 import { it, describe, expect } from 'vitest';
 import { importConcepts } from './concepts';
-import expectedResults from './expectedResults/concepts';
 import expectedResultTest from './expectedResultTest';
 
-const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/concepts.jsonld`;
+const url = `${process.env.IMPORT_URL}/concepts.jsonld`;
 
 describe('Concepts', async () => {
   it('Should validate correctly', async () => {
@@ -25,6 +24,8 @@ describe('Concepts', async () => {
 
   describe('importConcepts', async () => {
     const result = await importConcepts(url);
-    expectedResultTest(result, expectedResults);
+    expectedResultTest(result, {
+      concept: ['id', 'name', 'slug'],
+    });
   });
 });

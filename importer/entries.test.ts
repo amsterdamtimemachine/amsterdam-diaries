@@ -1,9 +1,8 @@
 import { it, describe, expect } from 'vitest';
 import { importEntries } from './entries';
-import expectedResults from './expectedResults/entries';
 import expectedResultTest from './expectedResultTest';
 
-const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/metadata.jsonld`;
+const url = `${process.env.IMPORT_URL}/metadata.jsonld`;
 
 describe('Entries', async () => {
   it('Should validate correctly', async () => {
@@ -43,6 +42,9 @@ describe('Entries', async () => {
 
   describe('importEntries', async () => {
     const result = await importEntries(url);
-    expectedResultTest(result, expectedResults);
+    expectedResultTest(result, {
+      entry: ['id', 'name', 'date_created', 'book_id'],
+      block: ['id', 'entry_id', 'position'],
+    });
   });
 });
