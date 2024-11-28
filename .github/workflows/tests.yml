@@ -1,15 +1,16 @@
-name: CI
+name: Unit Tests
 
 on:
   pull_request:
     branches:
-      - develop
       - main
+      - develop
 
 jobs:
   run_tests:
     runs-on: ubuntu-latest
-    environment: tests
+    env:
+      BASE_URL: 'https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -23,4 +24,12 @@ jobs:
         run: npm ci
 
       - name: Run tests
-        run: npm run import:test
+        run: |
+          if [ "${{ github.event.pull_request.base.ref }}" == "main" ]; then
+            IMPORT_URL="${BASE_URL}/main/rdf" npm run import:test
+          elif [ "${{ github.event.pull_request.base.ref }}" == "develop" ]; then
+            IMPORT_URL="${BASE_URL}/dev/rdf" npm run import:test
+          else
+            echo "Unknown branch. Failing the job."
+            exit 1
+          fi
