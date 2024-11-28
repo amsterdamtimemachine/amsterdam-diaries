@@ -1,6 +1,5 @@
 import { it, describe, expect } from 'vitest';
 import { importAnnotations } from './annotations';
-import expectedResults from './expectedResults/annotations';
 import expectedResultTest from './expectedResultTest';
 
 const url = `${process.env.IMPORT_URL}/entity_annotations.jsonld`;
@@ -81,6 +80,18 @@ describe('Annotations', async () => {
 
   describe('importAnnotations', async () => {
     const result = await importAnnotations(url);
-    expectedResultTest(result, expectedResults);
+    expectedResultTest(result, {
+      annotation: [
+        'id',
+        'identifying_id',
+        'classifying_id',
+        'correction',
+        'type',
+        'source_id',
+        'exact_text',
+        'start_position',
+        'end_position',
+      ],
+    });
   });
 });

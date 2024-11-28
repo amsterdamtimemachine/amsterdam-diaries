@@ -1,6 +1,5 @@
 import { it, describe, expect } from 'vitest';
 import { importLines } from './lines';
-import expectedResults from './expectedResults/lines';
 import expectedResultTest from './expectedResultTest';
 
 const url = `${process.env.IMPORT_URL}/textual_annotations.jsonld`;
@@ -34,6 +33,8 @@ describe('Lines', async () => {
 
   describe('importLines', async () => {
     const result = await importLines(url);
-    expectedResultTest(result, expectedResults);
+    expectedResultTest(result, {
+      line: ['id', 'value'],
+    });
   });
 });

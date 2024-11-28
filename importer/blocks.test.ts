@@ -1,6 +1,5 @@
 import { it, describe, expect } from 'vitest';
 import { importBlocks } from './blocks';
-import expectedResults from './expectedResults/blocks';
 import expectedResultTest from './expectedResultTest';
 
 const url = `${process.env.IMPORT_URL}/textual_annotations.jsonld`;
@@ -35,6 +34,10 @@ describe('Blocks', async () => {
 
   describe('importBlocks', async () => {
     const result = await importBlocks(url);
-    expectedResultTest(result, expectedResults);
+    expectedResultTest(result, {
+      block: ['id', 'type', 'image_id', 'dimensions'],
+      line: ['id', 'block_id', 'position'],
+      image: ['id', 'content_url', 'thumbnail_url'],
+    });
   });
 });

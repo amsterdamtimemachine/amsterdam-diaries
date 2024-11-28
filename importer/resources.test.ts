@@ -1,6 +1,5 @@
 import { it, describe, expect } from 'vitest';
 import { importResources } from './resources';
-import expectedResults from './expectedResults/resources';
 import expectedResultTest from './expectedResultTest';
 
 const url = `${process.env.IMPORT_URL}/external_resources.jsonld`;
@@ -25,6 +24,8 @@ describe('Resources', async () => {
 
   describe('importResources', async () => {
     const result = await importResources(url);
-    expectedResultTest(result, expectedResults);
+    expectedResultTest(result, {
+      resource: ['id', 'type', 'name', 'slug', 'description', 'latitude', 'longitude'],
+    });
   });
 });

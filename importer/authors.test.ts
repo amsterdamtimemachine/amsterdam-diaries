@@ -1,6 +1,5 @@
 import { it, describe, expect } from 'vitest';
 import { importAuthors } from './authors';
-import expectedResults from './expectedResults/authors';
 import expectedResultTest from './expectedResultTest';
 
 const url = `${process.env.IMPORT_URL}/metadata.jsonld`;
@@ -39,6 +38,20 @@ describe('Authors', async () => {
 
   describe('importAuthors', async () => {
     const result = await importAuthors(url);
-    expectedResultTest(result, expectedResults);
+    expectedResultTest(result, {
+      author: [
+        'id',
+        'name',
+        'description',
+        'slug',
+        'birth_date',
+        'birth_place_id',
+        'death_date',
+        'death_place_id',
+        'image_id',
+      ],
+      image: ['id', 'content_url', 'thumbnail_url'],
+      resource: ['id', 'type', 'name'],
+    });
   });
 });
