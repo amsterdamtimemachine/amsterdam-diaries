@@ -5,6 +5,9 @@ on:
     branches:
       - main
       - develop
+  repository_dispatch:
+    types:
+      - trigger-action
 
 jobs:
   run_tests:
@@ -33,3 +36,11 @@ jobs:
             echo "Unknown branch. Failing the job."
             exit 1
           fi
+
+      - name: Update status in dispatcher
+        if: github.event_name == 'repository_dispatch'
+        run: |
+          curl -X POST -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/amsterdamtimemachine/amsterdam-diaries-data/statuses/${{ github.event.client_payload.sha }} \"
+          -d '{"state": "success", "description": "Tests in Amsterdam Diaries passed!", "context": "Amsterdam Diaries Tests"}'
