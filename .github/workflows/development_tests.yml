@@ -1,0 +1,13 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  unit-tests:
+    uses: ./.github/workflows/tests.yml
+    with:
+      environment: staging
+    secrets: inherit
