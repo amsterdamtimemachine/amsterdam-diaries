@@ -5,6 +5,9 @@ on:
     branches:
       - main
       - develop
+  repository_dispatch:
+    types:
+      - trigger-action
 
 jobs:
   run_tests:
