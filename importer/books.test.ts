@@ -3,7 +3,7 @@ import { importBooks } from './books';
 import expectedResults from './expectedResults/books';
 import expectedResultTest from './expectedResultTest';
 
-const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/metadata.jsonld`;
+const url = `${process.env.IMPORT_URL}/metadata.jsonld`;
 
 describe('Books', async () => {
   it('Should validate correctly', async () => {

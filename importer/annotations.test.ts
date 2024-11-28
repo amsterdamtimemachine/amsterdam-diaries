@@ -3,7 +3,7 @@ import { importAnnotations } from './annotations';
 import expectedResults from './expectedResults/annotations';
 import expectedResultTest from './expectedResultTest';
 
-const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/entity_annotations.jsonld`;
+const url = `${process.env.IMPORT_URL}/entity_annotations.jsonld`;
 
 describe('Annotations', async () => {
   it('Should validate correctly', async () => {
