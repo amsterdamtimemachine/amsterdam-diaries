@@ -13,9 +13,9 @@ jobs:
   run_tests:
     runs-on: ubuntu-latest
     env:
-      BASE_URL: 'https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/'
-      ISSUE_TITLE: 'Testfout gedetecteerd - Controle nodig'
-      ISSUE_BODY: '**De geautomatiseerde tests zijn mislukt voor een workflow die werd getriggerd door een oproep vanuit een andere repository.**\n\nDetails:\n\n- **Repository die de actie heeft getriggerd**: '"${{ github.event.repository.full_name }}"'\n- **Branch**: '"${{ github.event.client_payload.ref }}"'\n- **Commit SHA**: '"${{ github.event.client_payload.sha }}"'\n\nGelieve dit probleem te onderzoeken en passende actie te ondernemen. Raadpleeg de logs voor meer informatie over de mislukte stap.\n\nDank je wel!\n\n> Automatisch gegenereerd door GitHub Actions.'
+      BASE_URL: "https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/"
+      ISSUE_TITLE: "Testfout gedetecteerd - Controle nodig"
+      ISSUE_BODY: "**De geautomatiseerde tests zijn mislukt voor een workflow die werd getriggerd door een oproep vanuit een andere repository.**\n\nDetails:\n\n- **Repository die de actie heeft getriggerd**: '"${{ github.event.repository.full_name }}"'\n- **Branch**: '"${{ github.event.client_payload.ref }}"'\n- **Commit SHA**: '"${{ github.event.client_payload.sha }}"'\n\nGelieve dit probleem te onderzoeken en passende actie te ondernemen. Raadpleeg de logs voor meer informatie over de mislukte stap.\n\nDank je wel!\n\n> Automatisch gegenereerd door GitHub Actions."
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
