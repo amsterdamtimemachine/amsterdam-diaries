@@ -13,7 +13,7 @@ jobs:
   run_tests:
     runs-on: ubuntu-latest
     env:
-      BASE_URL: 'https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/'
+      BASE_URL: 'https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data'
       ISSUE_TITLE: 'Testfout gedetecteerd - Controle nodig'
       ISSUE_BODY: |
         **De geautomatiseerde tests zijn mislukt voor een workflow die werd getriggerd door een oproep vanuit een andere repository.**
