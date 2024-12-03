@@ -58,6 +58,12 @@ jobs:
             exit 1
           fi
 
+      - name: Debug
+        if: github.event_name == 'repository_dispatch' && failure()
+        run: |
+          echo "Issue title: $ISSUE_TITLE"
+          echo "Issue body: $ISSUE_BODY"
+
       - name: Create Issue on Failure
         if: github.event_name == 'repository_dispatch' && failure()
         run: |
