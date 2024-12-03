@@ -14,8 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BASE_URL: 'https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data'
-      ISSUE_TITLE: 'Testfout gedetecteerd - Controle nodig'
-      ISSUE_BODY: 'Er is een fout gedetecteerd in de testen van de Amsterdam Diaries.\nControleer de logs van de testen en neem actie indien nodig.'
+      ISSUE_TITLE: 'Amsterdam Diaries Data is gewijzigd'
+      ISSUE_BODY: 'Door een verandering in de Amsterdam Diaries data zijn de automatische testen gefaald\nControleer de changes en neem actie indien nodig.'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
