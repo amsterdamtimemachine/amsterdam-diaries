@@ -15,7 +15,7 @@ jobs:
     env:
       BASE_URL: 'https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data'
       ISSUE_TITLE: 'Testfout gedetecteerd - Controle nodig'
-      ISSUE_BODY: 'Er is een fout gedetecteerd in de testen van de Amsterdam Diaries. Controleer de logs van de testen en neem actie indien nodig.'
+      ISSUE_BODY: 'Er is een fout gedetecteerd in de testen van de Amsterdam Diaries.\nControleer de logs van de testen en neem actie indien nodig.'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
