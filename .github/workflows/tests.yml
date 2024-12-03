@@ -17,17 +17,9 @@ jobs:
       ISSUE_TITLE: 'Testfout gedetecteerd - Controle nodig'
       ISSUE_BODY: |
         **De geautomatiseerde tests zijn mislukt voor een workflow die werd getriggerd door een oproep vanuit een andere repository.**
-
-        Details:
-
-        - **Repository die de actie heeft getriggerd**: ${{ github.event.repository.full_name }}
-        - **Branch**: ${{ github.event.client_payload.ref }}
-        - **Commit SHA**: ${{ github.event.client_payload.sha }}
-
-        Gelieve dit probleem te onderzoeken en passende actie te ondernemen. Raadpleeg de logs voor meer informatie over de mislukte stap.
-
+        **Repository die de actie heeft getriggerd**: ${{ github.event.repository.full_name }}
+        Gelieve dit probleem te onderzoeken en passende actie te ondernemen. Raadpleeg de logs & commits voor meer informatie over de mislukte stap.
         Dank je wel!
-
         > Automatisch gegenereerd door GitHub Actions.
     steps:
       - name: Checkout repository
@@ -67,15 +59,8 @@ jobs:
       - name: Create Issue on Failure
         if: github.event_name == 'repository_dispatch' && failure()
         run: |
-          echo "Issue title: $ISSUE_TITLE"
-          echo "Issue body: $ISSUE_BODY"
-
-          # Replace variables in the body content that are not expanded automatically in env
-          ISSUE_BODY_EXPANDED=$(echo "$ISSUE_BODY" | sed "s/\${{ github.event.repository.full_name }}/$(echo ${{ github.event.repository.full_name }})/g" | sed "s/\${{ github.event.client_payload.ref }}/$(echo ${{ github.event.client_payload.ref }})/g" | sed "s/\${{ github.event.client_payload.sha }}/$(echo ${{ github.event.client_payload.sha }})/g")
-          echo "Expanded issue body: $ISSUE_BODY_EXPANDED"
-
           curl -L -X POST \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token ${{ secrets.PIPELINE_TRIGGER_TOKEN }}" \
             https://api.github.com/repos/amsterdamtimemachine/amsterdam-diaries/issues \
-            -d "{\"title\": \"$ISSUE_TITLE\", \"body\": \"$ISSUE_BODY_EXPANDED\"}"
+            -d "{\"title\": \"$ISSUE_TITLE\", \"body\": \"$ISSUE_BODY\"}"
