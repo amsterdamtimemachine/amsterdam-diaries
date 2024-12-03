@@ -15,12 +15,7 @@ jobs:
     env:
       BASE_URL: 'https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data'
       ISSUE_TITLE: 'Testfout gedetecteerd - Controle nodig'
-      ISSUE_BODY: "
-        **De geautomatiseerde tests zijn mislukt voor een workflow die werd getriggerd door een oproep vanuit een andere repository.**\n
-        **Repository die de actie heeft getriggerd**: ${{ github.event.repository.full_name }}\n
-        Gelieve dit probleem te onderzoeken en passende actie te ondernemen. Raadpleeg de logs & commits voor meer informatie over de mislukte stap.\n
-        Dank je wel!\n
-        > Automatisch gegenereerd door GitHub Actions.\n"
+      ISSUE_BODY: 'Er is een fout gedetecteerd in de testen van de Amsterdam Diaries. Controleer de logs van de testen en neem actie indien nodig.'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
