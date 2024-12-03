@@ -43,9 +43,19 @@ jobs:
 
       - name: Run tests
         run: |
-          if [ "${{ github.event.pull_request.base.ref }}" == "main" ]; then
+          # Determine the branch to test against
+          if [ "${{ github.event_name }}" == "repository_dispatch" ]; then
+            BRANCH="${{ github.event.client_payload.branch }}"
+          elif [ "${{ github.event_name }}" == "pull_request" ]; then
+            BRANCH="${{ github.event.pull_request.base.ref }}"
+          else
+            echo "Unknown event. Failing the job."
+            exit 1
+          fi
+
+          if [ "$BRANCH" == "main" ]; then
             IMPORT_URL="${BASE_URL}/main/rdf" npm run import:test
-          elif [ "${{ github.event.pull_request.base.ref }}" == "develop" ]; then
+          elif [ "$BRANCH" == "develop" ] || [ "$BRANCH" == "dev" ]; then
             IMPORT_URL="${BASE_URL}/dev/rdf" npm run import:test
           else
             echo "Unknown branch. Failing the job."
