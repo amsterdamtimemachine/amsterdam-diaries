@@ -54,8 +54,10 @@ jobs:
           fi
 
           if [ "$BRANCH" == "main" ]; then
+            echo "Testing against branch: ${BASE_URL}/main/rdf"
             IMPORT_URL="${BASE_URL}/main/rdf" npm run import:test
           elif [ "$BRANCH" == "develop" ] || [ "$BRANCH" == "dev" ]; then
+            echo "Testing against branch: ${BASE_URL}/dev/rdf"
             IMPORT_URL="${BASE_URL}/dev/rdf" npm run import:test
           else
             echo "Unknown branch. Failing the job."
