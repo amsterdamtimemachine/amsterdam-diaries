@@ -53,6 +53,8 @@ jobs:
             exit 1
           fi
 
+          echo "$BRANCH"
+
           if [ "$BRANCH" == "main" ]; then
             echo "Testing against branch: ${BASE_URL}/main/rdf"
             IMPORT_URL="${BASE_URL}/main/rdf" npm run import:test
