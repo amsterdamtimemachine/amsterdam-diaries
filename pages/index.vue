@@ -72,7 +72,18 @@
         </Transition>
       </div>
     </div>
-    <div class="background" />
+    <div class="background">
+      <div class="notice">
+        <div class="message">
+          <p class="font-body-m">Afbeelding door AI gegenereerd</p>
+        </div>
+        <BaseIcon
+          class="icon"
+          icon="mdi:information-slab-symbol"
+          width="var(--space-8)"
+          height="var(--space-8)" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -155,6 +166,41 @@ onUnmounted(() => {
   grid-area: background;
   background: url('@/assets/images/home-bg.jpg') no-repeat bottom;
   background-size: cover;
+  position: relative;
+}
+
+.notice {
+  position: absolute;
+  bottom: var(--space-2);
+  right: var(--space-2);
+  height: var(--space-8);
+  background: var(--white);
+  border-radius: var(--border-radius-6);
+  text-align: center;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  .message {
+    flex-shrink: 1;
+    max-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: var(--transition-2);
+    color: var(--black);
+
+    p {
+      margin-left: var(--space-2);
+    }
+  }
+
+  &:hover {
+    .message {
+      max-width: var(--space-80);
+    }
+  }
 }
 
 @include sm-screen-down {
