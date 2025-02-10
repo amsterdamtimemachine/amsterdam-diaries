@@ -1,8 +1,8 @@
 import { it, describe, expect } from 'vitest';
 import { importAuthors } from './authors';
-import expectedResults from './expectedResults/authors';
+import expectedResultTest from './expectedResultTest';
 
-const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/metadata.jsonld`;
+const url = `${process.env.IMPORT_URL}/metadata.jsonld`;
 
 describe('Authors', async () => {
   it('Should validate correctly', async () => {
@@ -38,20 +38,20 @@ describe('Authors', async () => {
 
   describe('importAuthors', async () => {
     const result = await importAuthors(url);
-    let key: keyof typeof result;
-
-    for (key in result) {
-      const expectedResult = expectedResults[key as keyof typeof expectedResults];
-
-      it(`Should return ${expectedResult.length} ${key}`, async () => {
-        expect(result[key]!.length).toBe(expectedResult.length);
-      });
-
-      result[key]!.forEach((item, index) => {
-        it(`Should parse ${key} #${index + 1} correctly`, async () => {
-          expect(item).toEqual(expectedResult[index]);
-        });
-      });
-    }
+    expectedResultTest(result, {
+      author: [
+        'id',
+        'name',
+        'description',
+        'slug',
+        'birth_date',
+        'birth_place_id',
+        'death_date',
+        'death_place_id',
+        'image_id',
+      ],
+      image: ['id', 'content_url', 'thumbnail_url'],
+      resource: ['id', 'type', 'name'],
+    });
   });
 });

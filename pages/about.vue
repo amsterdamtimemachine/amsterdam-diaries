@@ -28,9 +28,9 @@
 <script setup lang="ts">
 const logos = ref<{ name: string; src: string; url: string }[]>([
   {
-    name: 'Amsterdam Time Machine',
-    src: 'logos/atm.svg',
-    url: 'https://www.amsterdamtimemachine.nl/',
+    name: 'Mondriaan Fonds',
+    src: 'logos/mfo.png',
+    url: 'https://www.mondriaanfonds.nl/',
   },
   {
     name: 'Netwerk Digitaal Erfgoed',

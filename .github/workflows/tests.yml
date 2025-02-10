@@ -1,15 +1,21 @@
-name: CI
+name: Unit Tests
 
 on:
   pull_request:
     branches:
-      - develop
       - main
+      - develop
+  repository_dispatch:
+    types:
+      - trigger-action
 
 jobs:
   run_tests:
     runs-on: ubuntu-latest
-    environment: tests
+    env:
+      BASE_URL: 'https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data'
+      ISSUE_TITLE: 'Amsterdam Diaries Data is gewijzigd'
+      ISSUE_BODY: 'Door een verandering in de Amsterdam Diaries data zijn de automatische testen gefaald\nControleer de changes en neem actie indien nodig.'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -23,4 +29,34 @@ jobs:
         run: npm ci
 
       - name: Run tests
-        run: npm run import:test
+        run: |
+          # Determine the branch to test against
+          if [ "${{ github.event_name }}" == "repository_dispatch" ]; then
+            BRANCH="${{ github.event.client_payload.branch }}"
+          elif [ "${{ github.event_name }}" == "pull_request" ]; then
+            BRANCH="${{ github.event.pull_request.base.ref }}"
+          else
+            echo "Unknown event. Failing the job."
+            exit 1
+          fi
+
+          if [ "$BRANCH" == "main" ]; then
+            echo "Testing against branch: ${BASE_URL}/main/rdf"
+            IMPORT_URL="${BASE_URL}/main/rdf" npm run import:test
+          elif [ "$BRANCH" == "develop" ] || [ "$BRANCH" == "dev" ]; then
+            echo "Testing against branch: ${BASE_URL}/dev/rdf"
+            IMPORT_URL="${BASE_URL}/dev/rdf" npm run import:test
+          else
+            echo "Unknown branch. Failing the job."
+            exit 1
+          fi
+
+      - name: Create Issue on Failure
+        if: github.event_name == 'repository_dispatch' && failure()
+        run: |
+          echo "issue body: $ISSUE_BODY"
+          curl -L -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.PIPELINE_TRIGGER_TOKEN }}" \
+            https://api.github.com/repos/amsterdamtimemachine/amsterdam-diaries/issues \
+            -d "{\"title\": \"$ISSUE_TITLE\", \"body\": \"$ISSUE_BODY\"}"

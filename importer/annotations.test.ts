@@ -1,16 +1,15 @@
 import { it, describe, expect } from 'vitest';
 import { importAnnotations } from './annotations';
-import expectedResults from './expectedResults/annotations';
 import expectedResultTest from './expectedResultTest';
 
-const url = `https://raw.githubusercontent.com/amsterdamtimemachine/amsterdam-diaries-data/test/rdf/entity_annotations.jsonld`;
+const url = `${process.env.IMPORT_URL}/entity_annotations.jsonld`;
 
 describe('Annotations', async () => {
   it('Should validate correctly', async () => {
     const result = await (await fetch(url)).json();
 
     // Check the unfiltered results (to illustrate that importAnnotations is filtering)
-    expect(result.length).toBe(64);
+    expect(result.length).toBeGreaterThan(0);
 
     result.forEach((annotation: RawAnnotation) => {
       // Validate the top level structure
@@ -30,7 +29,7 @@ describe('Annotations', async () => {
                 expect(Object.keys(body.source)).toEqual(['id', 'type', 'label']);
                 break;
               case 'identifying':
-                expect(Object.keys(body.source)).toEqual(['id', 'type']);
+                expect(Object.keys(body.source)).toEqual(['id', 'type', 'label']);
                 break;
               default:
                 // If the purpose is not recognized, fail the test
@@ -81,6 +80,18 @@ describe('Annotations', async () => {
 
   describe('importAnnotations', async () => {
     const result = await importAnnotations(url);
-    expectedResultTest(result, expectedResults);
+    expectedResultTest(result, {
+      annotation: [
+        'id',
+        'identifying_id',
+        'classifying_id',
+        'correction',
+        'type',
+        'source_id',
+        'exact_text',
+        'start_position',
+        'end_position',
+      ],
+    });
   });
 });
