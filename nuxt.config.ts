@@ -48,6 +48,8 @@ export default defineNuxtConfig({
     app: {
       entityBaseUri: 'http://www.wikidata.org/entity/',
       imageServerUri: 'https://images.diaries.amsterdamtimemachine.nl/iiif',
+      backgroundReferenceUri:
+        'https://archief.amsterdam/beeldbank/detail/75051915-7a53-b78d-ac18-9bbc557dc44f/media/fb920a21-4d78-e408-e495-5c7e094fa9a0',
       maxBounds: [
         [52.3815, 4.9576],
         [52.328, 4.836],

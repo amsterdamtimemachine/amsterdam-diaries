@@ -75,7 +75,16 @@
     <div class="background">
       <div class="notice">
         <div class="message">
-          <p class="font-body-m">Afbeelding door AI gegenereerd</p>
+          <p
+            class="font-body-m"
+            data-v-aa64ac63="">
+            Stadsarchief Amsterdam | Smulders &amp; Co, J. |
+            <a
+              :href="app.backgroundReferenceUri"
+              target="_blank">
+              beeldbank
+            </a>
+          </p>
         </div>
         <BaseIcon
           class="icon"
@@ -94,6 +103,7 @@ definePageMeta({
 const showNav = ref<boolean>(false);
 const { title, description } = toRefs(reactive(await $fetch('/api/info?type=home')));
 const showTypedText = useState('showTypedText', () => true);
+const { app } = useRuntimeConfig();
 
 onUnmounted(() => {
   showTypedText.value = false;
@@ -194,11 +204,15 @@ onUnmounted(() => {
     p {
       margin-left: var(--space-2);
     }
+
+    a {
+      margin-right: var(--space-1);
+    }
   }
 
   &:hover {
     .message {
-      max-width: var(--space-80);
+      max-width: var(--space-105);
     }
   }
 }
