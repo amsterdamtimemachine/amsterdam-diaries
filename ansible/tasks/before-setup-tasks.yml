@@ -1,0 +1,15 @@
+---
+
+- name: Read Node.js version from local .nvmrc
+  ansible.builtin.set_fact:
+    node_version: "{{ lookup('file', playbook_dir + '/../.nvmrc') | trim }}"
+
+- name: Install or update Node.js via NVM
+  ansible.builtin.shell: >
+    . "$HOME/.local/profile.d/nvm.bash" &&
+    nvm install {{ node_version }} &&
+    nvm alias default {{ node_version }}
+  args:
+    executable: /bin/bash
+  register: nvm_result
+  changed_when: "'is already installed' not in nvm_result.stderr and 'is already installed' not in nvm_result.stdout"
