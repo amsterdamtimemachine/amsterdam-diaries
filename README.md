@@ -6,7 +6,7 @@
 
 ### Prerequisites
 
-- **Node.js** (version 22.23.4)
+- **Node.js** (version 22.23.5)
 - **NPM**
 - **Docker** (To run the database)
 
